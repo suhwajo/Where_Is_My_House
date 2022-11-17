@@ -12,13 +12,13 @@
             <i class="fa-solid fa-table-list"></i>&nbsp;&nbsp;사용자 목록
           </div>
           <div class="col-2 text-end">
-            <button
+            <router-link
+              to="/user/add"
               type="button"
               class="btn btn-dark bg-common-dark"
-              onclick="add_user()"
             >
               회원 등록
-            </button>
+            </router-link>
           </div>
         </div>
         <div
@@ -32,7 +32,16 @@
           <div class="col-2 text-common-dark">관리자</div>
           <div class="col-2 text-common-dark"></div>
         </div>
-        <div id="list-user"></div>
+        <list-row
+          v-for="(user, index) in users"
+          :key="index"
+          :id="user.id"
+          :name="user.name"
+          :email="user.email"
+          :phoneNum="user.phoneNum"
+          :isAdmin="user.adminAccount"
+        >
+        </list-row>
 
         <div class="mt-5 d-flex justify-content-center">
           <div class="d-flex justify-content-center fs-4" id="list-page"></div>
@@ -70,8 +79,46 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "UserList",
+
+  components: {
+    "list-row": () => import("@/components/user/ListRow.vue"),
+  },
+  data() {
+    return {
+      keyword: "",
+      page: 1,
+      users: [],
+      pages: [],
+    };
+  },
+  methods: {
+    getNoticeList: function () {
+      // 현재 리시트 번호, 검색어 정보를 바탕으로 공지사항 목록을 불러옴
+      const url = "http://localhost:9999/rest/user/list";
+      // let params = `page=${this.page}&keyword=${this.keyword}`;
+
+      axios.get(url).then((response) => {
+        this.users = response.data.list;
+        console.log(this.users);
+        // this.pages = response.data.page;
+      });
+      // console.log(this.users);
+    },
+    search: function () {
+      if (!this.keyword) {
+        alert("검색어를 입력해주세요.");
+        return;
+      }
+      this.getNoticeList();
+    },
+  },
+  created() {
+    this.getNoticeList();
+  },
 };
 </script>
 

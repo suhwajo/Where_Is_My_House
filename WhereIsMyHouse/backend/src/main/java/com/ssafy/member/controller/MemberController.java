@@ -58,7 +58,7 @@ public class MemberController {
 		}
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody Map<String, String> param){
         boolean check = false;
 
@@ -210,10 +210,7 @@ public class MemberController {
     }
 
     @GetMapping("/findPw")
-    private ResponseEntity<?> findPw(@RequestBody Map<String, String> param) {
-        String name = param.get("name");
-        String id = param.get("id");
-        String phone = param.get("phone");
+    private ResponseEntity<?> findPw(@RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("phone") String phone) {
 
         String pwd = "";
         try {

@@ -69,17 +69,24 @@
                 </button>
               </div>
               <div class="mt-3">
-                <button
+                <router-link
+                  to="/user/join"
                   type="button"
                   id="btn-mv-join"
                   class="btn btn-dark bg-common-dark w-100"
                 >
                   회원가입
-                </button>
+                </router-link>
               </div>
               <div class="mt-3 text-center">
-                <a class="text-light" id="btn-mv-findPw"
-                  >비밀번호를 잊어버리셨습니까?</a
+                <router-link
+                  :to="{
+                    name: 'FindPw',
+                    params: { userId: id },
+                  }"
+                  class="text-light"
+                  id="btn-mv-findPw"
+                  >비밀번호를 잊어버리셨습니까?</router-link
                 >
               </div>
             </div>
@@ -105,10 +112,6 @@ export default {
   },
   methods: {
     login() {
-      // let userId = document.querySelector("#id").value;
-      // let userPwd = document.querySelector("#pwd").value;
-      // let saveId = document.querySelector("#saveId").checked;
-
       let isValid = true;
       let errMsg = "";
 

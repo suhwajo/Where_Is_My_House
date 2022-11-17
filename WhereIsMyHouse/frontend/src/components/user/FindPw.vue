@@ -28,6 +28,7 @@
                     placeholder="name"
                     name="name"
                     required
+                    v-model="name"
                   />
                 </div>
               </div>
@@ -41,6 +42,7 @@
                     placeholder="id"
                     name="id"
                     required
+                    v-model="id"
                   />
                 </div>
               </div>
@@ -57,6 +59,7 @@
                     pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
                     placeholder="Phone : 010-xxxx-xxxx"
                     required
+                    v-model="phone"
                   />
                 </div>
               </div>
@@ -64,7 +67,7 @@
                 <button
                   type="button"
                   class="btn btn-dark bg-common-dark w-100"
-                  onclick="findPw()"
+                  @click="findPw"
                 >
                   비밀번호 찾기
                 </button>
@@ -81,8 +84,52 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "FindPw",
+  data: function () {
+    return {
+      name: "",
+      id: "",
+      phone: "",
+    };
+  },
+  methods: {
+    findPw() {
+      if (!this.id || !this.name || !this.phone) {
+        alert("모든 정보를 입력해 주세요.");
+        return;
+      }
+
+      const url = "http://localhost:9999/rest/user/findPw";
+      var userdata = {
+        id: this.id,
+        name: this.name,
+        phone: this.phone,
+      };
+      console.log(userdata);
+      axios
+        .get(url, {
+          params: {
+            id: this.id,
+            name: this.name,
+            phone: this.phone,
+          },
+        })
+        .then((response) => response.data)
+        .then((data) => {
+          if (data.pwd) {
+            alert(
+              `찾은 비밀번호는 ${data.pwd} 입니다. 로그인 화면으로 이동합니다.`
+            );
+            this.$router.push({ name: "UserLogin" });
+          } else {
+            alert("등록된 회원이 존재하지 않습니다.");
+          }
+        });
+    },
+  },
 };
 </script>
 

@@ -65,21 +65,29 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li>
-                  <a class="dropdown-item" id="nav-logout">로그아웃</a>
+                  <a class="dropdown-item" @click="logout" id="nav-logout"
+                    >로그아웃</a
+                  >
                 </li>
                 <li>
                   <router-link
                     :to="{
                       name: 'UserInfo',
-                      params: { userId: login },
+                      params: { userId: memberId },
                     }"
                     class="dropdown-item"
                     id="nav-userInfo"
-                    >회원정보</router-link
+                    >{{ memberId }}회원정보</router-link
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" id="nav-allUsers">전체회원보기</a>
+                  <router-link
+                    to="/user/list"
+                    class="dropdown-item"
+                    id="nav-allUsers"
+                    v-show="adminAccount"
+                    >전체회원보기</router-link
+                  >
                 </li>
               </ul>
             </li>
@@ -91,7 +99,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "NaviBar",
   data: function () {
@@ -101,10 +109,19 @@ export default {
   },
   created() {
     this.login = this.$session.get("userInfo").userId;
-    console.log(this.login);
+    console.log("이름  ", this.$session.get("userInfo"));
+    console.log(this.adminAccount);
   },
   computed: {
-    ...mapGetters(["memberId", "isLogin"]),
+    ...mapGetters(["memberId", "isLogin", "adminAccount"]),
+  },
+  methods: {
+    ...mapActions(["doLogout"]),
+    logout: function () {
+      this.login = "";
+      this.$store.dispatch("doLogout").then(() => this.$router.push("/"));
+      this.$session.destroy();
+    },
   },
 };
 </script>

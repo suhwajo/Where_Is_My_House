@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     memberId: "",
+    adminAccount: "",
     isLogin: false,
   },
   getters: {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     memberId(state) {
       return state.memberId;
     },
+    adminAccount(state) {
+      return state.adminAccount;
+    },
   },
   mutations: {
     //memberId 설정
@@ -25,17 +29,22 @@ export default new Vuex.Store({
       state.memberId = memberId;
       state.isLogin = true;
     },
+    setAdminAccount(state, admin) {
+      state.adminAccount = admin;
+    },
     //초기화
     reset(state) {
+      console.log(this.$session);
       state.memberId = "";
       state.isLogin = false;
-      this.$session.reset();
+      state.adminAccount = false;
+      // this.$session.destroy();
     },
   },
   actions: {
     doLogin({ commit }, user) {
       let resultErr = null;
-
+      console.log(this.state);
       return new Promise((resolve, reject) => {
         try {
           axios
@@ -46,6 +55,7 @@ export default new Vuex.Store({
                 console.log(data.userInfo);
                 resolve(data);
                 commit("setMemberId", user.userId);
+                commit("setAdminAccount", data.userInfo.adminAccount);
               } else {
                 let err = new Error("Request failed with status code 401");
                 err.response = {

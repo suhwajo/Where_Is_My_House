@@ -7,11 +7,6 @@ Vue.use(VueRouter);
 Vue.use(VueMeta);
 Vue.use(VueSession);
 
-var sessionOptions = {
-  persist: true,
-};
-Vue.use(VueSession, sessionOptions);
-
 const routes = [
   {
     path: "/",
@@ -71,6 +66,11 @@ const routes = [
         path: "join",
         name: "UserJoin",
         component: () => import("@/components/user/JoinUser.vue"),
+      },
+      {
+        path: "add",
+        name: "UserAdd",
+        component: () => import("@/components/user/AddUser.vue"),
       },
       {
         path: "login",
