@@ -1,0 +1,184 @@
+<template>
+  <div id="app">
+    <header-nav />
+    <router-view />
+    <footer-nav />
+  </div>
+</template>
+
+<script>
+import HeaderNav from "@/components/include/HeaderNav.vue";
+import FooterNav from "@/components/include/FooterNav.vue";
+
+export default {
+  components: {
+    HeaderNav,
+    FooterNav,
+  },
+  metaInfo: {
+    title: "구해줘 홈즈!",
+    meta: [
+      { charset: "utf-8" },
+      // {http-equiv="X-UA-Compatible" content="IE=edge"}
+      { name: "viewport" },
+      { content: "width=device-width, initial-scale=1.0" },
+    ],
+    link: [
+      {
+        href: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
+        rel: "stylesheet",
+        integrity:
+          "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3",
+        crossorigin: "anonymous",
+      },
+    ],
+    script: [
+      {
+        src: "https://kit.fontawesome.com/c452641c94.js",
+        crossorigin: "anonymous",
+      },
+      {
+        type: "text/javascript",
+        src: "//dapi.kakao.com/v2/maps/sdk.js?appkey=75437cf1f37f10da78850c28ba706d18&libraries=services",
+      },
+      {
+        src: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
+        integrity:
+          "sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p",
+        crossorigin: "anonymous",
+      },
+    ],
+  },
+  methods: {
+    loginCheck() {
+      console.log("loginCheck");
+      const url = "/rest/user/isLogin";
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => this.loginHandling(data))
+        .catch(this.loginHandling(null));
+    },
+    loginHandling(data) {
+      console.log(data);
+
+      if (data) {
+        let userMenus = document.querySelectorAll(".user-menu");
+
+        userMenus.forEach((item) => {
+          item.style.display = "";
+        });
+
+        document.querySelector("#login").style.display = "none";
+        if (data.adminAccount) {
+          document.querySelector("#nav-allUsers").style.display = "";
+        } else {
+          document.querySelector("#nav-allUsers").style.display = "none";
+        }
+      } else {
+        let userMenus = document.querySelectorAll(".user-menu");
+
+        userMenus.forEach((item) => {
+          item.style.display = "none";
+        });
+
+        document.querySelector("#login").style.display = "";
+      }
+    },
+    logout() {
+      const url = "/rest/user/logout";
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.check) {
+            console.log("logout합니다 ");
+            console.log(data);
+            this.loginCheck();
+          } else {
+            console.log("로그아웃에 실패했습니다. 다시 시도해주세요.");
+          }
+        });
+    },
+  },
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+} */
+
+body {
+  background-color: #928490;
+}
+
+nav {
+  background-color: #433e49;
+}
+
+.nav-link {
+  color: #f3e8eb;
+}
+
+.nav-link:hover {
+  cursor: pointer;
+  color: #f3e8eb;
+}
+
+.nav-link:focus {
+  color: #f3e8eb;
+}
+
+.text-common-dark {
+  color: #433e49;
+}
+
+.text-common-light {
+  color: #f3e8eb;
+}
+
+.text-common-basic {
+  color: #dbc1ad;
+}
+
+.bg-common-dark {
+  background-color: #433e49;
+}
+
+.bg-common-light {
+  background-color: #f3e8eb;
+}
+
+.bg-common-basic {
+  background-color: #dbc1ad;
+}
+
+.border-common-dark {
+  border-color: #433e49;
+}
+
+.border-common-light {
+  border-color: #f3e8eb;
+}
+
+.border-common-basic {
+  border-color: #dbc1ad;
+}
+</style>

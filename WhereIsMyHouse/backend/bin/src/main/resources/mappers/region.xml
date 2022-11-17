@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.region.model.mapper.RegionMapper">
+	 <!-- <resultMap type="regionDto" id="region">
+		<result column="" property="region_type"/>
+		<result column="" property="region_name"/>
+		<result column="dongCode" property="region_code"/>
+		<result column="" property="amountSum"/>
+		<result column="" property="amountAvg"/>
+		<result column="" property="homeCount"/>
+		<result column="" property="dealCount"/>
+	</resultMap> -->
+	
+	<select id="selectDong" resultType="regionDto">
+		select 2 as 'region_type', CONCART(sidoName,' ', gugunName) as 'region_name', dongCode as 'region_code'
+		from dongCode
+		where dongName IS NOT NULL
+	</select>
+	
+	<select id="selectGungu" resultType="regionDto">
+	 SELECT 2 as 'region_type, CONCART(sidoName,' ', gugunName) as 'region_name', dongCode as 'region_code'
+	 FROM dongCode
+	 WHERE dongName IS NULL AND gugunName IS NOT NULL
+	</select>
+	
+	<select id="selectSido" resultType="regionDto">
+		SELECT 1 as 'region_type', sidoName as 'region_name', dongCode as 'region_code'
+		FROM dongCode
+		WHERE gugunName IS NULL
+	</select>
+	
+	<select id="getAmounts" resultType="amountDto">
+	SELECT info.dongCode as 'dongCode', REPLACE(deal.dealAmount, ',', '') as 'amount'
+	FROM houseDeal deal, houseInfo info
+	WHERE deal.aptCode = info.aptCode
+	ORDER BY info.dongCode
+	</select>
+	
+	<select id="getHomeCount" resultType="_long" parameterType="string">
+		select count(*) 
+		from houseInfo
+		where dongCode like #{dongCode}
+	</select>
+</mapper>

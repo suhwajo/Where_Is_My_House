@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.member.model.mapper.MemberMapper">
+	<resultMap type="memberDto" id="member">
+		<result column="user_id" property="id"/>
+		<result column="user_name" property="name"/>
+		<result column="user_password" property="pwd"/>
+		<result column="email" property="email"/>
+		<result column="phone_number" property="phoneNum"/>
+		<result column="admin_account" property="adminAccount"/>
+	</resultMap>
+	
+	<select id="idCheck" parameterType="string" resultType="int">
+		select count(user_id)
+		from members
+		where user_id = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="memberDto">
+	insert into members(user_id, user_name, user_password, email, phone_number, admin_account)
+	values (#{id},#{name},#{pwd},#{email},#{phoneNum},false)
+	</insert>
+	
+	<select id="select" parameterType="string" resultMap="member">
+	select user_id, user_name, user_password, email, phone_number, admin_account
+	from members
+	where user_id = #{id} and user_password = #{pwd}
+	</select>
+	
+	<select id="findMember" parameterType="string" resultMap="member">
+	select user_id, user_name, user_password, email, phone_number, admin_account
+	from members
+	where user_id = #{id} and user_name = #{name} and phone_number = #{phone}
+	</select>
+	
+	<select id="getMember" parameterType="string" resultMap="member">
+	select user_id, user_name, user_password, email, phone_number, admin_account
+	from members
+	where user_id = #{id}
+	</select>
+	
+	<update id="modifyMember" parameterType="memberDto">
+	update members
+	set user_password=#{pwd}, user_name=#{name}, email=#{email}, phone_number=#{phoneNum}
+	where user_id = #{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+	delete from members
+	where user_id=#{id}
+	</delete>
+	
+	<!-- <select id="selectMember" parameterType="Map" resultMap="member">
+	select user_id, user_name, user_password, email, phone_number, admin_account
+	from members
+	<if test="keyword != null">
+		where name like concat('%',#{keyword},'%') or user_id like concat('%',#{keyword},'%')
+	</if>
+	ORDER BY user_id
+	LIMIT ${start},${spl} 
+	</select> -->
+	<select id="selectMember" resultMap="member">
+	select user_id, user_name, user_password, email, phone_number, admin_account
+	from members
+	ORDER BY user_id
+	</select>
+	
+</mapper>

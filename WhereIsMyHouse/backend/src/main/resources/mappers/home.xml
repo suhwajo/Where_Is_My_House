@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.model.mapper.HomeMapper">
+	<!-- 수정 필요 homeMapperImpl 70 line 참고 -->
+	<select id="selectHomeInfoByDong" parameterType="string" resultType="HomeInfoDto">
+		select aptCode, buildYear, dong, dongCode, apartmentName, type, jibun address
+		from houseinfo
+		where dongCode=#{dongCode} 
+		and apartmentName not like "dummy" <!-- 수정 필요 확인 요망 -->
+	</select>
+
+	<select id="selectHomeDealByDong" parameterType="long" resultType="homedealdto">
+		select no, dealAmount,dealYear,dealMonth,dealDay,area,floor,aptCode,tradeType
+		from housedeal
+		where aptCode=#{aptCode}
+	</select>
+	
+	<select id="selectSidoGugunByDongCode" parameterType="string" resultType="string">
+		select concat(sidoName," " ,gugunName)
+		from dongcode
+		where dongCode=#{dongCode}
+	</select>
+	
+	<select id="selectSido" resultType="string">
+		select sidoName
+		from dongcode
+		group by sidoName
+	</select>
+	
+	<select id="selectGugun" parameterType="string" resultType="string">
+		select gugunName
+		from dongcode
+		where sidoName like #{sidoName}
+		and gugunName is not null
+		group by gugunName
+	</select>
+	
+	<!-- 수정 필요  맵 재 설정 homeMapperImpl 275line -->
+	<select id="selectDong" parameterType="string" resultType="map">
+		select dongName, dongCode
+		from dongcode
+		where sidoName like #{sido} and gugunName like #{gugun}
+		and dongName is not null
+		group by dongName
+	</select>
+	
+	<select id="check" parameterType="string" resultType="int">
+		select count(*)
+		from houseinfo
+		where dongCode like concat(substr(#{dongCode},0,5),"%")
+		and type="연립다세대"
+	</select>
+	
+	<!-- 수정 필요 파라미터 두개 맵으로 넘기기 설정 homeMapperImpl 329line -->
+	<select id="selectDongCodebyDongName" parameterType="map" resultType="string">
+		select dongCode
+		from dongcode
+		where dongName like #{dongName}
+		and dongCode like concat(substr(#{code},0,5),"%")
+	</select>
+	<select id="saveHomeDeal" parameterType="homedealdto">
+		insert into homedeal(no, dealAmount,dealYear,dealMonth,dealDay,aptCode,area,floor,tradeType)
+		values (#{no}, #{dealAmount}, #{dealYear}, #{dealMonth}, #{dealDay},#{aptCode}, #{area}, #{floor},#{tradeType})
+	</select>
+	
+	<!-- 수정 필요 파라미터 세개 맵으로 넘기기 설정 homeMapperImpl 401line -->
+	<select id="getHomeDealNo" parameterType="map" resultType="long">
+		select no
+		from housedeal
+		where aptcode=#{aptCode} and dealYear=#{dealYear} and dealMonth=#{dealMonth}
+		order by aptCode desc
+		limit 1
+	</select>
+	
+	<!-- homeMapperImpl465 line split 처리 수정 필요 -->
+<!-- 	<insert id="saveHomeInfo" parameterType="homeinfodto">
+		insert into houseinfo(aptCode, buildYear, dong, dongCode, apartmentName, jibun, type, sigunguCode)
+		values(aptCode, buildYear, dong, dongCode, apartmentName, jibun, type, sigunguCode)
+	</insert> -->	
+	<select id="getAptCode" parameterType="string" resultType="long">
+		select aptCode
+		from houseinfo
+		where sigunguCode =#{sigunguCode}
+		order by aptCode desc
+		limit 1
+	</select>
+	
+	<select id="getDummyCode" parameterType="string" resultType="long">
+		select aptCode
+		from houseinfo
+		where sigunguCode=#{sigunguCode} and apartmentName like "dummy"
+		order by aptCode desc
+		limit 1
+	</select>
+	
+	<select id="selectHomeInfoAptCodeByName" parameterType="string" resultType="long">
+		select ifnull(aptCode, -1)
+		from houseinfo
+		where apartmentName = #{apartmentName}
+		limit 1
+	</select>
+	
+	<select id="selectSidoByDongCode" parameterType="string" resultType="string">
+		select sidoName
+		from dongCode
+		where dongCode like #{dongCode}
+	</select>
+	
+	<select id="selectGunGuByDong" parameterType="string" resultType="string">
+		select gunguName
+		from dongCode
+		where dongCode like #{dongCode}
+	</select>
+	
+</mapper>

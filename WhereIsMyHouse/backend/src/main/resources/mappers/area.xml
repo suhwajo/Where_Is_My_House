@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.area.model.mapper.AreaMapper">
+
+	<select id="selectById" parameterType="string" resultType="areadto">
+		select code, addr address
+		from area
+		where user_id=#{userid}
+	</select>
+
+	<insert id="save" parameterType="areadto">
+		insert into area(code, user_id, addr)
+		values(#{code},#{user_id}, #{address})
+	</insert>
+	
+	<!-- 두개 파라미터 받아와아하므로 처리해야함 areaServiceImpl에 map으로 바꿔줌 -->
+	<delete id="deleteByIdAndCode" parameterType="map">
+		delete from area
+		where user_id=#{userid}
+		and code=#{code}
+	</delete>
+</mapper>

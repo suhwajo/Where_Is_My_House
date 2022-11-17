@@ -1,0 +1,7 @@
+.container-main {
+  background-image: url("../img/city.jpg");
+}
+
+.container-main-text {
+  --bs-bg-opacity: 0.2;
+}

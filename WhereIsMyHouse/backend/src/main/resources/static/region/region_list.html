@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Bootstrap5 -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+    />
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/c452641c94.js" crossorigin="anonymous"></script>
+    <!-- Common CSS-->
+    <link rel="stylesheet" href="/css/common.css"/>
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="/css/index.css"/>
+    <title>매매 검색</title>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <!-- 로고 -->
+            <a class="navbar-brand" id="nav-index">
+                <img src="/img/logo.png" alt="" width="70px"/>
+            </a>
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mynavbar"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <!-- 네비게이션 메뉴들 -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-3">
+                        <a class="nav-link" id="nav-region">지역정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-findHome">매매검색</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" id="nav-notice">공지사항</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" id="nav-todayNews">오늘의뉴스</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" id="nav-board">자유글</a>
+                    </li>
+                    <li class="nav-item ms-3 user-menu">
+                        <a class="nav-link" id="nav-focusArea" style="display: none">관심지역</a>
+                    </li>
+                    <li class="nav-item ms-3" id="login">
+                        <a class="nav-link" id="nav-login">로그인</a>
+                    </li>
+                    <li class="nav-item ms-3 dropdown user-menu" style="display: none">
+                        <a
+                                class="btn dropdown-toggle nav-link"
+                                href="#"
+                                role="button"
+                                id="dropdownMenuLink"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                        >
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li>
+                                <a class="dropdown-item" id="nav-logout">로그아웃</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" id="nav-userInfo">회원정보</a>
+                            </li>
+                            <li><a class="dropdown-item" id="nav-allUsers">전체회원보기</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div style="height: 160px"></div>
+
+<!-- Main Contents -->
+<main class="mt-4 container">
+    <!-- contents start -->
+    <div class="bg-common-light pt-4">
+        <div style="height: 30px"></div>
+        <div class="row">
+            <div class="col-5 ms-4 ps-4 fs-3 text-common-dark">
+                지역별 정보 조회
+            </div>
+            <div class="col-6">
+                <button type="button" class="btn text-common-dark" onclick="change_regionType(1)">시도 보기</button>
+                <button type="button" class="btn text-common-dark" onclick="change_regionType(2)">시군구 보기</button>
+            </div>
+        </div>
+        <div class="row ms-5 mt-4 pb-3 text-center fw-bold fs-5 border-dark border-3 border-bottom"
+             style="width: 95%">
+            <div class="col-3 text-common-dark">지역</div>
+            <div class="col-2 text-common-dark">
+                아파트 개수 <a class="fa-solid fa-caret-up text-common-dark text-decoration-none link-dark" id="caret1"
+                          href="javascript:change_sort(1)"></a>
+            </div>
+            <div class="col-2 text-common-dark">
+                총 거래 횟수 <a class="fa-solid fa-caret-up text-common-dark text-decoration-none link-dark" id="caret2"
+                           href="javascript:change_sort(2)"></a>
+            </div>
+            <div class="col-2 text-common-dark">
+                평균 매매 금액 <a class="fa-solid fa-caret-up text-common-dark text-decoration-none link-dark" id="caret3"
+                            href="javascript:change_sort(3)"></a>
+            </div>
+            <div class="col-2 text-common-dark">
+                총 매매 금액 <a class="fa-solid fa-caret-up text-common-dark text-decoration-none link-dark" id="caret4"
+                           href="javascript:change_sort(4)"></a>
+            </div>
+        </div>
+        <div class="mt-4" id="list-region"></div>
+
+        <div class="mt-5 d-flex justify-content-center">
+            <div class="d-flex justify-content-center fs-4" id="list-page"></div>
+        </div>
+
+        <div class="col-lg-8 col-md-10 col-sm-12 ms-5 mt-4">
+            <div class="row align-self-center mb-2">
+                <div class="col-md-2 text-start"></div>
+                <div class="col-md-7 offset-3">
+                    <div class="input-group input-group-sm justify-content-center">
+                        <input type="text" class="form-control-sm" id="keyword" placeholder="검색어..."/>
+                        <button class="btn btn-dark bg-common-dark" type="button" onclick="region_search()">
+                            검색
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 70px"></div>
+    </div>
+</main>
+
+<div style="height: 296px"></div>
+
+<!-- Footer -->
+<footer class="navbar navbar-expand-md justify-content-center mt-4 bg-dark navbar-dark">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="navbar-nav">
+                <li><label class="nav-link">&copy; SSAFY 부울경 4반</label></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap5 -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"
+></script>
+<!-- Common js -->
+<!-- login js -->
+<script src="/js/common/login.js"></script>
+<!-- nav js -->
+<script src="/js/common/nav.js"></script>
+<!-- Page js -->
+<script src="/js/region/region_list.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.area.model.mapper.AroundMapper">
+
+	<select id="selectStoreBySmallCodeAndDongCode" parameterType="map" resultType="storedto">
+		select storeNo, storeName, bigCode, bigName, middleCode,middleName, smallCode, smallName, sidoName, gugunName, dongName, dongCode, loadAddr address
+		from store
+		where smallCode=#{smallCode} and dongCode=#{dongCode}
+	</select>
+	
+	<select id="selectEnvironmentByCode" parameterType="string" resultType="environmentdto">
+		select no, name, industryCode, industryName, inspAgcy, inspAgcyName, checkList, address
+		from environment
+		where gugunCode=#{gugunCode}
+		limit 90
+	</select>
+	
+	<select id="selectHospitalByCode" parameterType="string" resultType="hospitaldto">
+		select no, hospital_name, address, phone_number
+		from hospital
+		where gugunCode=#{gugunCode}
+	</select>
+	
+	<select id="selectClinicBy" parameterType="string" resultType="clinicdto">
+		select no, clinic_name, address, weekday_time, saturday_time, sunday_time, holiday_time, main_phone_number, competent_center, competent_center_phone_number,handicapped_convenience
+		from clinic
+		where gugunCode=#{gugunCode}
+	</select>
+	
+	<!-- 수정 필요 aroundMapperImpl 맵 재 설정 -->
+	<select id="selectSmallByMiddle" parameterType="string" resultType="map">
+		select smallCode,smallName
+		from storecode
+		where middle like #{middle}
+	</select>
+
+	<select id="selectMiddleByBig" parameterType="string" resultType="string">
+		select middleName
+		from storecode
+		where bigName like #{bigName}
+		and middleName is not null
+		group by middleName
+	</select>
+	
+	<select id="selectBig" resultType="string">
+		select bigName
+		from storecode
+		group by bigName
+	</select>
+</mapper>

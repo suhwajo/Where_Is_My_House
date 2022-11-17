@@ -1,0 +1,11 @@
+document.querySelector("#nav-index").setAttribute("href", "/index.html");
+document.querySelector("#nav-findHome").setAttribute("href", "/home/find_homes.html");
+document.querySelector("#nav-notice").setAttribute("href", "/notice/notice_list.html");
+document.querySelector("#nav-todayNews").setAttribute("href", "#");
+document.querySelector("#nav-board").setAttribute("href", "/board/board_list.html");
+document.querySelector("#nav-focusArea").setAttribute("href", "/area/focus_area.html");
+document.querySelector("#nav-region").setAttribute("href", "/region/region_list.html")
+document.querySelector("#nav-login").setAttribute("href", "/user/login_page.html");
+document.querySelector("#nav-logout").setAttribute("href", "javascript:logout()");
+document.querySelector("#nav-userInfo").setAttribute("href", "/user/userInfo.html");
+document.querySelector("#nav-allUsers").setAttribute("href", "/user/userList.html");
