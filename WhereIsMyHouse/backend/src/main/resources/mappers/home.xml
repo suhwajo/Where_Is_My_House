@@ -57,7 +57,7 @@
 		select dongCode
 		from dongcode
 		where dongName like #{dongName}
-		and dongCode like concat(substr(#{code},0,5),"%")
+		and dongCode like concat(#{code},"%")
 	</select>
 	
 	<select id="saveHomeDeal" parameterType="homedealdto">

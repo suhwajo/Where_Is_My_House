@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ssafy.home.model.dto.HomeDealDto;
 import com.ssafy.home.model.dto.HomeInfoDto;
 
@@ -22,7 +24,7 @@ public interface HomeMapper {
 	long getAptCode(String code) throws SQLException;
 	long getDummyCode(String code) throws SQLException;
 	Long selectHomeInfoAptCodeByName(String name) throws SQLException;
-	String selectDongCodeByDongName(String dongName, String code) throws SQLException;
+	String selectDongCodeByDongName(@Param("dongName") String dongName, @Param("code") String code) throws SQLException;
 	String selectSidoByDongCode(String code) throws SQLException;
 	String selectGunGuByDongCode(String code) throws SQLException;
 	String selectSidoGugunByDongCode(String dongCode) throws SQLException;
