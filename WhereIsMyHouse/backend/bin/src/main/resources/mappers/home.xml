@@ -53,12 +53,13 @@
 	</select>
 	
 	<!-- 수정 필요 파라미터 두개 맵으로 넘기기 설정 homeMapperImpl 329line -->
-	<select id="selectDongCodebyDongName" parameterType="map" resultType="string">
+	<select id="selectDongCodeByDongName" parameterType="string" resultType="string">
 		select dongCode
 		from dongcode
 		where dongName like #{dongName}
 		and dongCode like concat(substr(#{code},0,5),"%")
 	</select>
+	
 	<select id="saveHomeDeal" parameterType="homedealdto">
 		insert into homedeal(no, dealAmount,dealYear,dealMonth,dealDay,aptCode,area,floor,tradeType)
 		values (#{no}, #{dealAmount}, #{dealYear}, #{dealMonth}, #{dealDay},#{aptCode}, #{area}, #{floor},#{tradeType})
