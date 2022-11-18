@@ -39,11 +39,7 @@
               >
             </li>
             <li class="nav-item ms-3 user-menu" v-show="isLogin">
-              <router-link
-                to="/"
-                class="nav-link"
-                id="nav-focusArea"
-                style="display: none"
+              <router-link to="/user/region" class="nav-link" id="nav-focusArea"
                 >관심지역</router-link
               >
             </li>

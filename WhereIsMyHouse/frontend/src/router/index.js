@@ -77,6 +77,11 @@ const routes = [
         name: "UserLogin",
         component: () => import("@/components/user/LoginUser.vue"),
       },
+      {
+        path: "region",
+        name: "UserRegion",
+        component: () => import("@/components/region/RegionInterest.vue"),
+      },
     ],
   },
   {
