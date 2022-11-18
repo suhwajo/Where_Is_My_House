@@ -29,10 +29,10 @@
 	where user_id = #{id} and user_password = #{pwd}
 	</select>
 	
-	<select id="findMember" parameterType="string" resultMap="member">
-	select user_id, user_name, user_password, email, phone_number, admin_account
+	<select id="findMember" parameterType="string" resultType="string">
+	select user_password
 	from members
-	where user_id = #{id} and user_name = #{name} and phone_number = #{phone}
+	where user_name = #{name} and user_id = #{id} and phone_number = #{phone}
 	</select>
 	
 	<select id="getMember" parameterType="string" resultMap="member">

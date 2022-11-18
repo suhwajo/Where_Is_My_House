@@ -21,7 +21,7 @@ public interface HomeMapper {
 	void saveHomeInfo(HomeInfoDto homeInfoDto) throws SQLException;
 	long getAptCode(String code) throws SQLException;
 	long getDummyCode(String code) throws SQLException;
-	long selectHomeInfoAptCodeByName(String name) throws SQLException;
+	Long selectHomeInfoAptCodeByName(String name) throws SQLException;
 	String selectDongCodeByDongName(String dongName, String code) throws SQLException;
 	String selectSidoByDongCode(String code) throws SQLException;
 	String selectGunGuByDongCode(String code) throws SQLException;

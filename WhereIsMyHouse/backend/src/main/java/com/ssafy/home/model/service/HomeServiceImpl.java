@@ -45,12 +45,12 @@ public class HomeServiceImpl implements HomeService {
 			List<ParsingInfoDto> parsingInfoList = homeParser.getOthersFromApi(dongCode);
 			
 			for(ParsingInfoDto parsingInfo : parsingInfoList) {
-				long aptCode = homeDao.selectHomeInfoAptCodeByName(parsingInfo.getApartmentName());
+				Long aptCode = homeDao.selectHomeInfoAptCodeByName(parsingInfo.getApartmentName());
 				loggers.info(parsingInfo.getApartmentName()+" "+aptCode);
 				
 				// DB에 없는 아파트 정보 일 경우 새로운 info 추가
-				if(aptCode == -1) {
-					
+				if(aptCode==null || aptCode == -1) {
+					loggers.info(parsingInfo.getDong()+" "+ parsingInfo.getDongCode()+" "+(homeDao.getAptCode(parsingInfo.getDongCode().substring(0, 5)) + 1));
 					parsingInfo.setDongCode(homeDao.selectDongCodeByDongName(parsingInfo.getDong(), parsingInfo.getDongCode()));
 					parsingInfo.setAptCode(homeDao.getAptCode(parsingInfo.getDongCode().substring(0, 5)) + 1);
 					
