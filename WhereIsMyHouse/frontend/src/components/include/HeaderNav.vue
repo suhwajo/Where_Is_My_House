@@ -39,11 +39,7 @@
               >
             </li>
             <li class="nav-item ms-3 user-menu" v-show="isLogin">
-              <router-link
-                to="/"
-                class="nav-link"
-                id="nav-focusArea"
-                style="display: none"
+              <router-link to="/user/region" class="nav-link" id="nav-focusArea"
                 >관심지역</router-link
               >
             </li>
@@ -69,6 +65,7 @@
                     >로그아웃</a
                   >
                 </li>
+                <!--수정요망 : 로딩시 바로 userId를 읽어와야하는데 빈칸이므로 warning 발생한다.-->
                 <li>
                   <router-link
                     :to="{
@@ -108,9 +105,8 @@ export default {
     };
   },
   created() {
-    this.login = this.$session.get("userInfo").userId;
-    console.log("이름  ", this.$session.get("userInfo"));
-    console.log(this.adminAccount);
+    if (this.$session.get("userInfo"))
+      this.login = this.$session.get("userInfo").userId;
   },
   computed: {
     ...mapGetters(["memberId", "isLogin", "adminAccount"]),
@@ -119,8 +115,15 @@ export default {
     ...mapActions(["doLogout"]),
     logout: function () {
       this.login = "";
-      this.$store.dispatch("doLogout").then(() => this.$router.push("/"));
-      this.$session.destroy();
+      this.$store.dispatch("doLogout").then(() => {
+        alert("로그아웃합니다.");
+        this.$session.destroy();
+        console.log(this.$router);
+        if (this.$router.currentRoute.name != "HomeView")
+          this.$router.push("/");
+      });
+      //this.$router.push("/"));
+      // this.$router.go();
     },
   },
 };

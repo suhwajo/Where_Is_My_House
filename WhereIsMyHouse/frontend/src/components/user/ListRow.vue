@@ -36,7 +36,7 @@ export default {
     name: String,
     email: String,
     phoneNum: String,
-    isAdmin: String,
+    isAdmin: Boolean,
   },
   methods: {
     deleteUser: function () {

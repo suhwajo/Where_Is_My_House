@@ -2,15 +2,24 @@ package com.ssafy.area.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -23,106 +32,65 @@ import com.ssafy.area.model.service.AreaServiceImpl;
 import com.ssafy.area.model.service.AroundService;
 import com.ssafy.area.model.service.AroundServiceImpl;
 import com.ssafy.member.model.dto.MemberDto;
+import com.ssafy.member.model.service.MemberService;
 
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/rest/area")
 @CrossOrigin("*")
 public class AreaController{
+	
+	@Autowired
 	private AreaService areaService;
+	@Autowired
 	private AroundService aroundService;
-	private Gson gson;
+	@Autowired
+    private MemberService memberService;
 
-	public AreaController() {
-		areaService = AreaServiceImpl.getAreaService();
-		aroundService = AroundServiceImpl.getAroundService();
-		gson = new GsonBuilder().setPrettyPrinting().create();
-	}
 
-	public String getResponseJson(String act, HttpServletRequest req) throws SQLException {
-		String json = "";
-
-		switch (act) {
-			case "list":
-				json = list(req);
-				break;
-			case "insert":
-				json = insert(req);
-				break;
-			case "delete":
-				json = delete(req);
-				break;
-			case "stores":
-				json = stores(req);
-				break;
-			case "environments":
-				json = environments(req);
-				break;
-			case "hospitals":
-				json = hospitals(req);
-				break;
-			case "clinics":
-				json = clinics(req);
-				break;
-			case "getBig":
-				json = getBig(req);
-				break;
-			case "getMiddle":
-				json = getMiddle(req);
-				break;
-			case "getSmall":
-				json = getSmall(req);
-				break;
-
-		}
-
-		return json;
-	}
-
-	private String list(HttpServletRequest request) {
+	@GetMapping("/list")
+	private ResponseEntity<?> list(HttpServletRequest request) {
 
 		List<AreaDto> areas = null;
 		try {
 			areas = areaService.list(request);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return gson.toJson(areas);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("areas", areas);
+        
+        return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 
-	private String insert(HttpServletRequest req) {
+	@PostMapping("/insert")
+	private ResponseEntity<?> insert(@RequestBody Map<String, String> param) {
 		AreaDto areaDto = null;
 
 		try {
-
-			HttpSession session = req.getSession();
-			MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
-
+			String userId = param.get("userId");
+			MemberDto memberDto = (MemberDto) memberService.getMember(userId);
+		
 			if (memberDto != null) {
 
-				StringBuilder sb = new StringBuilder();
-				String line;
-				while((line = req.getReader().readLine()) != null)
-					sb.append(line);
-
-				JsonObject jsonObject = gson.fromJson(sb.toString(), JsonObject.class);
-				String code = jsonObject.get("code").getAsString();
-				String sido = jsonObject.get("sido").getAsString();
-				String gugun = jsonObject.get("gugun").getAsString();
-				String dong = jsonObject.get("dong").getAsString();
+				String code = param.get("code");
+				String sido = param.get("sido");
+				String gugun = param.get("gugun");
+				String dong = param.get("dong");
 
 				areaDto = new AreaDto(code, memberDto.getId(), sido + " " + gugun + " " + dong);
 
 				areaService.add(areaDto);
 			}
-		} catch (SQLException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return gson.toJson(areaDto);
+    	return new ResponseEntity<AreaDto>(areaDto, HttpStatus.OK);
 	}
 	
-	private String delete(HttpServletRequest request) {
+	@DeleteMapping("/delete")
+	private ResponseEntity<?> delete(@RequestParam("code") String code, HttpServletRequest request) {
 		boolean check = false;
 
 		try {
@@ -131,77 +99,91 @@ public class AreaController{
 
 			if (memberDto != null) {
 				
-				String code = request.getParameter("code");
-
 				areaService.delete(memberDto.getId(), code);
 				check = true;
 
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("check", check);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("check", check);
 
-		return gson.toJson(jsonObject);
+		return new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
 	}
 
-	private String stores(HttpServletRequest req) throws SQLException {
+	@GetMapping("/stores")
+	private ResponseEntity<?> stores(@RequestParam("smallCode") String smallCode, @RequestParam("dongCode") String dongCode) throws SQLException {
 
-		String smallCode = req.getParameter("smallCode");
-		String dongCode = req.getParameter("dongCode");
 		List<StoreDto> list = aroundService.selectStoreBySmallCodeAndDongCode(smallCode, dongCode);
 
-		return gson.toJson(list);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        
+        return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
+	
+	@GetMapping("/environments")
+	private ResponseEntity<?> environments(@RequestParam("code") String code) throws SQLException {
 
-	private String environments(HttpServletRequest req) throws SQLException {
-
-		String code = req.getParameter("code");
 		code = code.substring(0, 5) + "00000";
 		List<EnvironmentDto> list = aroundService.selectEnvironmentByCode(code);
 
-		return gson.toJson(list);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        
+        return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 
-	private String hospitals(HttpServletRequest req) throws SQLException {
+	@GetMapping("/hospitals")
+	private ResponseEntity<?> hospitals(@RequestParam("code") String code) throws SQLException {
 
-		String code = req.getParameter("code");
 		code = code.substring(0, 5) + "00000";
 		List<HospitalDto> list = aroundService.selectHospitalByCode(code);
 
-		return gson.toJson(list);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        
+        return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 
-	private String clinics(HttpServletRequest req) throws SQLException {
+	@GetMapping("/clinics")
+	private ResponseEntity<?> clinics(@RequestParam("code") String code) throws SQLException {
 
-		String code = req.getParameter("code");
 		code = code.substring(0, 5) + "00000";
 		List<ClinicDto> list = aroundService.selectClinicBy(code);
 
-		return gson.toJson(list);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        
+        return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 
-	private String getBig(HttpServletRequest req) throws SQLException {
+	@GetMapping("/getBig")
+	private ResponseEntity<?> getBig() throws SQLException {
 
 		List<String> list = aroundService.selectBig();
 
-		return gson.toJson(list);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        
+        return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 
-	private String getMiddle(HttpServletRequest req) throws SQLException {
-
-		String big = req.getParameter("big");
+	@GetMapping("/getMiddle")
+	private ResponseEntity<?> getMiddle(@RequestParam("big") String big) throws SQLException {
 
 		List<String> list = aroundService.selectMiddleByBig(big);
 
-		return gson.toJson(list);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", list);
+        
+        return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 
-	private String getSmall(HttpServletRequest req) throws SQLException {
-
-		String middle = req.getParameter("middle");
+	@GetMapping("/getSmall")
+	private ResponseEntity<?> getSmall(@RequestParam("middle") String middle) throws SQLException {
 
 		Map<String, String> map = aroundService.selectSmallByMiddle(middle);
 
@@ -214,6 +196,6 @@ public class AreaController{
 			jsonArray.add(jsonObject);
 		}
 
-		return gson.toJson(jsonArray);
+        return new ResponseEntity<JsonArray>(jsonArray,HttpStatus.OK);
 	}
 }

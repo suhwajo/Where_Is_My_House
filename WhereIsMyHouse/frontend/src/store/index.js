@@ -52,7 +52,6 @@ export default new Vuex.Store({
             .then((response) => response.data)
             .then((data) => {
               if (data.userInfo != null) {
-                console.log(data.userInfo);
                 resolve(data);
                 commit("setMemberId", user.userId);
                 commit("setAdminAccount", data.userInfo.adminAccount);

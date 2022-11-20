@@ -58,7 +58,7 @@ const routes = [
         component: () => import("@/components/user/UserInfo.vue"),
       },
       {
-        path: "findpw/:userId",
+        path: "findpw",
         name: "FindPw",
         component: () => import("@/components/user/FindPw.vue"),
       },
@@ -76,6 +76,11 @@ const routes = [
         path: "login",
         name: "UserLogin",
         component: () => import("@/components/user/LoginUser.vue"),
+      },
+      {
+        path: "region",
+        name: "UserRegion",
+        component: () => import("@/components/region/RegionInterest.vue"),
       },
     ],
   },
