@@ -46,12 +46,6 @@
             </div>
           </div>
         </div>
-
-        <comment-write
-          :no="notice.no"
-          :author="memberId"
-          v-show="isLogin"
-        ></comment-write>
         <div style="height: 50px"></div>
       </div>
     </main>
@@ -63,10 +57,6 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 
 export default {
-  components: {
-    "comment-write": () =>
-      import("@/components/notice/include/CommentWrite.vue"),
-  },
   data() {
     return {
       notice: {},

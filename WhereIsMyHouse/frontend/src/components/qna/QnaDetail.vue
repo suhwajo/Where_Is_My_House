@@ -47,6 +47,23 @@
           </div>
         </div>
 
+        <comment-write
+          :no="qna.no"
+          :author="memberId"
+          v-show="isLogin"
+        ></comment-write>
+
+        <section class="section dashboard">
+          <div class="row">
+            <comment-row
+              v-for="comment in comments"
+              :key="comment.id"
+              :qna_no="qna.no"
+              :comment="comment"
+            ></comment-row>
+          </div>
+        </section>
+
         <div style="height: 50px"></div>
       </div>
     </main>
@@ -58,10 +75,15 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 
 export default {
+  components: {
+    "comment-write": () => import("@/components/qna/include/CommentWrite.vue"),
+    "comment-row": () => import("@/components/qna/include/CommentRow.vue"),
+  },
   data() {
     return {
       qna: {},
       checkUser: false,
+      comments: [],
     };
   },
   created() {
@@ -74,6 +96,8 @@ export default {
       .then((data) => {
         this.qna = data.board;
         this.qna.date = this.qna.date.split(" ")[0];
+        this.comments = data.comments;
+        console.log(data);
 
         if (this.qna.author == this.memberId) {
           this.checkUser = true;

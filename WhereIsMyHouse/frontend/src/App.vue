@@ -31,6 +31,14 @@ export default {
           "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3",
         crossorigin: "anonymous",
       },
+      {
+        href: "https://fonts.gstatic.com",
+        rel: "preconnect",
+      },
+      {
+        href: "https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i",
+        rel: "stylesheet",
+      },
     ],
     script: [
       {
@@ -104,6 +112,15 @@ export default {
 </script>
 
 <style>
+@import "../src/assets/vendor/bootstrap/css/bootstrap.min.css";
+@import "../src/assets/vendor/bootstrap-icons/bootstrap-icons.css";
+@import "../src/assets/vendor/boxicons/css/boxicons.min.css";
+@import "../src/assets/vendor/quill/quill.snow.css";
+@import "../src/assets/vendor/quill/quill.bubble.css";
+@import "../src/assets/vendor/remixicon/remixicon.css";
+@import "../src/assets/vendor/simple-datatables/style.css";
+@import "../src/assets/css/style.css";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

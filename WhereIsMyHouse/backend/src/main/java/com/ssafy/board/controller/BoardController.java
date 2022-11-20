@@ -1,6 +1,7 @@
 package com.ssafy.board.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.board.model.dto.BoardDto;
 import com.ssafy.board.model.service.BoardService;
+import com.ssafy.comment.model.dto.CommentDto;
+import com.ssafy.comment.model.service.CommentService;
 import com.ssafy.member.model.dto.MemberDto;
 import com.ssafy.member.model.service.MemberService;
 import com.ssafy.notice.model.dto.NoticeDto;
@@ -37,13 +40,14 @@ public class BoardController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private CommentService commentService;
 	
 	@GetMapping("/list")
     private ResponseEntity<?> list(@RequestParam(value="page",required=false)Integer page, @RequestParam(value="keyword",required=false)String keyword) throws SQLException {
     	if(page==null) {
     		page=1;
     	}
-    	
         Map<String,Object> map = new HashMap<String,Object>();
     	List<BoardDto> list = boardService.list(page, keyword);
 
@@ -95,6 +99,7 @@ public class BoardController {
 	@GetMapping("/detail")
     private ResponseEntity<?> detail(@RequestParam("no")String no, HttpServletRequest req) throws SQLException {
         BoardDto boardDto = boardService.detail(no);
+        List<CommentDto> comments = commentService.getComments(Integer.parseInt(no));
         boardService.hit(no);
         Map<String,Object> map = new HashMap<String,Object>();
         
@@ -108,7 +113,8 @@ public class BoardController {
 
         map.put("checkUser",checkUser);
         map.put("board", boardDto);
-
+        map.put("comments",comments);
+        
         return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
     }
 	
