@@ -15,7 +15,7 @@ public interface AroundService {
     List<EnvironmentDto> selectEnvironmentByCode(String code) throws SQLException;
     List<HospitalDto> selectHospitalByCode(String code) throws SQLException;
     List<ClinicDto> selectClinicBy(String code) throws SQLException;
-    Map<String, String> selectSmallByMiddle(String middle) throws SQLException;
+    List<Map<String, String>> selectSmallByMiddle(String middle) throws SQLException;
     List<String> selectMiddleByBig(String big) throws SQLException;
     List<String> selectBig() throws SQLException;
 }

@@ -168,14 +168,34 @@
                 class="form-select"
                 id="middle"
                 aria-label="Default select example"
-              ></select>
+                v-model="selectedMiddleStore"
+              >
+                <option value="" selected>중분류</option>
+                <option
+                  v-for="(middleStore, index) in middleStores"
+                  :key="index"
+                  :value="middleStore"
+                >
+                  {{ middleStore }}
+                </option>
+              </select>
             </div>
             <div class="mb-3 mt-3">
               <select
                 class="form-select"
                 id="small"
                 aria-label="Default select example"
-              ></select>
+                v-model="selectedSmallStore"
+              >
+                <option value="" selected>소분류</option>
+                <option
+                  v-for="(smallStore, index) in smallStores"
+                  :key="index"
+                  :value="smallStore"
+                >
+                  {{ smallStore }}
+                </option>
+              </select>
             </div>
           </div>
           <div class="modal-footer">
@@ -190,7 +210,7 @@
               type="button"
               class="btn btn-primary"
               data-bs-dismiss="modal"
-              onclick="search_stores()"
+              @click="search_stores"
             >
               검색
             </button>
@@ -237,6 +257,7 @@ export default {
       bigStores: [],
       middleStores: [],
       smallStores: [],
+      smallCodeStores: [],
     };
   },
   mounted() {
@@ -261,6 +282,14 @@ export default {
     selectedGugun: function (newVal) {
       console.log("gugun " + newVal);
       if (newVal != "") this.getDong();
+    },
+    selectedBigStore: function (newVal) {
+      console.log("bigStore " + newVal);
+      if (newVal != "") this.getMiddle();
+    },
+    selectedMiddleStore: function (newVal) {
+      console.log("middleStore " + newVal);
+      if (newVal != "") this.getSmall();
     },
   },
   methods: {
@@ -328,12 +357,34 @@ export default {
     },
     getBig() {
       const url = "http://localhost:9999/rest/area/getBig";
-
       axios
         .get(url)
         .then((response) => response.data)
         .then((data) => {
           this.bigStores = data.list;
+        });
+    },
+    getMiddle() {
+      const url = "http://localhost:9999/rest/area/getMiddle?big=";
+
+      axios
+        .get(url + this.selectedBigStore)
+        .then((response) => response.data)
+        .then((data) => {
+          this.middleStores = data.list;
+        });
+    },
+    getSmall() {
+      const url = "http://localhost:9999/rest/area/getSmall?middle=";
+      axios
+        .get(url + this.selectedMiddleStore)
+        .then((response) => response.data)
+        .then((data) => {
+          console.log(data.smallName);
+          for (var i = 0; i < data.length; i++) {
+            this.smallStores.push(data[i].smallName);
+          }
+          this.smallCodeStores = data;
         });
     },
 
@@ -562,6 +613,45 @@ export default {
             infoWindow.close();
           }
         }
+      });
+    },
+    search_stores() {
+      const url = "http://localhost:9999/rest/area/stores";
+
+      // let smallSel = document.querySelector("#small");
+      // let small = smallSel[smallSel.selectedIndex].value;
+
+      let smallCode = ""; //`?smallCode=${small}&dongCode=${select_area}`;
+      for (var i = 0; i < this.smallCodeStores.length; i++) {
+        if (this.smallCodeStores[i].smallName == this.selectedSmallStore) {
+          smallCode = this.smallCodeStores[i].smallCode;
+          break;
+        }
+      }
+      axios
+        .get(url, {
+          params: {
+            smallCode: this.selectedSmallStore,
+            dongCode: smallCode,
+          },
+        })
+        .then((response) => console.log(response.data));
+      // .then((data) => this.set_stores(data));
+    },
+
+    set_stores(data) {
+      this.initMarkers();
+      console.log(data);
+
+      data.forEach((store) => {
+        let infoWindowDiv = `
+            <div class="bg-common-dark text-common-light text-center">
+                <div class="fs-4">${store.storeName}</div>
+                <div class="fs-5 mt-4">${store.address}</div>
+            </div>
+        `;
+
+        this.setMarker(store.address, infoWindowDiv);
       });
     },
   },

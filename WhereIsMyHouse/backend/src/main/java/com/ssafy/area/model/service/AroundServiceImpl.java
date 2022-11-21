@@ -9,6 +9,7 @@ import com.ssafy.area.model.mapper.AroundMapper;
 import lombok.AllArgsConstructor;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +46,13 @@ public class AroundServiceImpl implements AroundService {
     }
 
     // 재가공하기,,
-    public Map<String, String> selectSmallByMiddle(String middle) throws SQLException {
-    	Map<String, String> param = aroundDao.selectSmallByMiddle(middle);
-    	Map<String, String> result = new HashMap<String, String>();
-    	result.put(param.get("smallCode"), param.get("smallName"));
-        return result;
+    public List<Map<String, String>> selectSmallByMiddle(String middle) throws SQLException {
+//    	List<Map<String, String>> param = aroundDao.selectSmallByMiddle(middle);
+//    	Map<String, String> result = new HashMap<String, String>();
+//    	for (Map<String, String> hashMap : param) {
+//    		result.put(hashMap.get("code"), hashMap.get("name"));			
+//		}
+        return aroundDao.selectSmallByMiddle(middle);
     }
 
     public List<String> selectMiddleByBig(String big) throws SQLException {

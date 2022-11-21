@@ -183,17 +183,8 @@ public class AreaController{
 	@GetMapping("/getSmall")
 	private ResponseEntity<?> getSmall(@RequestParam("middle") String middle) throws SQLException {
 
-		Map<String, String> map = aroundService.selectSmallByMiddle(middle);
-
-		JsonArray jsonArray = new JsonArray();
-		for(String key : map.keySet()) {
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("code", key);
-			jsonObject.addProperty("name", map.get(key));
-
-			jsonArray.add(jsonObject);
-		}
-
-        return new ResponseEntity<JsonArray>(jsonArray,HttpStatus.OK);
+		List<Map<String, String>> map = aroundService.selectSmallByMiddle(middle);
+		
+        return new ResponseEntity<List<Map<String, String>>>(map,HttpStatus.OK);
 	}
 }

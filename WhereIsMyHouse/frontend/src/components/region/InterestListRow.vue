@@ -224,35 +224,6 @@ export default {
         });
       }
     },
-
-    search_stores() {
-      const url = "/rest/area/stores";
-
-      // let smallSel = document.querySelector("#small");
-      // let small = smallSel[smallSel.selectedIndex].value;
-
-      let params = ""; //`?smallCode=${small}&dongCode=${select_area}`;
-
-      fetch(url + params)
-        .then((response) => response.data)
-        .then((data) => this.set_stores(data));
-    },
-
-    set_stores(data) {
-      this.initMarkers();
-      console.log(data);
-
-      data.forEach((store) => {
-        let infoWindowDiv = `
-            <div class="bg-common-dark text-common-light text-center">
-                <div class="fs-4">${store.storeName}</div>
-                <div class="fs-5 mt-4">${store.address}</div>
-            </div>
-        `;
-
-        this.$parent.setMarker(store.address, infoWindowDiv);
-      });
-    },
   },
 };
 </script>
