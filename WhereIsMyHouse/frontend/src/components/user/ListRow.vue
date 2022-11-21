@@ -1,30 +1,37 @@
 <template>
-  <div id="list-user">
-    <div class="row ms-5 pt-4 text-dark text-center fs-6" style="width: 92%">
-      <div class="col-2" id="userid">
-        <router-link
-          :to="{
-            name: 'UserInfo',
-            params: { userId: id },
-          }"
-          class="text-decoration-none text-common-dark link-dark"
-          >{{ id }}</router-link
-        >
-      </div>
-      <div class="col-2 text-common-dark">{{ name }}</div>
-      <div class="col-2 text-common-dark">{{ email }}</div>
-      <div class="col-2 text-common-dark">{{ phoneNum }}</div>
-      <div class="col-2 text-common-dark">{{ isAdmin }}</div>
-      <div class="col-2 text-common-dark">
-        <a
-          class="col-8 text-decoration-none text-common-dark link-danger"
-          @click="deleteUser"
-        >
-          삭제</a
-        >
-      </div>
-    </div>
-  </div>
+  <tr>
+    <th scope="row">{{ id }}</th>
+    <td>{{ name }}</td>
+    <td>{{ phoneNum }}</td>
+    <td>{{ email }}</td>
+    <td>{{ isAdmin }}</td>
+    <td>
+      <router-link
+        :to="{
+          name: 'UserInfo',
+          params: { userId: id },
+        }"
+        class="btn btn-warning rounded-pill btn-block"
+      >
+        <b>수정</b>
+      </router-link>
+      <!-- <button
+        type="button"
+        class="btn btn-warning rounded-pill btn-block"
+        onclick="location.href='${root}/user?act=m-modify&userId=${ member.userId }'"
+      >
+        수정
+      </button> -->
+      &nbsp;
+      <button
+        type="button"
+        class="btn btn-danger rounded-pill btn-block"
+        @click="deleteUser"
+      >
+        <b>삭제</b>
+      </button>
+    </td>
+  </tr>
 </template>
 
 <script>

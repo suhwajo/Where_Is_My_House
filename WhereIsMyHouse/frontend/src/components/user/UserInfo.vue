@@ -1,132 +1,221 @@
 <template>
-  <div class="body">
-    <div style="height: 160px"></div>
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
 
-    <!-- Main Contents -->
-    <main class="mt-4 container">
-      <!-- contents start -->
+    <section class="section profile">
       <div class="row">
-        <!-- Left side contents-->
-        <div class="col-2"></div>
-        <!-- Cneter contents-->
-        <section class="col-8 pt-5 rounded-2 mb-5 text-common-light">
-          <div class="ms-5">
-            <div class="fs-3 fw-bold text-center mb-5">회원 정보</div>
-            <div class="mb-3 mt-3 row">
-              <p class="col-sm-6 text-center">아이디</p>
-              <p class="col-sm-6 text-center" id="show-id">{{ user.id }}</p>
-            </div>
-            <div class="mb-3 row">
-              <p class="col-sm-6 text-center">비밀번호</p>
-              <p
-                class="col-sm-6 text-center info-show"
-                v-if="infoShow"
-                id="show-pwd"
-              >
-                {{ user.pwd }}
-              </p>
-              <input
-                type="password"
-                class="info-input col-sm-4"
-                name="pwd"
-                id="input-pwd"
-                v-model="user.pwd"
-                v-else
+        <div class="col-xl-4">
+          <div class="card">
+            <div
+              class="card-body profile-card pt-4 d-flex flex-column align-items-center"
+            >
+              <img
+                src="@/assets/profile-img.png"
+                alt="Profile"
+                class="rounded-circle"
               />
-            </div>
-            <div class="mb-3 row">
-              <p class="col-sm-6 text-center">이름</p>
-              <p
-                class="col-sm-6 text-center info-show"
-                v-if="infoShow"
-                id="show-name"
-              >
-                {{ user.name }}
-              </p>
-              <input
-                type="text"
-                class="info-input col-sm-4"
-                name="name"
-                id="input-name"
-                v-model="user.name"
-                v-else
-              />
-            </div>
-            <div class="mb-3 row">
-              <p class="col-sm-6 text-center">이메일</p>
-              <p
-                class="col-sm-6 text-center info-show"
-                v-if="infoShow"
-                id="show-email"
-              >
-                {{ user.email }}
-              </p>
-              <input
-                type="email"
-                class="info-input col-sm-4"
-                name="email"
-                id="input-email"
-                v-model="user.email"
-                v-else
-              />
-            </div>
-            <div class="mb-3 row">
-              <p class="col-sm-6 text-center">전화번호</p>
-              <p
-                class="col-sm-6 text-center info-show"
-                v-if="infoShow"
-                id="show-phone"
-              >
-                {{ user.phoneNum }}
-              </p>
-              <input
-                type="tel"
-                class="info-input col-sm-4"
-                name="phone"
-                id="input-phone"
-                v-model="user.phoneNum"
-                v-else
-              />
-            </div>
-            <div class="mt-5 text-center info-show" v-if="infoShow">
-              <button
-                type="button"
-                class="btn btn-dark bg-common-dark me-3"
-                @click="editUser"
-              >
-                정보 수정
-              </button>
-              <button
-                type="button"
-                class="btn btn-dark bg-common-dark"
-                @click="userOut"
-              >
-                회원 탈퇴
-              </button>
-            </div>
-            <div class="mt-5 text-center info-input" v-else>
-              <button
-                type="button"
-                class="btn btn-dark bg-common-dark me-3"
-                @click="editConfirm"
-              >
-                수정
-              </button>
-              <button
-                type="button"
-                class="btn btn-dark bg-common-dark"
-                @click="editUser"
-              >
-                취소
-              </button>
+              <h2 class="user-id">{{ user.id }} | {{ userName }}</h2>
             </div>
           </div>
-        </section>
-      </div>
-    </main>
+        </div>
 
-    <div style="height: 161px"></div>
-  </div>
+        <div class="col-xl-8">
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+                <li class="nav-item">
+                  <button
+                    class="nav-link active"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-overview"
+                  >
+                    Overview
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-edit"
+                  >
+                    Edit Profile
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-resign"
+                  >
+                    Resign
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2">
+                <div
+                  class="tab-pane fade show active profile-overview"
+                  id="profile-overview"
+                >
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">ID</div>
+                    <div class="col-lg-9 col-md-8 user-id">{{ user.id }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Password</div>
+                    <div class="col-lg-9 col-md-8 user-pw">
+                      {{ user.pwd }}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Name</div>
+                    <div class="col-lg-9 col-md-8 user-name">
+                      {{ user.name }}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8 user-addr">
+                      {{ user.email }}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Phone Number</div>
+                    <div class="col-lg-9 col-md-8 user-phone">
+                      {{ user.phoneNum }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                  <form>
+                    <div class="row mb-3">
+                      <label class="col-lg-3 col-md-4 col-form-label">ID</label>
+                      <div class="col-lg-9 col-md-8 user-id">{{ user.id }}</div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="pwd" class="col-md-4 col-lg-3 col-form-label"
+                        >Password</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="pwd"
+                          type="password"
+                          class="form-control user-pw"
+                          id="user-pw"
+                          v-model="user.pwd"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="name" class="col-md-4 col-lg-3 col-form-label"
+                        >Name</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="name"
+                          type="text"
+                          class="form-control user-name"
+                          id="user-name"
+                          v-model="user.name"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="email"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Email</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="email"
+                          type="email"
+                          class="form-control user-addr"
+                          id="user-addr"
+                          v-model="user.email"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="phone"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Phone Number</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="phone"
+                          type="text"
+                          class="form-control user-phone"
+                          id="user-phone"
+                          v-model="user.phoneNum"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button @click="editConfirm" class="btn btn-primary">
+                        정보 수정
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End Profile Edit Form -->
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-resign">
+                  <!-- Resign Form -->
+                  <form>
+                    <div class="row mb-3">
+                      <label
+                        for="fullName"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Resign Membership</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <div class="form-check">
+                          <label class="form-check-label" for="newProducts">
+                            정말로 탈퇴하시겠습니까?
+                          </label>
+                          <button class="btn btn-primary m-3" @click="userOut">
+                            Yes
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <!-- End settings Form -->
+                </div>
+              </div>
+              <!-- End Bordered Tabs -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script>
@@ -138,7 +227,7 @@ export default {
   data() {
     return {
       user: {},
-      infoShow: true,
+      userName: "",
     };
   },
   created() {
@@ -146,7 +235,6 @@ export default {
     //   alert("로그인 후 접근이 가능합니다.");
     //   this.$router.push({ name: "UserLogin" });
     // }
-    console.log("현재 이름", this.$route);
     let userId = this.$route.params.userId;
     if (userId) {
       const url = "http://localhost:9999/rest/user/getUser/" + userId;
@@ -154,18 +242,15 @@ export default {
         .get(url)
         .then((response) => response.data)
         .then((data) => {
-          console.log(data);
-          if (data) this.user = data;
+          if (data) {
+            this.user = data;
+            this.userName = this.user.name;
+          }
         });
-    } else {
-      console.log(this.$session.getAll());
     }
   },
   methods: {
     ...mapActions(["doLogout"]),
-    editUser() {
-      this.infoShow = !this.infoShow;
-    },
     editConfirm() {
       if (
         !this.user.pwd ||
@@ -185,7 +270,6 @@ export default {
         email: this.user.email,
         phone: this.user.phoneNum,
       };
-      console.log(userMod);
       axios
         .put(url, userMod)
         .then((response) => response.data)
@@ -202,7 +286,6 @@ export default {
       let outConfirm = confirm("정말 탈퇴하시겠습니까??");
 
       if (outConfirm) {
-        console.log(this.user);
         const url = "http://localhost:9999/rest/user/delete/";
         if (this.user.adminAccount) alert("관리자계정은 탈퇴가 불가합니다.");
         else {

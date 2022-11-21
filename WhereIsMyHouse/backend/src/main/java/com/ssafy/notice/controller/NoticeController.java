@@ -43,7 +43,7 @@ public class NoticeController {
 
 	@GetMapping("/list")
     private ResponseEntity<?> list(@RequestParam(value="page",required=false)Integer page, @RequestParam(value="keyword",required=false)String keyword) throws SQLException {
-    	if(page==null) {
+		if(page==null) {
     		page=1;
     	}
     	

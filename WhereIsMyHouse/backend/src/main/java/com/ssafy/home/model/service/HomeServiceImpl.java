@@ -50,6 +50,7 @@ public class HomeServiceImpl implements HomeService {
 				
 				// DB에 없는 아파트 정보 일 경우 새로운 info 추가
 				if(aptCode==null || aptCode == -1) {
+					parsingInfo.setDong(parsingInfo.getDong().trim());
 					loggers.info(parsingInfo.getDong()+" "+ parsingInfo.getDongCode()+" "+homeDao.getAptCode(parsingInfo.getDongCode().substring(0, 5)) + 1);
 					parsingInfo.setDongCode(homeDao.selectDongCodeByDongName(parsingInfo.getDong(), parsingInfo.getDongCode()));
 					loggers.info(parsingInfo.getDongCode());
