@@ -628,11 +628,18 @@ export default {
           break;
         }
       }
+      console.log(
+        this.selectedSmallStore,
+        " ",
+        smallCode,
+        " ",
+        this.selectedDong.code
+      );
       axios
         .get(url, {
           params: {
             smallCode: this.selectedSmallStore,
-            dongCode: smallCode,
+            dongCode: this.selectedDong.code,
           },
         })
         .then((response) => console.log(response.data));
