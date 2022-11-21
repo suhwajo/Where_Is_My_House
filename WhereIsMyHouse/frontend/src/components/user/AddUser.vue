@@ -1,137 +1,179 @@
 <template>
-  <div class="body">
-    <div style="height: 50px"></div>
+  <main id="main" class="main">
+    <div class="container-fluid">
+      <div class="pagetitle row justify-content-center">
+        <h1>회원 정보 관리</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">관리자 모드</li>
+            <li class="breadcrumb-item active">회원 정보 관리</li>
+            <li class="breadcrumb-item active">회원 추가</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
 
-    <!-- Main Contents -->
-    <main class="mt-4 container">
-      <div style="height: 100px"></div>
-      <!-- contents -->
-      <section class="pt-5 rounded-2 mb-5 text-light">
-        <div style="height: 30px"></div>
-        <div class="row">
-          <div class="d-flex justify-content-center m-5 col">
-            <img
-              class="img-fluid"
-              src="@/assets/logo.png"
-              alt=""
-              width="400px"
-            />
-          </div>
-          <div class="col">
-            <div class="fs-3 fw-bold text-center w-75">회원 추가 등록</div>
-            <div class="mb-4 mt-4 w-75">
-              <div class="mb-3 mt-3 row">
-                <label for="id" class="col-sm-4 col-form-label">아이디</label>
-                <div class="col-sm-8">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="id"
-                    placeholder="id"
-                    name="id"
-                    required
-                    v-model="id"
-                  />
+      <div class="container">
+        <section
+          class="section register d-flex flex-column align-items-center justify-content-center py-4"
+        >
+          <div class="container">
+            <div class="row justify-content-center">
+              <div
+                class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center"
+              >
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="pt-4 pb-2">
+                      <h5 class="card-title text-center pb-0 fs-4">
+                        Create an Account
+                      </h5>
+                      <p class="text-center small">
+                        Enter your personal details to create account
+                      </p>
+                    </div>
+
+                    <form
+                      id="form-add"
+                      class="row g-3 needs-validation"
+                      novalidate
+                    >
+                      <input type="hidden" name="act" value="add-member" />
+
+                      <div class="col-12">
+                        <label for="yourId" class="form-label">ID</label>
+                        <input
+                          type="text"
+                          name="id"
+                          class="form-control"
+                          id="id"
+                          v-model="id"
+                          placeholder="아이디 입력"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please enter a valid Id!
+                        </div>
+                      </div>
+                      <div id="idcheck-result"></div>
+
+                      <div class="col-12">
+                        <label for="yourPassword" class="form-label"
+                          >Password</label
+                        >
+                        <input
+                          type="password"
+                          name="pwd"
+                          class="form-control"
+                          id="pwd"
+                          v-model="pwd"
+                          placeholder="비밀번호 입력"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please enter your password!
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourName" class="form-label">Name</label>
+                        <input
+                          type="text"
+                          name="name"
+                          class="form-control"
+                          id="name"
+                          placeholder="이름 입력"
+                          v-model="name"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please enter your name!
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourAddress" class="form-label"
+                          >Address</label
+                        >
+                        <input
+                          type="text"
+                          name="email"
+                          class="form-control"
+                          placeholder="이메일 입력"
+                          id="email"
+                          v-model="email"
+                          required
+                        />
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourPhone" class="form-label"
+                          >Phone Number</label
+                        >
+                        <input
+                          type="text"
+                          name="phone"
+                          class="form-control"
+                          placeholder="010-xxxx-xxxx"
+                          pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                          id="phone"
+                          v-model="phone"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please enter your phone number!
+                        </div>
+                      </div>
+
+                      <!-- <div class="col-12">
+                        <label for="email" class="form-label">이메일 : </label>
+                        <div class="input-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="emailid"
+                            name="emailid"
+                            placeholder="이메일아이디"
+                            required
+                          />
+                          <span class="input-group-text">@</span>
+                          <select
+                            class="form-select"
+                            id="emaildomain"
+                            name="emaildomain"
+                            aria-label="이메일 도메인 선택"
+                            required
+                          >
+                            <option value="">선택</option>
+                            <option value="ssafy.com">ssafy.com</option>
+                            <option value="google.com">google.com</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="kakao.com">kakao.com</option>
+                          </select>
+                        </div>
+                        <div class="invalid-feedback">
+                          Please enter your email!
+                        </div>
+                      </div> -->
+                      <div class="col-12">
+                        <button
+                          class="btn btn-primary w-100"
+                          @click="join"
+                          id="btn-join"
+                        >
+                          Create Account
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-              </div>
-              <div id="idcheck-result"></div>
-              <div class="mb-3 row">
-                <label for="pwd" class="col-sm-4 col-form-label"
-                  >비밀번호</label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="pwd"
-                    placeholder="password"
-                    name="pwd"
-                    required
-                    v-model="pwd"
-                  />
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label
-                  class="col-sm-4 col-form-label form-label"
-                  for="pwd_check"
-                  >비밀번호 확인</label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="pwd_check"
-                    name="pwd_check"
-                    placeholder="check password"
-                    v-model="pwd_check"
-                  />
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="name" class="col-sm-4 col-form-label">이름</label>
-                <div class="col-sm-8">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    placeholder="name"
-                    name="name"
-                    required
-                    v-model="name"
-                  />
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="email" class="col-sm-4 col-form-label"
-                  >이메일</label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    placeholder="email"
-                    name="email"
-                    required
-                    v-model="email"
-                  />
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="phone" class="col-sm-4 col-form-label"
-                  >전화번호</label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="tel"
-                    class="form-control"
-                    id="phone"
-                    name="phone"
-                    pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-                    placeholder="Phone : 010-xxxx-xxxx"
-                    required
-                    v-model="phone"
-                  />
-                </div>
-              </div>
-              <div class="mt-5">
-                <button
-                  type="button"
-                  class="btn btn-dark bg-common-dark w-100"
-                  @click="join"
-                >
-                  추가 회원 등록
-                </button>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
-
-    <div style="height: 84px"></div>
-  </div>
+        </section>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -198,8 +240,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.body {
-  background: #928490;
-}
-</style>
+<style scoped></style>

@@ -108,7 +108,7 @@
 		where dongCode like #{dongCode}
 	</select>
 	
-	<select id="selectGunGuByDong" parameterType="string" resultType="string">
+	<select id="selectGunGuByDongCode" parameterType="string" resultType="string">
 		select gunguName
 		from dongCode
 		where dongCode like #{dongCode}

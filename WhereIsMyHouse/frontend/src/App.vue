@@ -7,8 +7,26 @@
 </template>
 
 <script>
+//import Vue from "vue";
 import HeaderNav from "@/components/include/HeaderNav.vue";
 import FooterNav from "@/components/include/FooterNav.vue";
+// import js1 from "@/assets/vendor/apexcharts/apexcharts.min.js";
+// import js2 from "@/assets/vendor/bootstrap/js/bootstrap.bundle.min.js";
+// import js3 from "@/assets/vendor/chart.js/chart.min.js";
+// import js4 from "@/assets/vendor/echarts/echarts.min.js";
+// import js5 from "@/assets/vendor/quill/quill.min.js";
+// import js6 from "@/assets/vendor/simple-datatables/simple-datatables.js";
+// import js7 from "@/assets/vendor/tinymce/tinymce.min.js";
+// import js8 from "@/assets/vendor/php-email-form/validate.js";
+
+// Vue.use(js1);
+// Vue.use(js2);
+// Vue.use(js3);
+// Vue.use(js4);
+// Vue.use(js5);
+// Vue.use(js6);
+// Vue.use(js7);
+// Vue.use(js8);
 
 export default {
   components: {
@@ -24,13 +42,13 @@ export default {
       { content: "width=device-width, initial-scale=1.0" },
     ],
     link: [
-      {
-        href: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
-        rel: "stylesheet",
-        integrity:
-          "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3",
-        crossorigin: "anonymous",
-      },
+      // {
+      //   href: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
+      //   rel: "stylesheet",
+      //   integrity:
+      //     "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3",
+      //   crossorigin: "anonymous",
+      // },
       {
         href: "https://fonts.gstatic.com",
         rel: "preconnect",
@@ -41,10 +59,10 @@ export default {
       },
     ],
     script: [
-      {
-        src: "https://kit.fontawesome.com/c452641c94.js",
-        crossorigin: "anonymous",
-      },
+      // {
+      //   src: "https://kit.fontawesome.com/c452641c94.js",
+      //   crossorigin: "anonymous",
+      // },
       {
         type: "text/javascript",
         src: "//dapi.kakao.com/v2/maps/sdk.js?appkey=75437cf1f37f10da78850c28ba706d18&libraries=services",
@@ -55,6 +73,10 @@ export default {
           "sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p",
         crossorigin: "anonymous",
       },
+      // {
+      //   type: "text/javascript",
+      //   src: "../assets/js/main.js",
+      // },
     ],
   },
   methods: {
@@ -120,82 +142,4 @@ export default {
 @import "../src/assets/vendor/remixicon/remixicon.css";
 @import "../src/assets/vendor/simple-datatables/style.css";
 @import "../src/assets/css/style.css";
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-/* nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-} */
-
-body {
-  background-color: #928490;
-}
-
-nav {
-  background-color: #433e49;
-}
-
-.nav-link {
-  color: #f3e8eb;
-}
-
-.nav-link:hover {
-  cursor: pointer;
-  color: #f3e8eb;
-}
-
-.nav-link:focus {
-  color: #f3e8eb;
-}
-
-.text-common-dark {
-  color: #433e49;
-}
-
-.text-common-light {
-  color: #f3e8eb;
-}
-
-.text-common-basic {
-  color: #dbc1ad;
-}
-
-.bg-common-dark {
-  background-color: #433e49;
-}
-
-.bg-common-light {
-  background-color: #f3e8eb;
-}
-
-.bg-common-basic {
-  background-color: #dbc1ad;
-}
-
-.border-common-dark {
-  border-color: #433e49;
-}
-
-.border-common-light {
-  border-color: #f3e8eb;
-}
-
-.border-common-basic {
-  border-color: #dbc1ad;
-}
 </style>

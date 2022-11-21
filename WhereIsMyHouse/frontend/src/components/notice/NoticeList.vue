@@ -32,25 +32,22 @@
         >
         </list-row>
 
-        <div class="mt-5 d-flex justify-content-center">
-          <div class="d-flex justify-content-center fs-4" id="list-page">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center" id="list-page">
             <span v-for="(paged, index) in pages" :key="index">
-              <a
-                v-if="paged == page"
-                class="text-common-dark mx-2 align-self-center link-dark"
-                href="#"
-              >
-                {{ paged }}
-              </a>
-              <a
-                v-else
-                class="text-common-dark mx-2 align-self-center link-dark text-decoration-none"
-              >
-                {{ paged }}
-              </a>
+              <li v-if="paged == page" class="page-item active">
+                <a class="page-link" :href="'/notice/list?page=' + paged">{{
+                  paged
+                }}</a>
+              </li>
+              <li v-else class="page-item">
+                <a class="page-link" :href="'/notice/list?page=' + paged">{{
+                  paged
+                }}</a>
+              </li>
             </span>
-          </div>
-        </div>
+          </ul>
+        </nav>
 
         <div class="col-lg-8 col-md-10 col-sm-12 ms-5 mt-4">
           <div class="row align-self-center mb-2">
@@ -106,6 +103,7 @@ export default {
       axios.get(url + "?" + params).then((response) => {
         this.notices = response.data.list;
         this.pages = response.data.page;
+        console.log(this.notices);
       });
     },
     search: function () {
@@ -117,6 +115,8 @@ export default {
     },
   },
   created() {
+    if (this.$route.query.page != null) this.page = this.$route.query.page;
+    console.log(this.page);
     this.getNoticeList();
   },
 };
