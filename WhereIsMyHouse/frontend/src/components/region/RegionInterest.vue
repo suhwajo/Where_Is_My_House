@@ -22,12 +22,13 @@
           </div>
           <div class="mt-4 overflow-auto" style="height: 1000px">
             <interest-row
+              @code="deleteList"
               v-for="(interest, index) in interests"
               :key="index"
               :code="interest.code"
               :address="interest.address"
-            >
-            </interest-row>
+              :interests="interests"
+            />
             <!-- <div id="aside-list"></div> -->
           </div>
         </aside>
@@ -150,7 +151,17 @@
                 class="form-select"
                 id="big"
                 aria-label="Default select example"
-              ></select>
+                v-model="selectedBigStore"
+              >
+                <option value="" selected>대분류</option>
+                <option
+                  v-for="(bigStore, index) in bigStores"
+                  :key="index"
+                  :value="bigStore"
+                >
+                  {{ bigStore }}
+                </option>
+              </select>
             </div>
             <div class="mb-3 mt-3">
               <select
@@ -220,6 +231,12 @@ export default {
       aptName: "",
       dealBack: false,
       interests: [],
+      selectedBigStore: "",
+      selectedMiddleStore: "",
+      selectedSmallStore: "",
+      bigStores: [],
+      middleStores: [],
+      smallStores: [],
     };
   },
   mounted() {
@@ -233,9 +250,8 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b18df3a5abd802c12c1df25daf571a15&libraries=services";
       document.head.appendChild(script);
     }
-
     this.getSido();
-    this.getInterestArea();
+    this.getRegionList();
   },
   watch: {
     selectedSido: function (newVal) {
@@ -259,6 +275,7 @@ export default {
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
       this.geocoder = new kakao.maps.services.Geocoder();
+      console.log(this.map);
     },
     move(address) {
       // 주소-좌표 변환 객체를 생성합니다
@@ -307,7 +324,19 @@ export default {
         .then((data) => {
           this.dongs = data;
         });
+      this.getBig();
     },
+    getBig() {
+      const url = "http://localhost:9999/rest/area/getBig";
+
+      axios
+        .get(url)
+        .then((response) => response.data)
+        .then((data) => {
+          this.bigStores = data.list;
+        });
+    },
+
     //매매정보 읽어오기
     getHomes() {
       // 모달에 입력받은 시도, 구군, 동 정보를 가져오기 위함
@@ -334,7 +363,7 @@ export default {
         //지도 중앙 해당 위치로 이동
         this.move(address);
 
-        this.initMarkers();
+        this.setMarkerers();
         this.detail_no = -1;
 
         const url = "http://localhost:9999/rest/home/getInfos?code=" + code;
@@ -452,21 +481,95 @@ export default {
           code: code,
           userId: this.$session.get("userInfo").userId,
         };
-        axios.post(url, data).then((response) => console.log(response.data));
-        // .then((data) => this.addArea(data));
+        axios
+          .post(url, data)
+          .then((response) => response.data)
+          .then((data) => this.interests.push(data));
       }
+      // var newData = {
+      //   address: sido + " " + gugun + " " + dong,
+      //   code: code,
+      //   userId: data.userId,
+      // };
+      // this.interests.push(newData);
     },
     //관심지역 정보 얻어오기
-    getInterestArea() {
+    getRegionList() {
       const url = "http://localhost:9999/rest/area/list";
 
-      axios.get(url).then((response) => console.log(response.data));
-      // .then((data) => {
-      //   this.interests = data;
-      // });
+      axios
+        .get(url, {
+          params: {
+            userId: this.$session.get("userInfo").userId,
+          },
+        })
+        .then((response) => response.data)
+        .then((data) => {
+          this.interests = data.areas;
+        });
+      console.log(this.interests);
+    },
+    deleteList: function (deleteCode) {
+      console.log(this.interests);
+      console.log(deleteCode);
+      const url = "http://localhost:9999/rest/area/delete";
+      axios
+        .delete(url, {
+          params: {
+            code: deleteCode,
+            userId: this.$session.get("userInfo").userId,
+          },
+        })
+        .then((response) => console.log(response.data));
+
+      for (var i = 0, size = this.interests.length; i < size; i++) {
+        if (this.interests[i].code == deleteCode) {
+          this.interests.splice(i, 1);
+          break;
+        }
+      }
+    },
+    setMarker(address, infoWindowDiv) {
+      let this1 = this;
+      let geocoder = this.geocoder;
+      let marker;
+      geocoder.addressSearch(address, function (result, status) {
+        // console.log(result);
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+          let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          this1.map.setCenter(coords);
+          // 결과값으로 받은 위치를 마커로 표시합니다
+          marker = new kakao.maps.Marker({
+            map: this1.map,
+            position: coords,
+          });
+          marker.setMap(this1.map);
+          this1.markers.push(marker);
+          // 등록할 인포 윈도우 정보가 있으면 표시한다.
+          if (infoWindowDiv) {
+            let infoWindow = new kakao.maps.InfoWindow({
+              map: this1.map,
+              position: coords,
+              content: infoWindowDiv,
+              removable: true,
+            });
+            // 마커에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, "click", function () {
+              // 마커 위에 인포윈도우를 표시합니다
+              infoWindow.open(this1.map, marker);
+            });
+            infoWindow.close();
+          }
+        }
+      });
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.region-backgraound {
+  background: black;
+}
+</style>

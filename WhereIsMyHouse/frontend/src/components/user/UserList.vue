@@ -96,7 +96,7 @@ export default {
     };
   },
   methods: {
-    getNoticeList: function () {
+    getUserList: function () {
       // 현재 리시트 번호, 검색어 정보를 바탕으로 공지사항 목록을 불러옴
       const url = "http://localhost:9999/rest/user/list";
       // let params = `page=${this.page}&keyword=${this.keyword}`;
@@ -113,11 +113,11 @@ export default {
         alert("검색어를 입력해주세요.");
         return;
       }
-      this.getNoticeList();
+      this.getUserList();
     },
   },
   created() {
-    this.getNoticeList();
+    this.getUserList();
   },
 };
 </script>

@@ -1,26 +1,18 @@
 <template>
-  <div class="shadow mb-3 py-3 row" id="container-area-${area.code}">
+  <div class="shadow mb-3 py-3 row" :id="'container-area-' + code">
     <div class="col-9 text-center fs-5">
-      <div class="text-common-light" id="asid-list-simpleInfo-${area.code}">
-        <button
-          tpye="button"
-          class="btn text-common-light"
-          @click="click_area({ code }, { address })"
-        >
-          {{ area.address }}
+      <div class="text-common-light" :id="'asid-list-simpleInfo-' + code">
+        <button tpye="button" class="btn text-common-light" @click="click_area">
+          {{ address }}
         </button>
       </div>
       <div
         class="text-common-light"
-        id="asid-list-detailInfo-${area.code}"
+        :id="'asid-list-detailInfo-' + code"
         style="display: none"
       >
-        <button
-          tpye="button"
-          class="btn text-common-light"
-          @click="click_area({ code }, { address })"
-        >
-          {{ area.address }}
+        <button tpye="button" class="btn text-common-light" @click="click_area">
+          {{ address }}
         </button>
         <div class="">
           <button
@@ -36,7 +28,7 @@
           <button
             type="button"
             class="btn text-common-basic link-dark"
-            @click="search_environments({ code })"
+            @click="search_environments"
           >
             주변 환경 시설 검색
           </button>
@@ -64,37 +56,54 @@
     <div class="col-2 align-self-center">
       <button
         type="button"
-        class="btn text-light"
+        class="btn btn-delete"
         @click="deleteArea({ code })"
       >
-        <i class="fa-solid fa-trash"></i>
+        삭제
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "InterestList",
   data() {
     return {
       detail_code: -1,
+      markers: [],
+      clinics: [],
+      hospitals: [],
+      environments: [],
     };
   },
   props: {
     code: String,
     address: String,
+    interests: [],
   },
   mounted() {},
   methods: {
-    click_area(code, address) {
-      this.move(address);
+    click_area: function () {
+      this.$parent.move(this.address);
+      for (var i = 0; i < this.interests.length; i++) {
+        document.querySelector(
+          "#asid-list-simpleInfo-" + this.interests[i].code
+        ).style.display = "block";
+        document.querySelector(
+          "#asid-list-detailInfo-" + this.interests[i].code
+        ).style.display = "none";
 
-      if (this.detail_code != code) {
-        document.querySelector("#asid-list-simpleInfo-" + code).style.display =
-          "none";
-        document.querySelector("#asid-list-detailInfo-" + code).style.display =
-          "block";
+        this.detail_code = -1;
+      }
+      if (this.detail_code != this.code) {
+        document.querySelector(
+          "#asid-list-simpleInfo-" + this.code
+        ).style.display = "none";
+        document.querySelector(
+          "#asid-list-detailInfo-" + this.code
+        ).style.display = "block";
 
         if (this.detail_code != -1) {
           document.querySelector(
@@ -105,31 +114,154 @@ export default {
           ).style.display = "none";
         }
 
-        this.detail_code = code;
+        this.detail_code = this.code;
       } else {
-        document.querySelector("#asid-list-simpleInfo-" + code).style.display =
-          "block";
-        document.querySelector("#asid-list-detailInfo-" + code).style.display =
-          "none";
+        document.querySelector(
+          "#asid-list-simpleInfo-" + this.code
+        ).style.display = "block";
+        document.querySelector(
+          "#asid-list-detailInfo-" + this.code
+        ).style.display = "none";
 
         this.detail_code = -1;
       }
+      this.$parent.getBig();
     },
-    //move(address) {
-    // 주소-좌표 변환 객체를 생성합니다
-    // 주소로 좌표를 검색합니다
-    //let this1 = this;
-    //this.geocoder.addressSearch(address, function (result, status) {
-    // 정상적으로 검색이 완료됐으면
-    // if (status === kakao.maps.services.Status.OK) {
-    //   let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-    //   // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-    //   this1.map.setCenter(coords);
-    // }
-    //  });
-    //},
+    deleteArea: function () {
+      this.$emit("code", this.code);
+    },
+    search_clinics: function () {
+      const url = "http://localhost:9999/rest/area/clinics";
+      axios
+        .get(url, {
+          params: {
+            code: this.code,
+          },
+        })
+        .then((response) => response.data)
+        .then((data) => this.set_clinics(data));
+    },
+
+    set_clinics(data) {
+      this.$parent.initMarkers();
+      this.clinics = data.list;
+      if (this.clinics.length == 0) {
+        alert("주변 병원이 없습니다.");
+      } else {
+        this.clinics.forEach((clinic) => {
+          let infoWindowDiv = `
+              <div class="bg-common-dark text-common-light text-center">
+                  <div class="fs-4">${clinic.clinicName}</div>
+                  <div class="fs-5 mt-5">${clinic.address}</div>
+                  <div class="fs-5 mt-5">${clinic.mainPhoneNumber}</div>
+              </div>
+          `;
+
+          this.$parent.setMarker(clinic.address, infoWindowDiv);
+        });
+      }
+    },
+    search_hospitals: function () {
+      const url = "http://localhost:9999/rest/area/hospitals";
+      axios
+        .get(url, {
+          params: {
+            code: this.code,
+          },
+        })
+        .then((response) => response.data)
+        .then((data) => this.set_hospitals(data));
+    },
+
+    set_hospitals(data) {
+      this.$parent.initMarkers();
+      this.hospitals = data.list;
+      if (this.hospitals.length == 0) {
+        alert("주변 병원이 없습니다.");
+      } else {
+        this.hospitals.forEach((hospital) => {
+          let infoWindowDiv = `
+              <div class="bg-common-dark text-common-light text-center">
+                  <div class="fs-4">${hospital.hospitalName}</div>
+                  <div class="fs-5 mt-5">${hospital.address}</div>
+                  <div class="fs-5 mt-5">${hospital.phoneNumber}</div>
+              </div>
+          `;
+
+          this.$parent.setMarker(hospital.address, infoWindowDiv);
+        });
+      }
+    },
+    search_environments() {
+      const url = "http://localhost:9999/rest/area/environments";
+      axios
+        .get(url, {
+          params: {
+            code: this.code,
+          },
+        })
+        .then((response) => response.data)
+        .then((data) => this.set_environments(data));
+    },
+
+    set_environments(data) {
+      this.$parent.initMarkers();
+      this.environments = data.list;
+      if (this.environments.length == 0) {
+        alert("주변 환경시설이 없습니다.");
+      } else {
+        this.environments.forEach((environment) => {
+          let infoWindowDiv = `
+              <div class="bg-common-dark text-common-light text-center">
+                  <div class="fs-4">${environment.name}</div>
+                  <div class="fs-4 mt-3">${environment.industryName}</div>
+                  <div class="fs-4 mt-4">${environment.checkList}</div>
+                  <div class="fs-5 mt-5">${environment.address}</div>
+              </div>
+          `;
+
+          this.$parent.setMarker(environment.address, infoWindowDiv);
+        });
+      }
+    },
+
+    search_stores() {
+      const url = "/rest/area/stores";
+
+      // let smallSel = document.querySelector("#small");
+      // let small = smallSel[smallSel.selectedIndex].value;
+
+      let params = ""; //`?smallCode=${small}&dongCode=${select_area}`;
+
+      fetch(url + params)
+        .then((response) => response.data)
+        .then((data) => this.set_stores(data));
+    },
+
+    set_stores(data) {
+      this.initMarkers();
+      console.log(data);
+
+      data.forEach((store) => {
+        let infoWindowDiv = `
+            <div class="bg-common-dark text-common-light text-center">
+                <div class="fs-4">${store.storeName}</div>
+                <div class="fs-5 mt-4">${store.address}</div>
+            </div>
+        `;
+
+        this.$parent.setMarker(store.address, infoWindowDiv);
+      });
+    },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.btn-delete {
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  width: 15px;
+}
+</style>

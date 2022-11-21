@@ -2,7 +2,17 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import VueMeta from "vue-meta";
 import VueSession from "vue-session";
+import {
+  BootstrapVue,
+  BIcon,
+  BIconArrowUp,
+  BIconArrowDown,
+} from "bootstrap-vue";
 
+Vue.use(BootstrapVue);
+Vue.component("BIcon", BIcon);
+Vue.component("BIconArrowUp", BIconArrowUp);
+Vue.component("BIconArrowDown", BIconArrowDown);
 Vue.use(VueRouter);
 Vue.use(VueMeta);
 Vue.use(VueSession);

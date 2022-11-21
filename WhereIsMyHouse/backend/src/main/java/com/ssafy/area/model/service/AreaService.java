@@ -9,7 +9,7 @@ import com.ssafy.area.model.dto.AreaDto;
 
 public interface AreaService {
 
-	List<AreaDto> list(HttpServletRequest request) throws SQLException;
+	List<AreaDto> list(String userId) throws SQLException;
 
 	void add( AreaDto areaDto) throws SQLException;
 

@@ -48,11 +48,12 @@ public class AreaController{
 
 
 	@GetMapping("/list")
-	private ResponseEntity<?> list(HttpServletRequest request) {
+	private ResponseEntity<?> list(@RequestParam("userId") String userId) {
 
 		List<AreaDto> areas = null;
 		try {
-			areas = areaService.list(request);
+
+			areas = areaService.list(userId);
 		} catch (SQLException e) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -90,18 +91,15 @@ public class AreaController{
 	}
 	
 	@DeleteMapping("/delete")
-	private ResponseEntity<?> delete(@RequestParam("code") String code, HttpServletRequest request) {
+	private ResponseEntity<?> delete(@RequestParam("code") String code, @RequestParam("userId") String userId) {
 		boolean check = false;
 
 		try {
-			HttpSession session = request.getSession();
-			MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 
-			if (memberDto != null) {
+			if (userId != null) {
 				
-				areaService.delete(memberDto.getId(), code);
+				areaService.delete(userId, code);
 				check = true;
-
 			}
 		} catch (SQLException e) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);

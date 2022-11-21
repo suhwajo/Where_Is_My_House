@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClinicDto {
     long no;
-    String clinic_name;
+    String clinicName;
     String address;
-    String weekday_time;
-    String saturday_time;
-    String sunday_time;
-    String holiday_time;
-    String main_phone_number;
-    String competent_center;
-    String competent_center_phone_number;
-    String handicapped_convenience;
+    String weekdayTime;
+    String saturdayTime;
+    String sundayTime;
+    String holidayTime;
+    String mainPhoneNumber;
+    String competentCenter;
+    String competentCenterPhoneNumber;
+    String handicappedConvenience;
 }

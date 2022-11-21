@@ -29,14 +29,11 @@ public class AreaServiceImpl implements AreaService {
 	}
 	
 
-	public List<AreaDto> list(HttpServletRequest request) throws SQLException {
-		
-		HttpSession session = request.getSession();
-		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
-		
-		if(memberDto != null) {
+	public List<AreaDto> list(String userId) throws SQLException {
+				
+		if(userId != null) {
 			
-			return areaMapper.selectById(memberDto.getId());
+			return areaMapper.selectById(userId);
 			
 		}
 		

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HospitalDto {
     long no;
-    String hospital_name;
+    String hospitalName;
     String address;
-    String phone_number;
+    String phoneNumber;
 }

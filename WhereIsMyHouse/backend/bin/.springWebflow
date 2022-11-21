@@ -3,5 +3,9 @@
 	<version>1</version>
 	<pluginVersion><![CDATA[3.9.14.202009150957-RELEASE]]></pluginVersion>
 	<configs>
+		<config>
+			<file>src/main/resources/mappers/comment.xml</file>
+			<name><![CDATA[comment]]></name>
+		</config>
 	</configs>
 </webflow-project-description>

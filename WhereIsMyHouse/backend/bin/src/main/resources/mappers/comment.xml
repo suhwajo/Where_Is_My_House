@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.comment.model.mapper.CommentMapper">
+
+	<select id="selectByNo" parameterType="int" resultType="commentDto">
+	SELECT id, content, date, board_id, author
+	FROM comment
+	where board_id = #{no}
+	order by date desc
+	</select>
+	
+	<insert id="save" parameterType="commentDto">
+	INSERT INTO comment (board_id, content, author, date)
+	VALUES (#{boardId}, #{content}, #{author}, NOW())
+	</insert>
+	
+	<select id="selectById" parameterType="string" resultType="commentDto">
+		SELECT id, board_id, content, author, date
+		FROM comment
+		WHERE id = #{id}
+	</select>
+	
+	<update id="update" parameterType="string">
+		UPDATE comment
+		content = #{content}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM comment
+		WHERE id = #{id}
+	</delete>
+	
+</mapper>
