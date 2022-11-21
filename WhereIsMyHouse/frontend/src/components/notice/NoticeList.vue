@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div style="height: 150px"></div>
     <main class="mt-4 container">
       <div class="bg-common-light pt-4">
         <div style="height: 30px"></div>

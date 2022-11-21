@@ -48,7 +48,7 @@
                           class="form-control"
                           id="id"
                           v-model="id"
-                          placeholder="아이디 입력"
+                          placeholder="id"
                           required
                         />
                         <div class="invalid-feedback">
@@ -67,11 +67,29 @@
                           class="form-control"
                           id="pwd"
                           v-model="pwd"
-                          placeholder="비밀번호 입력"
+                          placeholder="password"
                           required
                         />
                         <div class="invalid-feedback">
                           Please enter your password!
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="yourPassword" class="form-label"
+                          >Password Check</label
+                        >
+                        <input
+                          type="password"
+                          name="pwd_check"
+                          class="form-control"
+                          id="pwd_check"
+                          v-model="pwd_check"
+                          placeholder="check password"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please enter your password again!
                         </div>
                       </div>
 
@@ -82,7 +100,7 @@
                           name="name"
                           class="form-control"
                           id="name"
-                          placeholder="이름 입력"
+                          placeholder="name"
                           v-model="name"
                           required
                         />
@@ -92,14 +110,13 @@
                       </div>
 
                       <div class="col-12">
-                        <label for="yourAddress" class="form-label"
-                          >Address</label
-                        >
+                        <label for="email" class="form-label">Email</label>
+
                         <input
                           type="text"
                           name="email"
                           class="form-control"
-                          placeholder="이메일 입력"
+                          placeholder="email"
                           id="email"
                           v-model="email"
                           required
@@ -223,13 +240,13 @@ export default {
         email: this.email,
         phone: this.phone,
       };
-      console.log(data);
       axios
         .post(url, data)
         .then((response) => response.data)
         .then((data) => {
           if (data.check) {
-            alert("회원추가에 성공했습니다  이동합니다.");
+            alert("회원추가에 성공했습니다. 이동합니다.");
+            //this.$router.push({ name: "UserList" });
             location.href = "/user/list";
           } else {
             alert("회원추가에 실패 했습니다. 다시 시도해주세요.");

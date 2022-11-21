@@ -118,10 +118,8 @@ export default {
 
       axios.get(url).then((response) => {
         this.users = response.data.list;
-        console.log(this.users);
         // this.pages = response.data.page;
       });
-      // console.log(this.users);
     },
     search: function () {
       if (!this.keyword) {

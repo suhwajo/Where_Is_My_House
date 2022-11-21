@@ -62,6 +62,7 @@ export default {
         })
         .then((response) => response.data)
         .then((data) => {
+          console.log(data);
           if (data.check) {
             this.$router.go();
           } else {

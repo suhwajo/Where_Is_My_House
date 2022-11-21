@@ -87,6 +87,7 @@ public class CommentController {
 				commentDto.setBoardId(board_id);
 				
 				commentService.write(commentDto);
+				check=true;
 			}
 			catch(SQLException e) {
 				e.printStackTrace();

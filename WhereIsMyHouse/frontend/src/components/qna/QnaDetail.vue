@@ -1,9 +1,27 @@
 <template>
   <div>
-    <div style="height: 150px"></div>
-
     <!-- Main Contents -->
     <main class="mt-4 container">
+      <div class="row mt-5">
+        <div class="col-2 ps-5">
+          <router-link class="btn btn-dark ms-3" to="/qna/list"
+            >목록</router-link
+          >
+        </div>
+        <div class="col-9 text-end ms-5">
+          <div id="list-user-btn" v-show="checkUser">
+            <router-link
+              class="btn btn-dark"
+              :to="{ name: 'QnaModify', params: { no: qna.no } }"
+            >
+              수정
+            </router-link>
+            <button class="btn btn-dark ms-2" @click="qna_delete()">
+              삭제
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="bg-common-light pt-4">
         <div style="height: 30px"></div>
         <div class="ms-5 mt-4 ps-2 fs-4 text-common-dark" id="notice-title">
@@ -25,27 +43,6 @@
         </div>
 
         <div class="mx-5"><hr size="3" /></div>
-
-        <div class="row mt-5">
-          <div class="col-2 ps-5">
-            <router-link class="btn btn-dark ms-3" to="/qna/list"
-              >목록</router-link
-            >
-          </div>
-          <div class="col-9 text-end ms-5">
-            <div id="list-user-btn" v-show="checkUser">
-              <router-link
-                class="btn btn-dark"
-                :to="{ name: 'QnaModify', params: { no: qna.no } }"
-              >
-                수정
-              </router-link>
-              <button class="btn btn-dark ms-2" @click="qna_delete()">
-                삭제
-              </button>
-            </div>
-          </div>
-        </div>
 
         <comment-write
           :no="qna.no"
