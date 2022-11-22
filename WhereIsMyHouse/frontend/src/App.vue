@@ -65,7 +65,7 @@ export default {
       // },
       {
         type: "text/javascript",
-        src: "//dapi.kakao.com/v2/maps/sdk.js?appkey=75437cf1f37f10da78850c28ba706d18&libraries=services",
+        src: "//dapi.kakao.com/v2/maps/sdk.js?appkey=59289473baf7e9e908c84c45d32fcda2&libraries=services",
       },
       {
         src: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
