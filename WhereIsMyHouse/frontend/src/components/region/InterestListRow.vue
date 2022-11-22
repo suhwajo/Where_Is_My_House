@@ -37,7 +37,7 @@
           <button
             type="button"
             class="btn text-common-basic link-dark"
-            @click="search_hospitals({ code })"
+            @click="search_hospitals"
           >
             주변 병원 검색
           </button>
@@ -46,7 +46,7 @@
           <button
             type="button"
             class="btn text-common-basic link-dark"
-            @click="search_clinics({ code })"
+            @click="search_clinics"
           >
             주변 코로나 선별 검사소 검색
           </button>
@@ -54,11 +54,7 @@
       </div>
     </div>
     <div class="col-2 align-self-center">
-      <button
-        type="button"
-        class="btn btn-delete"
-        @click="deleteArea({ code })"
-      >
+      <button type="button" class="btn btn-delete" @click="deleteArea">
         삭제
       </button>
     </div>
@@ -67,6 +63,7 @@
 
 <script>
 import axios from "axios";
+import { mapActions } from "vuex";
 export default {
   name: "InterestList",
   data() {
@@ -85,19 +82,20 @@ export default {
   },
   mounted() {},
   methods: {
+    ...mapActions(["doSetDongCode"]),
     click_area: function () {
       this.$parent.move(this.address);
-      for (var i = 0; i < this.interests.length; i++) {
-        document.querySelector(
-          "#asid-list-simpleInfo-" + this.interests[i].code
-        ).style.display = "block";
-        document.querySelector(
-          "#asid-list-detailInfo-" + this.interests[i].code
-        ).style.display = "none";
-
-        this.detail_code = -1;
-      }
       if (this.detail_code != this.code) {
+        for (var i = 0; i < this.interests.length; i++) {
+          document.querySelector(
+            "#asid-list-simpleInfo-" + this.interests[i].code
+          ).style.display = "block";
+          document.querySelector(
+            "#asid-list-detailInfo-" + this.interests[i].code
+          ).style.display = "none";
+
+          this.detail_code = -1;
+        }
         document.querySelector(
           "#asid-list-simpleInfo-" + this.code
         ).style.display = "none";
@@ -113,8 +111,8 @@ export default {
             "#asid-list-detailInfo-" + this.detail_code
           ).style.display = "none";
         }
-
         this.detail_code = this.code;
+        this.$store.dispatch("doSetDongCode", this.code);
       } else {
         document.querySelector(
           "#asid-list-simpleInfo-" + this.code

@@ -63,7 +63,7 @@ const routes = [
         component: () => import("@/components/user/UserList.vue"),
       },
       {
-        path: "detail/:userId",
+        path: "detail",
         name: "UserInfo",
         component: () => import("@/components/user/UserInfo.vue"),
       },

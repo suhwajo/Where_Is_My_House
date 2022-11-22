@@ -139,6 +139,7 @@ export default {
         .then(() => {
           this.$router.push({ name: "HomeView" });
           this.$session.set("userInfo", data);
+          this.$session.set("userSet", data);
         })
         .catch(() => {
           alert("아이디 혹은 패스워드가 올바르지 않습니다.");

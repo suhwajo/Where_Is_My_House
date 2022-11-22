@@ -53,13 +53,15 @@ export default {
       }
 
       let chk = confirm("정말 탈퇴시키겠습니까?");
-
       if (!chk) return;
 
-      const url = "http://localhost:9999/rest/user/delete/" + this.id;
-
+      const url = "http://localhost:9999/rest/user/delete";
       axios
-        .delete(url)
+        .delete(url, {
+          params: {
+            userId: this.id,
+          },
+        })
         .then((response) => response.data)
         .then((data) => {
           if (data.check) {

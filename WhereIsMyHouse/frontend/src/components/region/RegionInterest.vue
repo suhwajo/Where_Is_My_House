@@ -66,7 +66,7 @@
                 aria-label="Default select example"
                 v-model="selectedSido"
               >
-                <option value="" selected>시도선택</option>
+                <option value="0" selected>시도선택</option>
                 <option
                   v-for="(sido, index) in sidos"
                   :key="index"
@@ -223,6 +223,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "UserRegion",
@@ -258,6 +259,7 @@ export default {
       middleStores: [],
       smallStores: [],
       smallCodeStores: [],
+      center: false,
     };
   },
   mounted() {
@@ -291,6 +293,9 @@ export default {
       console.log("middleStore " + newVal);
       if (newVal != "") this.getSmall();
     },
+  },
+  computed: {
+    ...mapGetters(["dongCode"]),
   },
   methods: {
     initMap() {
@@ -435,6 +440,7 @@ export default {
       });
 
       this.markers = [];
+      this.center = false;
     },
     setHomeMarker(home) {
       let marker;
@@ -519,7 +525,12 @@ export default {
       let dong = this.selectedDong.name;
       let code = this.selectedDong.code;
       console.log(sido, " ", gugun, " ", dong, " ", code);
-
+      // let el = document.getElementById("sido");
+      // let len = el.options.length;
+      // for (var i = 0; i < len; i++) {
+      //   el.options[i].selected = false;
+      // }
+      // document.getElementById("sido").options[0].selected = true;
       // 지역 정보가 선택되지 않았으면 경고창을 띄워줌
       if (code == "") {
         window.alert("지역을 선택해주세요.");
@@ -589,7 +600,10 @@ export default {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
           let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          this1.map.setCenter(coords);
+          if (!this1.center) {
+            this1.map.setCenter(coords);
+            this1.center = true;
+          }
           // 결과값으로 받은 위치를 마커로 표시합니다
           marker = new kakao.maps.Marker({
             map: this1.map,
@@ -618,39 +632,29 @@ export default {
     search_stores() {
       const url = "http://localhost:9999/rest/area/stores";
 
-      // let smallSel = document.querySelector("#small");
-      // let small = smallSel[smallSel.selectedIndex].value;
-
-      let smallCode = ""; //`?smallCode=${small}&dongCode=${select_area}`;
+      let smallCode = "";
       for (var i = 0; i < this.smallCodeStores.length; i++) {
         if (this.smallCodeStores[i].smallName == this.selectedSmallStore) {
           smallCode = this.smallCodeStores[i].smallCode;
           break;
         }
       }
-      console.log(
-        this.selectedSmallStore,
-        " ",
-        smallCode,
-        " ",
-        this.selectedDong.code
-      );
+      console.log(this.selectedSmallStore, " ", smallCode, " ", this.dongCode);
       axios
         .get(url, {
           params: {
-            smallCode: this.selectedSmallStore,
-            dongCode: this.selectedDong.code,
+            smallCode: smallCode,
+            dongCode: this.dongCode,
           },
         })
-        .then((response) => console.log(response.data));
-      // .then((data) => this.set_stores(data));
+        .then((response) => response.data)
+        .then((data) => this.set_stores(data));
     },
 
     set_stores(data) {
       this.initMarkers();
-      console.log(data);
 
-      data.forEach((store) => {
+      data.list.forEach((store) => {
         let infoWindowDiv = `
             <div class="bg-common-dark text-common-light text-center">
                 <div class="fs-4">${store.storeName}</div>

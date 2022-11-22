@@ -105,13 +105,15 @@
 	<select id="selectSidoByDongCode" parameterType="string" resultType="string">
 		select sidoName
 		from dongCode
-		where dongCode like #{dongCode}
+		where dongCode like concat(#{dongCode},"%")
+		group by sidoName
 	</select>
 	
-	<select id="selectGunGuByDong" parameterType="string" resultType="string">
-		select gunguName
+	<select id="selectGunGuByDongCode" parameterType="string" resultType="string">
+		select gugunName
 		from dongCode
-		where dongCode like #{dongCode}
+		where dongCode like concat(#{dongCode},"%")
+		group by sidoName
 	</select>
 	
 </mapper>

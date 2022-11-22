@@ -44,10 +44,10 @@ public class MemberController {
 
     private MemberService memberService;
 
-    @GetMapping("/getUser/{userid}")
-    public ResponseEntity<?> getUser(@PathVariable("userid") String userid){
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUser(@RequestParam("userId") String userId){
     	try {
-			MemberDto member = memberService.getMember(userid);
+			MemberDto member = memberService.getMember(userId);
 			if(member!=null) {
 				return new ResponseEntity<MemberDto>(member, HttpStatus.OK);
 			} else {
@@ -80,14 +80,14 @@ public class MemberController {
 		return new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{userid}")
-    private ResponseEntity<?> deleteUser(@PathVariable("userid") String userid) {
+    @DeleteMapping("/delete")
+    private ResponseEntity<?> deleteUser(@RequestParam("userId") String userId) {
 
         boolean check = false;
 
         try {
 
-            memberService.userDelete(userid);
+            memberService.userDelete(userId);
             check = true;
 
         } catch (Exception e) {
