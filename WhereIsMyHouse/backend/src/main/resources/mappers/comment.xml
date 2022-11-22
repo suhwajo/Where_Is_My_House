@@ -24,7 +24,7 @@
 	
 	<update id="update" parameterType="string">
 		UPDATE comment
-		content = #{content}
+		SET content = #{content}
 		WHERE id = #{id}
 	</update>
 	

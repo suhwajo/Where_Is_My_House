@@ -1,49 +1,80 @@
 <template>
-  <div>
-    <!-- Main Contents -->
-    <main class="mt-4 container">
-      <div class="row mt-5">
-        <div class="col-2 ps-5">
-          <router-link class="btn btn-dark ms-3" to="/qna/list"
-            >목록</router-link
-          >
-        </div>
-        <div class="col-9 text-end ms-5">
-          <div id="list-user-btn" v-show="checkUser">
-            <router-link
-              class="btn btn-dark"
-              :to="{ name: 'QnaModify', params: { no: qna.no } }"
-            >
-              수정
-            </router-link>
-            <button class="btn btn-dark ms-2" @click="qna_delete()">
-              삭제
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="bg-common-light pt-4">
-        <div style="height: 30px"></div>
-        <div class="ms-5 mt-4 ps-2 fs-4 text-common-dark" id="notice-title">
-          {{ qna.title }}
-        </div>
-        <div class="mx-5"><hr size="3" /></div>
-        <div class="row mt-3 fs-5 mb-1 text-common-dark">
-          <div class="col-2 text-center pe-5 ms-3" id="notice-author">
-            {{ qna.author }}
-          </div>
-          <div class="col-7"></div>
-          <div class="col-2 ms-4 text-end" id="notice-date">
-            {{ qna.date }}
-          </div>
-        </div>
-        <div class="mx-5"><hr size="3" /></div>
-        <div class="ps-2 fs-6 m-5">
-          <div class="ms-3" id="notice-content">{{ qna.content }}</div>
-        </div>
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Q&amp;A</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <router-link to="/">Home</router-link>
+          </li>
+          <li class="breadcrumb-item active">
+            <router-link to="/qna/list"> Q&amp;A </router-link>
+          </li>
+          <li class="breadcrumb-item active">상세 조회</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title row">
+              <b class="col-4">Q&amp;A 상세 조회</b>
+              <div class="col-8 text-end justify-content-end">
+                <router-link class="btn btn-dark ms-3" to="/qna/list"
+                  >목록</router-link
+                >
+              </div>
+            </h5>
+            <div class="bg-common-light pt-4">
+              <div
+                class="ms-5 mt-4 ps-2 fs-4 text-common-dark"
+                id="notice-title"
+              >
+                {{ qna.title }}
+              </div>
+              <div class="mx-5"><hr size="3" /></div>
+              <div class="row mt-3 fs-6 mb-1 text-common-dark">
+                <div class="col-4 pe-5 ms-5" id="notice-author">
+                  작성자 : {{ qna.author }}
+                </div>
+                <div class="col-2"></div>
+                <div class="col-2">조회수 : {{ qna.hit }}</div>
+                <div class="col-3 ms-2" id="notice-date">
+                  {{ qna.date }}
+                </div>
+              </div>
+              <div class="mx-5"><hr size="3" /></div>
+              <div class="ps-2 fs-6 m-5">
+                <div class="ms-3" id="notice-content">{{ qna.content }}</div>
+              </div>
+            </div>
 
-        <div class="mx-5"><hr size="3" /></div>
-
+            <div class="row">
+              <div class="col-12 text-end">
+                <div id="list-user-btn" v-show="checkUser">
+                  <router-link
+                    class="btn btn-outline-success"
+                    :to="{ name: 'QnaModify', params: { no: qna.no } }"
+                  >
+                    수정
+                  </router-link>
+                  <button
+                    class="btn btn-outline-danger ms-2"
+                    @click="qna_delete()"
+                  >
+                    삭제
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row mt-5">
+              <div class="col-9 text-end ms-5">
+                
+              </div>
+            </div> -->
+          </div>
+        </div>
         <comment-write
           :no="qna.no"
           :author="memberId"
@@ -60,11 +91,9 @@
             ></comment-row>
           </div>
         </section>
-
-        <div style="height: 50px"></div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -94,7 +123,6 @@ export default {
         this.qna = data.board;
         this.qna.date = this.qna.date.split(" ")[0];
         this.comments = data.comments;
-        console.log(data);
 
         if (this.qna.author == this.memberId) {
           this.checkUser = true;

@@ -1,6 +1,8 @@
 package com.ssafy.home.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +39,22 @@ public class HomeController {
 	@GetMapping("/getDeals")
 	private ResponseEntity<?> getDeals(@RequestParam("code")long code) throws SQLException {
 		List<HomeDealDto> homeDealDtoList = homeService.homeDealList(code);
-
-		return new ResponseEntity<List<HomeDealDto>>(homeDealDtoList,HttpStatus.OK);
+		Map<String, List<HomeDealDto>> areaList = new HashMap<>();
+		for(HomeDealDto homedeal:homeDealDtoList) {
+			if(areaList.get(homedeal.getArea()) == null) {
+				areaList.put(homedeal.getArea(),new ArrayList<HomeDealDto>());
+			}
+			areaList.get(homedeal.getArea()).add(homedeal);
+		}
+		List<Map<String, Object>> map = new ArrayList<>();
+		for(Map.Entry<String, List<HomeDealDto>> elem: areaList.entrySet()) {
+			Map<String,Object> mapone = new HashMap<>();
+			mapone.put("area",elem.getKey());
+			mapone.put("list",elem.getValue());
+			map.add(mapone);
+		}
+		
+		return new ResponseEntity<List<Map<String, Object>>>(map,HttpStatus.OK);
 	}
 	
 	@GetMapping("/getSido")

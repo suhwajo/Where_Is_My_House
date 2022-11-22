@@ -4,169 +4,195 @@
       <h1>아파트</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item active">아파트</li>
         </ol>
       </nav>
+    </div>
 
-      <section class="secion dashboard">
-        <div class="row">
-          <!-- 시도 선택 Card -->
-          <div class="col-xxl-2 col-md-6">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">시도 <span>| Sido</span></h5>
-                <div class="d-flex align-items-center">
-                  <select
-                    class="form-select bg-secondary text-light"
-                    id="sido"
-                    v-model="selectedSido"
-                  >
-                    <option value="">시도선택</option>
-                    <option
-                      v-for="(sido, index) in sidos"
-                      :key="index"
-                      :value="sido"
-                    >
-                      {{ sido }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Sales Card -->
-          <!-- 시도 선택 Card -->
-          <div class="col-xxl-2 col-md-6">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">구군 <span>| Gugun</span></h5>
-
-                <div class="d-flex align-items-center">
-                  <select
-                    class="form-select bg-secondary text-light"
-                    id="gugun"
-                    v-model="selectedGugun"
-                  >
-                    <option value="">구군선택</option>
-                    <option
-                      v-for="(gugun, index) in guguns"
-                      :key="index"
-                      :value="gugun"
-                    >
-                      {{ gugun }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Sales Card -->
-
-          <!-- 동 선택 Card -->
-          <div class="col-xxl-2 col-md-6">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">동 <span>| Dong</span></h5>
-
-                <div class="d-flex align-items-center">
-                  <select
-                    class="form-select bg-secondary text-light"
-                    id="dong"
-                    v-model="selectedDong"
-                  >
-                    <option value="">동선택</option>
-                    <option
-                      v-for="(dong, index) in dongs"
-                      :key="index"
-                      :value="{ code: dong.dongCode, name: dong.dongName }"
-                    >
-                      {{ dong.dongName }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xxl-2 col-md-6">
-            <div class="card sales-card mt-5">
-              <button
-                type="button"
-                id="list-btn"
-                class="btn btn-primary"
-                @click="getHomes()"
-              >
-                매매정보검색
-              </button>
-            </div>
-          </div>
+    <section class="secion dashboard">
+      <div class="col-xxl-2 col-md-6">
+        <div class="card sales-card mt-5">
+          <button
+            type="button"
+            id="list-btn"
+            class="btn btn-primary"
+            @click="getHomes()"
+          >
+            매매정보검색
+          </button>
         </div>
-      </section>
+      </div>
       <div class="row">
-        <div class="col-8">
-          <div class="card">
+        <!-- 시도 선택 Card -->
+        <div class="col-xxl-2 col-md-6">
+          <div class="card info-card sales-card">
             <div class="card-body">
-              <h5 class="card-title">
-                <b>아파트 실거래가 조회 </b>
-                <span v-if="address != ''">| {{ address }}</span>
-              </h5>
-
-              <!-- Kakao Map start -->
-              <div id="map" style="width: 100%; height: 600px"></div>
-              <!-- Kakao Map end -->
+              <h5 class="card-title">시도 <span>| Sido</span></h5>
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select bg-secondary text-light"
+                  id="sido"
+                  v-model="selectedSido"
+                >
+                  <option value="">시도선택</option>
+                  <option
+                    v-for="(sido, index) in sidos"
+                    :key="index"
+                    :value="sido"
+                  >
+                    {{ sido }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-4">
-          <div class="card">
+        <!-- End Sales Card -->
+        <!-- 시도 선택 Card -->
+        <div class="col-xxl-2 col-md-6">
+          <div class="card info-card sales-card">
             <div class="card-body">
-              <h5 class="card-title">
-                <b>검색 결과</b>
-              </h5>
+              <h5 class="card-title">구군 <span>| Gugun</span></h5>
 
-              <div class="list-group" style="height: 600px">
-                <div id="aside-list" class="" v-if="homes.length > 0">
-                  <div
-                    class="list-group-item list-group-item-action"
-                    v-for="(home, index) in homes"
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select bg-secondary text-light"
+                  id="gugun"
+                  v-model="selectedGugun"
+                >
+                  <option value="">구군선택</option>
+                  <option
+                    v-for="(gugun, index) in guguns"
                     :key="index"
-                    @click="getDeals(home)"
-                    v-show="detail_no == -1 || detail_no == home.aptCode"
+                    :value="gugun"
                   >
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">{{ home.apartmentName }}</h5>
-                      <small
-                        >건설년도:
-                        <span style="color: #4154f1">{{
-                          home.buildYear
-                        }}</span></small
-                      >
-                    </div>
-                    <p class="mb-1">{{ home.address }}</p>
+                    {{ gugun }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Sales Card -->
+
+        <!-- 동 선택 Card -->
+        <div class="col-xxl-2 col-md-6">
+          <div class="card info-card sales-card">
+            <div class="card-body">
+              <h5 class="card-title">동 <span>| Dong</span></h5>
+
+              <div class="d-flex align-items-center">
+                <select
+                  class="form-select bg-secondary text-light"
+                  id="dong"
+                  v-model="selectedDong"
+                >
+                  <option value="">동선택</option>
+                  <option
+                    v-for="(dong, index) in dongs"
+                    :key="index"
+                    :value="{ code: dong.dongCode, name: dong.dongName }"
+                  >
+                    {{ dong.dongName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--여기에 기간, 금액 range 넣어-->
+        <div class="col-xxl-6 col-md-6">
+          <div class="card info-card sales-card">
+            <div class="card-body"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="row">
+      <div class="col-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              <b>아파트 실거래가 조회 </b>
+              <span v-if="address != ''">| {{ address }}</span>
+            </h5>
+
+            <!-- Kakao Map start -->
+            <div id="map" style="width: 100%; height: 600px"></div>
+            <!-- Kakao Map end -->
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card">
+          <!-- style="height: 685px" -->
+          <div class="card-body">
+            <h5 class="card-title">
+              <b>검색 결과</b>
+            </h5>
+
+            <div class="mb-3" v-if="deals.length > 0">
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                v-model="selectedArea"
+              >
+                <option value="" selected>면적 선택</option>
+                <option
+                  v-for="(deal, index) in deals"
+                  :key="index"
+                  :value="deal.area"
+                >
+                  {{ deal.area }} ㎡
+                </option>
+              </select>
+            </div>
+
+            <div class="list-group" style="height: 600px">
+              <div id="aside-list" class="" v-if="homes.length > 0">
+                <div
+                  class="list-group-item list-group-item-action"
+                  v-for="(home, index) in homes"
+                  :key="index"
+                  @click="getDeals(home)"
+                  v-show="detail_no == -1 || detail_no == home.aptCode"
+                >
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ home.apartmentName }}</h5>
+                    <small
+                      >건설년도:
+                      <span style="color: #4154f1">{{
+                        home.buildYear
+                      }}</span></small
+                    >
                   </div>
+                  <p class="mb-1">{{ home.address }}</p>
                 </div>
-                <div id="aside-list" class="" v-if="deals.length > 0">
+              </div>
+              <div id="aside-list" class="" v-if="deals.length > 0">
+                <div v-if="areaDeals.length > 0">
                   <div
                     class="list-group-item list-group-item-action"
-                    v-for="(deal, index) in deals"
-                    :key="index"
-                    @click="click_deal(deal.no)"
-                    v-show="detail_no == -1 || detail_no == deal.no"
+                    v-for="(elem, index1) in areaDeals"
+                    :key="index1"
+                    @click="click_deal(elem.no)"
+                    v-show="detail_no == -1 || detail_no == elem.no"
                   >
                     <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">{{ deal.tradeType }}</h5>
+                      <h5 class="mb-1">{{ elem.tradeType }}</h5>
                       <small
-                        >{{ deal.dealYear }}년 {{ deal.dealMonth }}월
-                        {{ deal.dealDay }}일</small
+                        >{{ elem.dealYear }}년 {{ elem.dealMonth }}월
+                        {{ elem.dealDay }}일</small
                       >
                     </div>
                     <div class="text-center text-common-light">
-                      <div>거래액 : {{ deal.dealAmount }} 만원</div>
-                      <div>면적 : {{ deal.area }}</div>
-                      <div>층 : {{ deal.floor }} 층</div>
+                      <div>거래액 : {{ elem.dealAmount }} 만원</div>
+                      <div>면적 : {{ elem.area }}</div>
+                      <div>층 : {{ elem.floor }} 층</div>
                       <button
                         class="btn btn-primary"
-                        v-show="detail_no == deal.no"
+                        v-show="detail_no == elem.no"
                       >
                         이전으로
                       </button>
@@ -174,28 +200,40 @@
                   </div>
                 </div>
               </div>
-              <div class="mt-3" id="deal-back-btn" v-show="dealBack">
-                <button
-                  type="button"
-                  class="btn btn-primary w-100"
-                  @click="getHomes()"
-                >
-                  돌아가기
-                </button>
-              </div>
+            </div>
+            <div class="mt-3" id="deal-back-btn" v-show="dealBack">
+              <button
+                type="button"
+                class="btn btn-primary w-100"
+                @click="getHomes()"
+              >
+                돌아가기
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Main Contents -->
-    <main class="mt-4 container">
-      <!-- contents start -->
-      <div class="row">
-        <!-- Left side contents-->
-        <aside class="col-4"></aside>
+    <div class="row" v-if="deals.length > 0">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              <b>매매 가격</b>
+              <span v-if="address != ''">
+                | {{ address }}, 면적 : {{ selectedArea }}</span
+              >
+            </h5>
+            <!-- Line Chart -->
+            <div id="reportsChart">
+              <deal-chart :deals="deals" :area="selectedArea" />
+            </div>
+
+            <!-- End Line Chart -->
+          </div>
+        </div>
       </div>
-    </main>
+    </div>
   </main>
 </template>
 
@@ -204,6 +242,9 @@ import axios from "axios";
 
 export default {
   name: "FindHomes",
+  components: {
+    "deal-chart": () => import("@/components/home/DealChart.vue"),
+  },
   data() {
     return {
       map: null,
@@ -211,6 +252,7 @@ export default {
       selectedSido: "",
       selectedGugun: "",
       selectedDong: "",
+      selectedArea: "",
       sidos: [],
       guguns: [],
       dongs: [],
@@ -218,6 +260,7 @@ export default {
       address: "",
       homes: [],
       deals: [],
+      areaDeals: [],
       markers: [],
       detail_no: -1,
       simple: true,
@@ -308,6 +351,8 @@ export default {
       // 모달에 입력받은 시도, 구군, 동 정보를 가져오기 위함
       this.deals = [];
       let code = this.selectedDong.code;
+      this.selectedArea = "";
+      this.areaDeals = [];
 
       // 지역 정보가 선택되지 않았으면 경고창을 띄워줌
       if (code == "") {
@@ -391,7 +436,9 @@ export default {
       axios
         .get(url)
         .then((response) => response.data)
-        .then((data) => this.setDeals(data, home.dongCode));
+        .then((data) => {
+          this.setDeals(data);
+        });
     },
     setDeals(data) {
       this.deals = data;
@@ -415,6 +462,16 @@ export default {
     },
     selectedGugun: function (newVal) {
       if (newVal != "") this.getDong();
+    },
+    selectedArea: function (newVal) {
+      if (newVal != "") {
+        for (let i = 0; i < this.deals.length; i++) {
+          if (newVal == this.deals.area) {
+            this.areaDeals = this.deals.list;
+            break;
+          }
+        }
+      }
     },
   },
 };

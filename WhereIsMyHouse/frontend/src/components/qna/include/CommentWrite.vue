@@ -15,13 +15,11 @@
                 style="height: 100px"
                 v-model="comment"
               ></textarea>
-              <label for="floatingTextarea">Address</label>
+              <label for="floatingTextarea">Comment</label>
             </div>
           </div>
           <div class="text-center">
             <button @click="write()" class="btn btn-primary">Submit</button>
-            &nbsp;
-            <button type="reset" class="btn btn-secondary">Reset</button>
           </div>
         </form>
         <!-- Vertical Form -->
@@ -62,7 +60,6 @@ export default {
         })
         .then((response) => response.data)
         .then((data) => {
-          console.log(data);
           if (data.check) {
             this.$router.go();
           } else {

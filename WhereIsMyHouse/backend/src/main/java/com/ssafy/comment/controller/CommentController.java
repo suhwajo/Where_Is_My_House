@@ -130,7 +130,7 @@ public class CommentController {
         return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/delete")
+	@PostMapping("/delete")
 	private ResponseEntity<?> delete(@RequestBody Map<String, String> param) {
 		boolean check = false;
 		Map<String,Object> map = new HashMap<String,Object>();
