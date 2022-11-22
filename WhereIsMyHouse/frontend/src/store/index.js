@@ -10,6 +10,7 @@ export default new Vuex.Store({
     memberId: "",
     adminAccount: "",
     isLogin: false,
+    dongCode: "",
   },
   getters: {
     //로그인 여부 체크
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     adminAccount(state) {
       return state.adminAccount;
     },
+    dongCode(state) {
+      return state.dongCode;
+    },
   },
   mutations: {
     //memberId 설정
@@ -31,6 +35,9 @@ export default new Vuex.Store({
     },
     setAdminAccount(state, admin) {
       state.adminAccount = admin;
+    },
+    setDongCode(state, dongCode) {
+      state.dongCode = dongCode;
     },
     //초기화
     reset(state) {
@@ -82,6 +89,9 @@ export default new Vuex.Store({
     // 로그아웃합니다.
     doLogout({ commit }) {
       commit("reset");
+    },
+    doSetDongCode({ commit }, dongCode) {
+      commit("setDongCode", dongCode);
     },
   },
   modules: {},

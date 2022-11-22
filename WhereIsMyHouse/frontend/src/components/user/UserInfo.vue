@@ -199,7 +199,10 @@
                           <label class="form-check-label" for="newProducts">
                             정말로 탈퇴하시겠습니까?
                           </label>
-                          <button class="btn btn-primary m-3" @click="userOut">
+                          <button
+                            class="btn btn-primary m-3"
+                            @click.prevent="userOut"
+                          >
                             Yes
                           </button>
                         </div>
@@ -220,7 +223,7 @@
 
 <script>
 import axios from "axios";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "UserInfo",
@@ -231,19 +234,30 @@ export default {
     };
   },
   created() {
-    // if (!this.isLogin) {
-    //   alert("로그인 후 접근이 가능합니다.");
-    //   this.$router.push({ name: "UserLogin" });
-    // }
+    if (!this.isLogin) {
+      alert("로그인 후 접근이 가능합니다.");
+      this.$router.push({ name: "UserLogin" });
+    }
     let userId = this.$route.params.userId;
+    if (userId == null) {
+      userId = this.$session.get("nowUser").id;
+    }
+
+    console.log(userId);
     if (userId) {
-      const url = "http://localhost:9999/rest/user/getUser/" + userId;
+      const url = "http://localhost:9999/rest/user/getUser";
       axios
-        .get(url)
+        .get(url, {
+          params: {
+            userId: userId,
+          },
+        })
         .then((response) => response.data)
         .then((data) => {
           if (data) {
             this.user = data;
+            this.$session.set("nowUser", data);
+            console.log(this.$session.getAll());
             this.userName = this.user.name;
           }
         });
@@ -276,7 +290,8 @@ export default {
         .then((data) => {
           if (data.check) {
             alert("회원 정보 변경에 성공했습니다.");
-            location.reload();
+            this.$router.go();
+            // location.href(window.location.href + "?userId=" + this.user.id);
           } else {
             alert("회원 정보 변경에 실패 했습니다. 다시 시도해주세요.");
           }
@@ -284,24 +299,38 @@ export default {
     },
     userOut() {
       let outConfirm = confirm("정말 탈퇴하시겠습니까??");
-
+      alert(outConfirm);
       if (outConfirm) {
-        const url = "http://localhost:9999/rest/user/delete/";
+        const url = "http://localhost:9999/rest/user/delete";
         if (this.user.adminAccount) alert("관리자계정은 탈퇴가 불가합니다.");
         else {
+          console.log(this.user.id);
           axios
-            .delete(url + this.user.id)
+            .delete(url, {
+              params: {
+                userId: this.user.id,
+              },
+            })
             .then((response) => response.data)
             .then((data) => {
-              if (data.check) {
+              if (
+                data.check &&
+                this.user.id == this.$session.get("userInfo").id
+              ) {
                 this.doLogout();
-                alert("탈퇴성공!!!!!!!!!!!!");
+                alert("탈퇴하였습니다.");
                 location.href = "/";
+              } else if (data.check) {
+                alert("회원을 삭제하였습니다.");
+                location.href = "/user/list";
               } else alert("탈퇴에 실패했습니다. 다시 시도해주세요.");
             });
         }
       }
     },
+  },
+  computed: {
+    ...mapGetters(["memberId", "isLogin"]),
   },
 };
 </script>

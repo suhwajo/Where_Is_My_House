@@ -4,7 +4,7 @@
 <mapper namespace="com.ssafy.area.model.mapper.AroundMapper">
 
 	<select id="selectStoreBySmallCodeAndDongCode" parameterType="map" resultType="storedto">
-		select storeNo, storeName, bigCode, bigName, middleCode,middleName, smallCode, smallName, sidoName, gugunName, dongName, dongCode, loadAddr address
+		select storeNo, storeName, bigCode, bigName, middleCode,middleName, smallCode, smallName, sidoName, gunguName, dongName, dongCode, loadAddr address
 		from store
 		where smallCode=#{smallCode} and dongCode=#{dongCode}
 	</select>
@@ -32,7 +32,7 @@
 	<select id="selectSmallByMiddle" parameterType="string" resultType="map">
 		select smallCode,smallName
 		from storecode
-		where middle like #{middle}
+		where middleName like #{middle}
 	</select>
 
 	<select id="selectMiddleByBig" parameterType="string" resultType="string">

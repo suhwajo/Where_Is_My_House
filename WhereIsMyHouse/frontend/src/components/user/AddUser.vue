@@ -33,7 +33,7 @@
                       </p>
                     </div>
 
-                    <form
+                    <div
                       id="form-add"
                       class="row g-3 needs-validation"
                       novalidate
@@ -181,7 +181,7 @@
                           Create Account
                         </button>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
