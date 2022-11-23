@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.javassist.expr.NewArray;
-
+import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import com.ssafy.news.model.dto.NewsDto;
 
 
@@ -31,22 +31,16 @@ public class SearchNews {
         }
 
         String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text;    // JSON 결과
+//        String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
-
+        System.out.println(responseBody);
         responseBody = responseBody.replace("\\","")
-        							.replace("&apos;", "")
-       								.replace("<b>", "")
-       								.replace("</b>", "")
-       								.replace("&quot;", "")
-       								.replace("}", "")
-       								.replace("&quot;", "")
-       								.replace("{", "");
-        
+        							.replace("&apos;", "");
         news = responseBody.split("\t\t\t");
         for (int i = 0; i < news.length; i++) {
         	news[i] = news[i].trim();
@@ -71,11 +65,11 @@ public class SearchNews {
     	String pubDates = news[now+4].replace("\t","")
     								.replace(",","");
     	String title = titles[1].substring(1, titles[1].length()-2);
+    	title = StringEscapeUtils.unescapeHtml3(title);
     	String link = links.substring(16, links.length()-2);
     	String pubDate = pubDates.substring(11, pubDates.length()-1);
     	
     	pubDate = dateForamtChange(pubDate);
-    	System.out.println(pubDate);
     	articles.add(new NewsDto(title, link, pubDate));    	
 	}
 
@@ -100,7 +94,6 @@ public class SearchNews {
             for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
                 con.setRequestProperty(header.getKey(), header.getValue());
             }
-
 
             int responseCode = con.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
@@ -130,8 +123,6 @@ public class SearchNews {
 
     private static String readBody(InputStream body){
         InputStreamReader streamReader = new InputStreamReader(body);
-
-
         try (BufferedReader lineReader = new BufferedReader(streamReader)) {
             StringBuilder responseBody = new StringBuilder();
             String line;

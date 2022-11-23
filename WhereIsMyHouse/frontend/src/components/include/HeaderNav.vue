@@ -213,7 +213,6 @@ export default {
       this.$store.dispatch("doLogout").then(() => {
         alert("로그아웃합니다.");
         this.$session.destroy();
-        console.log(this.$router);
         if (this.$router.currentRoute.name != "HomeView")
           this.$router.push("/");
       });

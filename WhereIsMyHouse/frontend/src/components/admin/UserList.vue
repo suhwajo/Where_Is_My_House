@@ -128,10 +128,6 @@ export default {
         });
     },
     search: function () {
-      if (!this.keyword) {
-        alert("검색어를 입력해주세요.");
-        return;
-      }
       this.getUserList();
     },
   },

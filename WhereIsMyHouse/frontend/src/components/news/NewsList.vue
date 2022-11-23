@@ -62,7 +62,9 @@
                 <div class="col-md-7 offset-3">
                   <div
                     class="input-group input-group-sm justify-content-center"
-                  ></div>
+                  >
+                    뉴스는 한시간마다 업데이트됩니다.
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,6 +99,14 @@ export default {
         .then((response) => response.data.news)
         .then((data) => {
           this.articles = data;
+          for (var i = 0; i < this.articles.length; i++) {
+            var text = this.articles[i].newsTitle;
+            text = text.replace(
+              /<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/gi,
+              ""
+            );
+            this.articles[i].newsTitle = text;
+          }
         });
     },
   },

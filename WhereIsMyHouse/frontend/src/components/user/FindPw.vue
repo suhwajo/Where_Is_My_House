@@ -100,6 +100,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "FindPw",
@@ -109,6 +110,15 @@ export default {
       id: "",
       phone: "",
     };
+  },
+  computed: {
+    ...mapGetters(["isLogin"]),
+  },
+  created() {
+    if (this.isLogin) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
+    }
   },
   methods: {
     findPw() {

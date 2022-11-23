@@ -233,18 +233,19 @@ export default {
       userName: "",
     };
   },
+  computed: {
+    ...mapGetters(["memberId", "isLogin"]),
+  },
   created() {
     if (!this.isLogin) {
       alert("로그인 후 접근이 가능합니다.");
       this.$router.push({ name: "UserLogin" });
     }
-    console.log(this.$session.getAll());
     let userId = this.$route.params.userId;
     if (userId == null) {
       userId = this.$session.get("userInfo").userId;
     }
 
-    console.log(userId);
     if (userId) {
       const url = "http://localhost:9999/rest/user/getUser";
       axios
@@ -329,9 +330,6 @@ export default {
         }
       }
     },
-  },
-  computed: {
-    ...mapGetters(["memberId", "isLogin"]),
   },
 };
 </script>

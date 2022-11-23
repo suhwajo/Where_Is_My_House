@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "UserLogin",
   data() {
@@ -115,6 +116,15 @@ export default {
       pwd: "",
       saveId: false,
     };
+  },
+  computed: {
+    ...mapGetters(["isLogin"]),
+  },
+  created() {
+    if (this.isLogin) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
+    }
   },
   methods: {
     login() {
