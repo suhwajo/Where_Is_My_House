@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.news.model.mapper.NewsMapper">
+
+	<insert id="insert" parameterType="newsDto">
+	insert into news(news_title, news_link, news_date)
+	values (#{newsTitle},#{newsLink},#{newsDate})
+	</insert>
+	
+
+	<select id="selectNews" parameterType="string" resultType="newsDto">
+	select news_title, news_link, news_date
+	from news
+	where news_date like concat(#{dateHour},'%')
+	ORDER BY no
+	</select>
+	
+</mapper>
