@@ -10,7 +10,7 @@ import com.ssafy.home.model.dto.HomeInfoDto;
 public interface HomeService {
 
 	List<HomeInfoDto> homeInfoList(String dongCode) throws SQLException;
-	List<HomeDealDto> homeDealList(long aptCode) throws SQLException;
+	List<HomeDealDto> homeDealList(long aptCode, String start, String end) throws SQLException;
 
     List<String> sidoList() throws SQLException;
 

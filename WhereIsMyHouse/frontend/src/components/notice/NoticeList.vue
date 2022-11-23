@@ -21,7 +21,7 @@
               <div class="col-8 text-end justify-content-end">
                 <router-link
                   class="btn btn-dark bg-common-dark"
-                  to="/qna/write"
+                  to="/notice/write"
                 >
                   공지 작성
                 </router-link>

@@ -37,7 +37,7 @@ public class HomeParserImpl implements HomeParser {
 		final String[] homeType = { "Apt", "RH" };
 		final String[] tradeType = { "Rent", "Trade" };
 
-		for (int year = 2015; year <= 2021; year++) {
+		for (int year = 2015; year <= 2022; year++) {
 			for (int month = 1; month <= 12; month++) {
 				for (int i = 0; i < homeType.length; i++) {
 					list.addAll(parsingHomes(URLMaker.homeApiURL(tradeType[i], homeType[i], code, year, month),

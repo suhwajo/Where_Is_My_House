@@ -1,20 +1,32 @@
 <template>
-  <div class="shadow mb-3 py-3 row" :id="'container-area-' + code">
-    <div class="col-9 text-center fs-5">
-      <div class="text-common-light" :id="'asid-list-simpleInfo-' + code">
-        <button tpye="button" class="btn text-common-light" @click="click_area">
-          {{ address }}
-        </button>
-      </div>
-      <div
-        class="text-common-light"
-        :id="'asid-list-detailInfo-' + code"
-        style="display: none"
-      >
-        <button tpye="button" class="btn text-common-light" @click="click_area">
-          {{ address }}
-        </button>
-        <div class="">
+  <div
+    class="list-group-item list-group-item-action"
+    :id="'container-area-' + code"
+  >
+    <div class="row">
+      <div class="col-9 text-center fs-5">
+        <div class="text-common-light" :id="'asid-list-simpleInfo-' + code">
+          <button
+            type="button"
+            class="btn text-common-light"
+            @click="click_area"
+          >
+            {{ address }}
+          </button>
+        </div>
+        <div
+          class="text-common-light"
+          :id="'asid-list-detailInfo-' + code"
+          style="display: none"
+        >
+          <button
+            type="button"
+            class="btn text-common-light"
+            @click="click_area"
+          >
+            {{ address }}
+          </button>
+          <br />
           <button
             type="button"
             class="btn text-common-basic link-dark"
@@ -23,40 +35,24 @@
           >
             주변 상권 검색
           </button>
-        </div>
-        <div class="">
-          <button
-            type="button"
-            class="btn text-common-basic link-dark"
-            @click="search_environments"
+          <select
+            name=""
+            class="form-select"
+            id="option"
+            v-model="selectOption"
           >
-            주변 환경 시설 검색
-          </button>
-        </div>
-        <div class="">
-          <button
-            type="button"
-            class="btn text-common-basic link-dark"
-            @click="search_hospitals"
-          >
-            주변 병원 검색
-          </button>
-        </div>
-        <div class="">
-          <button
-            type="button"
-            class="btn text-common-basic link-dark"
-            @click="search_clinics"
-          >
-            주변 코로나 선별 검사소 검색
-          </button>
+            <option value="">시설 검색</option>
+            <option value="env">주변 환경 시설 검색</option>
+            <option value="hosp">주변 병원 검색</option>
+            <option value="corona">주변 코로나 선별 검사소 검색</option>
+          </select>
         </div>
       </div>
-    </div>
-    <div class="col-2 align-self-center">
-      <button type="button" class="btn btn-delete" @click="deleteArea">
-        삭제
-      </button>
+      <div class="col-3 align-self-center">
+        <button type="button" class="btn btn-warning" @click="deleteArea">
+          삭제
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -73,12 +69,24 @@ export default {
       clinics: [],
       hospitals: [],
       environments: [],
+      selectOption: "",
     };
   },
   props: {
     code: String,
     address: String,
     interests: [],
+  },
+  watch: {
+    selectOption: function (newVal) {
+      if (newVal == "env") {
+        this.search_environments();
+      } else if (newVal == "hosp") {
+        this.search_hospitals();
+      } else if (newVal == "corona") {
+        this.search_hospitals();
+      }
+    },
   },
   mounted() {},
   methods: {
@@ -153,6 +161,12 @@ export default {
                   <div class="fs-5 mt-5">${clinic.address}</div>
                   <div class="fs-5 mt-5">${clinic.mainPhoneNumber}</div>
               </div>
+              <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading">${clinic.clinicName}</h5>
+                <hr>
+                <p class="mb-0">${clinic.address}</p>
+                <p class="mb-0">${clinic.mainPhoneNumber}</p>
+              </div>
           `;
 
           this.$parent.setMarker(clinic.address, infoWindowDiv);
@@ -179,10 +193,11 @@ export default {
       } else {
         this.hospitals.forEach((hospital) => {
           let infoWindowDiv = `
-              <div class="bg-common-dark text-common-light text-center">
-                  <div class="fs-4">${hospital.hospitalName}</div>
-                  <div class="fs-5 mt-5">${hospital.address}</div>
-                  <div class="fs-5 mt-5">${hospital.phoneNumber}</div>
+              <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading">${hospital.hospitalName}</h5>
+                <hr>
+                <p class="mb-0">${hospital.address}</p>
+                <p class="mb-0">${hospital.phoneNumber}</p>
               </div>
           `;
 
@@ -210,11 +225,12 @@ export default {
       } else {
         this.environments.forEach((environment) => {
           let infoWindowDiv = `
-              <div class="bg-common-dark text-common-light text-center">
-                  <div class="fs-4">${environment.name}</div>
-                  <div class="fs-4 mt-3">${environment.industryName}</div>
-                  <div class="fs-4 mt-4">${environment.checkList}</div>
-                  <div class="fs-5 mt-5">${environment.address}</div>
+              <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading">${environment.name}</h5>
+                <p>${environment.industryName}</p>
+                <hr>
+                <p class="mb-0">${environment.checkList}</p>
+                <p class="mb-0">${environment.address}</p>
               </div>
           `;
 
@@ -226,11 +242,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.btn-delete {
-  background-color: red;
-  color: white;
-  font-size: 10px;
-  width: 15px;
-}
-</style>
+<style scoped></style>

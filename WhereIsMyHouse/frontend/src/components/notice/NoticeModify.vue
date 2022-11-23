@@ -1,44 +1,63 @@
 <template>
-  <div>
-    <!-- Main Contents -->
-    <main class="mt-4 container">
-      <div class="bg-common-light pt-4">
-        <div style="height: 30px"></div>
-        <div class="ps-2 fs-3 ms-5">공지사항&nbsp;수정</div>
-        <div class="mx-5"><hr size="3" /></div>
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Notice</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <router-link to="/">Home</router-link>
+          </li>
+          <li class="breadcrumb-item active">
+            <router-link to="/notice/list"> Notice </router-link>
+          </li>
+          <li class="breadcrumb-item active">공지글 수정</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><b>공지글 수정</b></h5>
 
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="my-5 col-10">
-            <div class="mb-3">
-              <input
-                class="form-control"
-                type="text"
-                id="title"
-                placeholder="제목을 입력하세요"
-                v-model="notice.title"
-              />
+            <!-- Vertical Form -->
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="title" class="form-label">Title</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  id="title"
+                  placeholder="제목을 입력하세요"
+                  v-model="notice.title"
+                />
+              </div>
+              <div class="col-12">
+                <label for="content" class="form-label">Content</label>
+                <textarea
+                  class="form-control"
+                  id="content"
+                  rows="10"
+                  v-model="notice.content"
+                ></textarea>
+              </div>
+
+              <div class="text-center">
+                <button @click="notice_modify()" class="btn btn-primary">
+                  Submit
+                </button>
+                &nbsp;
+                <button @click="notice_cancel()" class="btn btn-secondary">
+                  Cancel
+                </button>
+              </div>
             </div>
-            <textarea
-              class="form-control"
-              id="content"
-              rows="10"
-              v-model="notice.content"
-            ></textarea>
+            <!-- Vertical Form -->
           </div>
         </div>
-
-        <div class="text-center m-4">
-          <button class="btn btn-dark" @click="notice_modify()">작성</button>
-          <button class="btn btn-dark ms-2" @click="notice_cancel()">
-            취소
-          </button>
-        </div>
-
-        <div style="height: 50px"></div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -72,7 +91,7 @@ export default {
         alert("내용을 입력하세요.");
       }
 
-      let confirm_write = confirm("공지사항을 작성하시겠습니까?");
+      let confirm_write = confirm("공지사항을 수정하시겠습니까?");
 
       if (confirm_write) {
         const url = "http://localhost:9999/rest/notice/modify";

@@ -10,10 +10,10 @@
 		and apartmentName not like "dummy" <!-- 수정 필요 확인 요망 -->
 	</select>
 
-	<select id="selectHomeDealByDong" parameterType="long" resultType="homedealdto">
+	<select id="selectHomeDealByDong" parameterType="map" resultType="homedealdto">
 		select no, dealAmount,dealYear,dealMonth,dealDay,area,floor,aptCode,tradeType
 		from housedeal
-		where aptCode=#{aptCode}
+		where aptCode=#{aptCode} and dealYear between #{startYear} and #{endYear}
 	</select>
 	
 	<select id="selectSidoGugunByDongCode" parameterType="string" resultType="string">

@@ -10,7 +10,7 @@
       </nav>
     </div>
 
-    <section class="secion dashboard">
+    <section class="section dashboard">
       <div class="col-xxl-2 col-md-6">
         <div class="card sales-card mt-5">
           <button
@@ -27,7 +27,7 @@
         <!-- 시도 선택 Card -->
         <div class="col-xxl-2 col-md-6">
           <div class="card info-card sales-card">
-            <div class="card-body">
+            <div class="card-body p-3">
               <h5 class="card-title">시도 <span>| Sido</span></h5>
               <div class="d-flex align-items-center">
                 <select
@@ -52,7 +52,7 @@
         <!-- 시도 선택 Card -->
         <div class="col-xxl-2 col-md-6">
           <div class="card info-card sales-card">
-            <div class="card-body">
+            <div class="card-body p-3">
               <h5 class="card-title">구군 <span>| Gugun</span></h5>
 
               <div class="d-flex align-items-center">
@@ -79,7 +79,7 @@
         <!-- 동 선택 Card -->
         <div class="col-xxl-2 col-md-6">
           <div class="card info-card sales-card">
-            <div class="card-body">
+            <div class="card-body p-3">
               <h5 class="card-title">동 <span>| Dong</span></h5>
 
               <div class="d-flex align-items-center">
@@ -104,7 +104,91 @@
         <!--여기에 기간, 금액 range 넣어-->
         <div class="col-xxl-6 col-md-6">
           <div class="card info-card sales-card">
-            <div class="card-body"></div>
+            <div class="m-3">
+              <!-- <h5 class="card-title">기간 선택</h5> -->
+              <div class="row">
+                <div class="col-10">
+                  <div class="row">
+                    <label class="col-2 col-form-label mt-2">시작 날짜</label>
+                    <div class="col-5">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        v-model="startYear"
+                      >
+                        <option
+                          v-for="(y, index) in year"
+                          :key="index"
+                          :value="y"
+                        >
+                          {{ y }} 년
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-5">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        v-model="startMonth"
+                      >
+                        <option
+                          v-for="(m, index) in month"
+                          :key="index"
+                          :value="m"
+                        >
+                          {{ m }} 월
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2 col-form-label">종료 날짜</label>
+                    <div class="col-5">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        v-model="endYear"
+                      >
+                        <option
+                          v-for="(y, index) in year"
+                          :key="index"
+                          :value="y"
+                        >
+                          {{ y }} 년
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-5">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        v-model="endMonth"
+                      >
+                        <option
+                          v-for="(m, index) in month"
+                          :key="index"
+                          :value="m"
+                        >
+                          {{ m }} 월
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2 mt-2">
+                  <div class="card sales-card">
+                    <button
+                      type="button"
+                      id="list-btn"
+                      class="btn btn-primary"
+                      @click="getHomes()"
+                    >
+                      매매정보검색
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -188,7 +272,7 @@
                     </div>
                     <div class="text-center text-common-light">
                       <div>거래액 : {{ elem.dealAmount }} 만원</div>
-                      <div>면적 : {{ elem.area }}</div>
+                      <div>면적 : {{ elem.area }} ㎡</div>
                       <div>층 : {{ elem.floor }} 층</div>
                       <button
                         class="btn btn-primary"
@@ -221,12 +305,12 @@
             <h5 class="card-title">
               <b>매매 가격</b>
               <span v-if="address != ''">
-                | {{ address }}, 면적 : {{ selectedArea }}</span
+                | {{ address }}, 면적 : {{ selectedArea }} ㎡</span
               >
             </h5>
             <!-- Line Chart -->
             <div id="reportsChart">
-              <deal-chart :deals="deals" :area="selectedArea" />
+              <deal-chart :deals="areaDeals" :area="selectedArea" />
             </div>
 
             <!-- End Line Chart -->
@@ -266,6 +350,12 @@ export default {
       simple: true,
       aptName: "",
       dealBack: false,
+      year: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022],
+      month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      startYear: "2015",
+      startMonth: "2",
+      endYear: "2022",
+      endMonth: "11",
     };
   },
   mounted() {
@@ -355,8 +445,14 @@ export default {
       this.areaDeals = [];
 
       // 지역 정보가 선택되지 않았으면 경고창을 띄워줌
-      if (code == "") {
-        window.alert("지역을 선택해주세요.");
+      if (!code || code == "") {
+        alert("지역을 선택해주세요.");
+      } else if (
+        Number(this.startYear) > Number(this.endYear) ||
+        (Number(this.startYear) == Number(this.endYear) &&
+          Number(this.startMonth) > Number(this.endMonth))
+      ) {
+        alert("시작날짜가 종료날짜보다 작아야 합니다!");
       } else {
         let address =
           this.selectedSido +
@@ -373,7 +469,8 @@ export default {
         this.initMarkers();
         this.detail_no = -1;
 
-        const url = "http://localhost:9999/rest/home/getInfos?code=" + code;
+        const url = `http://localhost:9999/rest/home/getInfos?code=${code}`;
+        console.log(url);
 
         this.dealBack = false;
         axios
@@ -422,8 +519,15 @@ export default {
       //aptCode, aptName, dongCode, address
       this.move(home.address);
       this.aptName = home.apartmentName;
-      const url =
-        "http://localhost:9999/rest/home/getDeals?code=" + home.aptCode;
+      if (
+        Number(this.startYear) > Number(this.endYear) ||
+        (Number(this.startYear) == Number(this.endYear) &&
+          Number(this.startMonth) > Number(this.endMonth))
+      ) {
+        alert("시작날짜가 종료날짜보다 작아야 합니다!");
+        return;
+      }
+      const url = `http://localhost:9999/rest/home/getDeals?code=${home.aptCode}&start=${this.startYear}_${this.startMonth}&end=${this.endYear}_${this.endMonth}`;
 
       this.initMarkers();
       this.detail_no = -1;
@@ -464,10 +568,11 @@ export default {
       if (newVal != "") this.getDong();
     },
     selectedArea: function (newVal) {
+      console.log(this.deals);
       if (newVal != "") {
         for (let i = 0; i < this.deals.length; i++) {
-          if (newVal == this.deals.area) {
-            this.areaDeals = this.deals.list;
+          if (newVal == this.deals[i].area) {
+            this.areaDeals = this.deals[i].list;
             break;
           }
         }

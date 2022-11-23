@@ -31,14 +31,15 @@ public class HomeController {
 
 	@GetMapping("/getInfos")
 	private ResponseEntity<?> getInfos(@RequestParam("code")String code) throws SQLException {
+		
 		List<HomeInfoDto> homeInfoDtoList = homeService.homeInfoList(code);
 		
 		return new ResponseEntity<List<HomeInfoDto>>(homeInfoDtoList,HttpStatus.OK);
 	}
 
 	@GetMapping("/getDeals")
-	private ResponseEntity<?> getDeals(@RequestParam("code")long code) throws SQLException {
-		List<HomeDealDto> homeDealDtoList = homeService.homeDealList(code);
+	private ResponseEntity<?> getDeals(@RequestParam("code")long code, @RequestParam("start")String start, @RequestParam("end")String end) throws SQLException {
+		List<HomeDealDto> homeDealDtoList = homeService.homeDealList(code,start,end);
 		Map<String, List<HomeDealDto>> areaList = new HashMap<>();
 		for(HomeDealDto homedeal:homeDealDtoList) {
 			if(areaList.get(homedeal.getArea()) == null) {

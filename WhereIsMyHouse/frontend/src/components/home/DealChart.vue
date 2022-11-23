@@ -87,9 +87,9 @@ export default {
         ],
         datasets: [
           {
-            label: "Data One",
+            label: "실거래가",
             backgroundColor: "#f87979",
-            data: [40, 39, 10, 40, 39, 80, 40],
+            data: [],
           },
         ],
       },
@@ -112,7 +112,23 @@ export default {
   },
   watch: {
     area: function (newVal) {
-      if (newVal != "") console.log(newVal);
+      if (newVal != "") {
+        var data = { datasets: [], labels: [] };
+        var dataset_aa = {
+          data: [],
+          label: "실거래가",
+          backgroundColor: "#f87979",
+        };
+
+        for (let i = 0; i < this.deals.length; i++) {
+          data.labels.push(
+            this.deals[i].dealYear + "-" + this.deals[i].dealMonth
+          );
+          dataset_aa.data.push(this.deals[i].dealAmount.replace(",", "") * 1);
+        }
+        data.datasets.push(dataset_aa);
+        this.chartData = data;
+      }
     },
   },
 };

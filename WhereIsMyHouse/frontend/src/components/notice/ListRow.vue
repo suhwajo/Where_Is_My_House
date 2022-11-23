@@ -14,7 +14,7 @@ export default {
     no: String,
     isbn: String,
     title: String,
-    hit: String,
+    hit: Number,
     author: String,
     date: String,
   },
