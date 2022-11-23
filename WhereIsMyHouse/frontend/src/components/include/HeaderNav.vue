@@ -79,7 +79,7 @@
               <li>
                 <router-link
                   :to="{
-                    name: 'UserInfo',
+                    name: 'UserMyInfo',
                     params: { userId: memberId },
                   }"
                   class="dropdown-item d-flex align-items-center"

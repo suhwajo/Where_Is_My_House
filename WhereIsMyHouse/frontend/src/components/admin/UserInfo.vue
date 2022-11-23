@@ -5,7 +5,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item">MyPage</li>
+          <li class="breadcrumb-item">Users</li>
           <li class="breadcrumb-item active">Profile</li>
         </ol>
       </nav>
@@ -238,10 +238,9 @@ export default {
       alert("로그인 후 접근이 가능합니다.");
       this.$router.push({ name: "UserLogin" });
     }
-    console.log(this.$session.getAll());
     let userId = this.$route.params.userId;
     if (userId == null) {
-      userId = this.$session.get("userInfo").userId;
+      userId = this.$session.get("nowUser").id;
     }
 
     console.log(userId);

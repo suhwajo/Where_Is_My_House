@@ -60,11 +60,16 @@ const routes = [
       {
         path: "list",
         name: "UserList",
-        component: () => import("@/components/user/UserList.vue"),
+        component: () => import("@/components/admin/UserList.vue"),
       },
       {
         path: "detail",
         name: "UserInfo",
+        component: () => import("@/components/admin/UserInfo.vue"),
+      },
+      {
+        path: "mydetail",
+        name: "UserMyInfo",
         component: () => import("@/components/user/UserInfo.vue"),
       },
       {
@@ -80,7 +85,7 @@ const routes = [
       {
         path: "add",
         name: "UserAdd",
-        component: () => import("@/components/user/AddUser.vue"),
+        component: () => import("@/components/admin/AddUser.vue"),
       },
       {
         path: "login",
