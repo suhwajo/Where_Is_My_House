@@ -11,18 +11,6 @@
     </div>
 
     <section class="section dashboard">
-      <div class="col-xxl-2 col-md-6">
-        <div class="card sales-card mt-5">
-          <button
-            type="button"
-            id="list-btn"
-            class="btn btn-primary"
-            @click="getHomes()"
-          >
-            매매정보검색
-          </button>
-        </div>
-      </div>
       <div class="row">
         <!-- 시도 선택 Card -->
         <div class="col-xxl-2 col-md-6">
