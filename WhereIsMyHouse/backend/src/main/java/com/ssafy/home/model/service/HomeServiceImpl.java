@@ -88,8 +88,14 @@ public class HomeServiceImpl implements HomeService {
 		return param;
 	}
 	
-	public List<HomeDealDto> homeDealList(long aptCode) throws SQLException {
-		return homeDao.selectHomeDealByDong(aptCode);
+	public List<HomeDealDto> homeDealList(long aptCode, String start, String end) throws SQLException {
+		Map<String, Object> param = new HashMap<>();
+		int startYear = Integer.parseInt(start.split("_")[0]);
+		int endYear = Integer.parseInt(end.split("_")[0]);
+		param.put("aptCode",aptCode);
+		param.put("startYear",startYear);
+		param.put("endYear",endYear);
+		return homeDao.selectHomeDealByDong(param);
 	}
 
 	public List<String> sidoList() throws SQLException {

@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var client_id = "YOUR_CLIENT_ID";
 var client_secret = "YOUR_CLIENT_SECRET";
+console.log(client_id + " " + client_secret);
 app.get("/search/blog", function (req, res) {
   var api_url =
     "https://openapi.naver.com/v1/search/blog?query=" +

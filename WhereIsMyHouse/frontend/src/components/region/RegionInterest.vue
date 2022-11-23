@@ -1,46 +1,62 @@
 <template>
-  <div>
-    <div style="height: 50px"></div>
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>관심 지역</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active">관심 지역</li>
+        </ol>
+      </nav>
+    </div>
 
     <!-- Main Contents -->
-    <main class="mt-4 container">
-      <div style="height: 100px"></div>
+    <section class="section dashboard">
       <!-- contents start -->
       <div class="row">
         <!-- Left side contents-->
-        <aside class="col-4">
+        <div class="col-4">
           <!-- 관심 지역 추가 부분 -->
-          <div class="text-center mb-3 w-100">
-            <button
-              type="button"
-              class="btn btn-dark w-100 bg-common-dark"
-              data-bs-toggle="modal"
-              data-bs-target="#findModal">
-              관심 지역 추가
-            </button>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <div class="text-center mb-3 w-100">
+                  <button
+                    type="button"
+                    class="btn btn-dark w-100 bg-common-dark"
+                    data-bs-toggle="modal"
+                    data-bs-target="#findModal"
+                  >
+                    관심 지역 추가
+                  </button>
+                </div>
+              </h5>
+              <div class="mt-4 list-group" style="height: 600px">
+                <interest-row
+                  @code="deleteList"
+                  v-for="(interest, index) in interests"
+                  :key="index"
+                  :code="interest.code"
+                  :address="interest.address"
+                  :interests="interests"
+                />
+              </div>
+            </div>
           </div>
-          <div class="mt-4 overflow-auto" style="height: 1000px">
-            <interest-row
-              @code="deleteList"
-              v-for="(interest, index) in interests"
-              :key="index"
-              :code="interest.code"
-              :address="interest.address"
-              :interests="interests" />
-            <!-- <div id="aside-list"></div> -->
-          </div>
-        </aside>
+        </div>
         <!-- 중앙 지도 부분 -->
-        <section class="col-8">
-          <div class="mx-5" id="map" style="height: 630px"></div>
-          <div
-            class="mt-4 text-center text-common-dark fs-3 fw-bold"
-            id="map-areaText"></div>
-        </section>
+        <div class="col-8">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <!-- Kakao Map start -->
+              <div id="map" style="width: 100%; height: 630px"></div>
+              <!-- Kakao Map end -->
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
-
-    <div style="height: 50px"></div>
+    </section>
 
     <!-- 관심 지역 추가 모달 -->
     <div class="modal fade" id="findModal" tabindex="-1">
@@ -52,7 +68,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="mb-3 mt-3">
@@ -60,12 +77,14 @@
                 class="form-select"
                 id="sido"
                 aria-label="Default select example"
-                v-model="selectedSido">
+                v-model="selectedSido"
+              >
                 <option value="0" selected>시도선택</option>
                 <option
                   v-for="(sido, index) in sidos"
                   :key="index"
-                  :value="sido">
+                  :value="sido"
+                >
                   {{ sido }}
                 </option>
               </select>
@@ -75,12 +94,14 @@
                 class="form-select"
                 id="gugun"
                 aria-label="Default select example"
-                v-model="selectedGugun">
+                v-model="selectedGugun"
+              >
                 <option value="" selected>구군선택</option>
                 <option
                   v-for="(gugun, index) in guguns"
                   :key="index"
-                  :value="gugun">
+                  :value="gugun"
+                >
                   {{ gugun }}
                 </option>
               </select>
@@ -90,12 +111,14 @@
                 class="form-select"
                 id="dong"
                 aria-label="Default select example"
-                v-model="selectedDong">
+                v-model="selectedDong"
+              >
                 <option value="" selected>동선택</option>
                 <option
                   v-for="(dong, index) in dongs"
                   :key="index"
-                  :value="{ code: dong.dongCode, name: dong.dongName }">
+                  :value="{ code: dong.dongCode, name: dong.dongName }"
+                >
                   {{ dong.dongName }}
                 </option>
               </select>
@@ -105,14 +128,16 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               취소
             </button>
             <button
               type="button"
               class="btn btn-primary"
               data-bs-dismiss="modal"
-              @click="addFocusArea">
+              @click="addFocusArea"
+            >
               추가
             </button>
           </div>
@@ -130,7 +155,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="mb-3 mt-3">
@@ -138,12 +164,14 @@
                 class="form-select"
                 id="big"
                 aria-label="Default select example"
-                v-model="selectedBigStore">
+                v-model="selectedBigStore"
+              >
                 <option value="" selected>대분류</option>
                 <option
                   v-for="(bigStore, index) in bigStores"
                   :key="index"
-                  :value="bigStore">
+                  :value="bigStore"
+                >
                   {{ bigStore }}
                 </option>
               </select>
@@ -153,12 +181,14 @@
                 class="form-select"
                 id="middle"
                 aria-label="Default select example"
-                v-model="selectedMiddleStore">
+                v-model="selectedMiddleStore"
+              >
                 <option value="" selected>중분류</option>
                 <option
                   v-for="(middleStore, index) in middleStores"
                   :key="index"
-                  :value="middleStore">
+                  :value="middleStore"
+                >
                   {{ middleStore }}
                 </option>
               </select>
@@ -168,12 +198,14 @@
                 class="form-select"
                 id="small"
                 aria-label="Default select example"
-                v-model="selectedSmallStore">
+                v-model="selectedSmallStore"
+              >
                 <option value="" selected>소분류</option>
                 <option
                   v-for="(smallStore, index) in smallStores"
                   :key="index"
-                  :value="smallStore">
+                  :value="smallStore"
+                >
                   {{ smallStore }}
                 </option>
               </select>
@@ -183,21 +215,23 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               취소
             </button>
             <button
               type="button"
               class="btn btn-primary"
               data-bs-dismiss="modal"
-              @click="search_stores">
+              @click="search_stores"
+            >
               검색
             </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -257,19 +291,15 @@ export default {
   },
   watch: {
     selectedSido: function (newVal) {
-      console.log("sido " + newVal);
       if (newVal != "") this.getGugun();
     },
     selectedGugun: function (newVal) {
-      console.log("gugun " + newVal);
       if (newVal != "") this.getDong();
     },
     selectedBigStore: function (newVal) {
-      console.log("bigStore " + newVal);
       if (newVal != "") this.getMiddle();
     },
     selectedMiddleStore: function (newVal) {
-      console.log("middleStore " + newVal);
       if (newVal != "") this.getSmall();
     },
   },
@@ -288,7 +318,6 @@ export default {
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
       this.geocoder = new kakao.maps.services.Geocoder();
-      console.log(this.map);
     },
     move(address) {
       // 주소-좌표 변환 객체를 생성합니다
@@ -364,7 +393,7 @@ export default {
         .get(url + this.selectedMiddleStore)
         .then((response) => response.data)
         .then((data) => {
-          console.log(data.smallName);
+          this.smallStores = new Array();
           for (var i = 0; i < data.length; i++) {
             this.smallStores.push(data[i].smallName);
           }
@@ -390,8 +419,6 @@ export default {
           this.selectedGugun +
           " " +
           this.selectedDong.name;
-
-        console.log(address);
 
         // 보여줄 주소 설정
         this.address = address;
@@ -503,13 +530,7 @@ export default {
       let gugun = this.selectedGugun;
       let dong = this.selectedDong.name;
       let code = this.selectedDong.code;
-      console.log(sido, " ", gugun, " ", dong, " ", code);
-      // let el = document.getElementById("sido");
-      // let len = el.options.length;
-      // for (var i = 0; i < len; i++) {
-      //   el.options[i].selected = false;
-      // }
-      // document.getElementById("sido").options[0].selected = true;
+
       // 지역 정보가 선택되지 않았으면 경고창을 띄워줌
       if (code == "") {
         window.alert("지역을 선택해주세요.");
@@ -548,11 +569,8 @@ export default {
         .then((data) => {
           this.interests = data.areas;
         });
-      console.log(this.interests);
     },
     deleteList: function (deleteCode) {
-      console.log(this.interests);
-      console.log(deleteCode);
       const url = "http://localhost:9999/rest/area/delete";
       axios
         .delete(url, {
@@ -561,7 +579,11 @@ export default {
             userId: this.$session.get("userInfo").userId,
           },
         })
-        .then((response) => console.log(response.data));
+        .then((response) => {
+          if (!response.data) {
+            alert("삭제에 실패했습니다. 다시 시도해주세요!");
+          }
+        });
 
       for (var i = 0, size = this.interests.length; i < size; i++) {
         if (this.interests[i].code == deleteCode) {
@@ -575,7 +597,6 @@ export default {
       let geocoder = this.geocoder;
       let marker;
       geocoder.addressSearch(address, function (result, status) {
-        // console.log(result);
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
           let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -603,6 +624,9 @@ export default {
               // 마커 위에 인포윈도우를 표시합니다
               infoWindow.open(this1.map, marker);
             });
+            kakao.maps.event.addListener(this1.map, "click", function () {
+              infoWindow.close();
+            });
             infoWindow.close();
           }
         }
@@ -618,7 +642,6 @@ export default {
           break;
         }
       }
-      console.log(this.selectedSmallStore, " ", smallCode, " ", this.dongCode);
       axios
         .get(url, {
           params: {
@@ -634,13 +657,18 @@ export default {
       this.initMarkers();
 
       data.list.forEach((store) => {
-        let infoWindowDiv = `
-            <div class="bg-common-dark text-common-light text-center">
+        /*
+        <div class="bg-common-dark text-common-light text-center">
                 <div class="fs-4">${store.storeName}</div>
                 <div class="fs-5 mt-4">${store.address}</div>
+            </div> */
+        let infoWindowDiv = `
+            <div class="alert alert-info  alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading">${store.storeName}</h5>
+                <hr>
+                <p class="mb-0">${store.address}</p>
             </div>
         `;
-
         this.setMarker(store.address, infoWindowDiv);
       });
     },

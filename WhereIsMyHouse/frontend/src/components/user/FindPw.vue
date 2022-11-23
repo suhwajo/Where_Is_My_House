@@ -1,86 +1,101 @@
 <template>
-  <div class="body">
-    <div style="height: 250px"></div>
+  <main id="main" class="main">
+    <div class="container">
+      <section
+        class="section register d-flex flex-column align-items-center justify-content-center py-4"
+      >
+        <div class="container">
+          <div class="row justify-content-center">
+            <div
+              class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center"
+            >
+              <div class="d-flex justify-content-center py-4">
+                <router-link
+                  to="/"
+                  class="logo d-flex align-items-center w-auto"
+                >
+                  <img src="@/assets/logo.png" alt="" />
+                  <span class="d-none d-lg-block">Where Is My Home</span>
+                </router-link>
+              </div>
+              <!-- End Logo -->
 
-    <!-- Main Contents -->
-    <main class="mt-4 container">
-      <!-- contents -->
-      <section class="pt-5 rounded-2 mb-5 text-light">
-        <div class="row">
-          <div class="d-flex justify-content-center mx-5 mb-5 col">
-            <img
-              class="img-fluid"
-              src="@/assets/logo.png"
-              alt=""
-              width="300px"
-            />
-          </div>
-          <div class="col">
-            <div class="fs-3 fw-bold text-center w-75">비밀번호찾기</div>
-            <div class="mb-4 mt-4 w-75">
-              <div class="mb-3 mt-3 row">
-                <label for="name" class="col-sm-3 col-form-label">이름</label>
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    placeholder="name"
-                    name="name"
-                    required
-                    v-model="name"
-                  />
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">
+                      Find Password
+                    </h5>
+                  </div>
+
+                  <div class="row g-3 needs-validation" novalidate>
+                    <div class="col-12">
+                      <label for="id" class="form-label">ID</label>
+                      <input
+                        type="text"
+                        name="id"
+                        class="form-control"
+                        id="id"
+                        required
+                        placeholder="id"
+                        v-model="id"
+                      />
+                      <div class="invalid-feedback">
+                        Please enter a valid Id!
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="name" class="form-label">Name</label>
+                      <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        id="name"
+                        required
+                        placeholder="이름"
+                        v-model="name"
+                      />
+                      <div class="invalid-feedback">
+                        Please enter a valid Name!
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="phone" class="form-label">Password</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        class="form-control"
+                        id="phone"
+                        required
+                        pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                        placeholder="010-xxxx-xxxx"
+                        v-model="phone"
+                      />
+                      <div class="invalid-feedback">
+                        Please enter your password!
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <button
+                        class="btn btn-primary w-100"
+                        type="button"
+                        @click="findPw"
+                      >
+                        Find Pwd
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="id" class="col-sm-3 col-form-label">ID</label>
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="id"
-                    placeholder="id"
-                    name="id"
-                    required
-                    v-model="id"
-                  />
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="phone" class="col-sm-3 col-form-label"
-                  >전화번호</label
-                >
-                <div class="col-sm-9">
-                  <input
-                    type="tel"
-                    class="form-control"
-                    id="phone"
-                    name="phone"
-                    pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-                    placeholder="Phone : 010-xxxx-xxxx"
-                    required
-                    v-model="phone"
-                  />
-                </div>
-              </div>
-              <div class="mt-5">
-                <button
-                  type="button"
-                  class="btn btn-dark bg-common-dark w-100"
-                  @click="findPw"
-                >
-                  비밀번호 찾기
-                </button>
               </div>
             </div>
-            <!-- 16이후 수정 -->
           </div>
         </div>
       </section>
-    </main>
-
-    <div style="height: 163px"></div>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script>

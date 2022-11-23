@@ -12,7 +12,7 @@ import com.ssafy.home.model.dto.HomeInfoDto;
 public interface HomeMapper {
 
 	List<HomeInfoDto> selectHomeInfoByDong(String dongCode) throws SQLException;
-	List<HomeDealDto> selectHomeDealByDong(long aptCode) throws SQLException;
+	List<HomeDealDto> selectHomeDealByDong(Map<String, Object> param) throws SQLException;
     List<String> selectSido() throws SQLException;
 	List<String> selectGugun(String sido) throws SQLException;
 	List<Map<String, String>> selectDong(String sido, String gugun) throws SQLException;
