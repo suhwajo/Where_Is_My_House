@@ -114,12 +114,18 @@ export default {
     getUserList: function () {
       // 현재 리시트 번호, 검색어 정보를 바탕으로 공지사항 목록을 불러옴
       const url = "http://localhost:9999/rest/user/list";
-      // let params = `page=${this.page}&keyword=${this.keyword}`;
 
-      axios.get(url).then((response) => {
-        this.users = response.data.list;
-        // this.pages = response.data.page;
-      });
+      axios
+        .get(url, {
+          params: {
+            page: this.page,
+            keyword: this.keyword,
+          },
+        })
+        .then((response) => {
+          this.users = response.data.list;
+          // this.pages = response.data.page;
+        });
     },
     search: function () {
       if (!this.keyword) {
@@ -130,6 +136,7 @@ export default {
     },
   },
   created() {
+    if (this.$route.query.page != null) this.page = this.$route.query.page;
     this.getUserList();
   },
 };

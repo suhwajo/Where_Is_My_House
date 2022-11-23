@@ -21,5 +21,5 @@ public interface MemberMapper {
 
 	void deleteMember(String id) throws SQLException;
 
-	List<MemberDto> selectMember(/* Map<String,Object> map */) throws SQLException;
+	List<MemberDto> selectMember(Map<String,Object> map) throws SQLException;
 }

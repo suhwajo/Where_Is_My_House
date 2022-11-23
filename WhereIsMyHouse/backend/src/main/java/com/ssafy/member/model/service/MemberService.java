@@ -14,6 +14,6 @@ public interface MemberService {
 	void modifyMember(MemberDto sendDto) throws SQLException;
 	void userDelete(String id) throws SQLException, Exception;
 
-	List<MemberDto> getMembers(/* int page, String keyword */) throws SQLException;
+	List<MemberDto> getMembers(int page, String keyword) throws SQLException;
 
 }

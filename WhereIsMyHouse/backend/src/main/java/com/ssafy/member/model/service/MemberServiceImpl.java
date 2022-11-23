@@ -59,16 +59,16 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 
-	public List<MemberDto> getMembers(/* int page, String keyword */) throws SQLException {
+	public List<MemberDto> getMembers(int page, String keyword) throws SQLException {
 		
-//		int spl = SizeConstant.SIZE_PER_LIST;  // size per page
-//		int start = (page - 1) * spl;
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("start",start);
-//		map.put("spl",spl);
-//		map.put("keyword",keyword);
+		int spl = SizeConstant.SIZE_PER_LIST;  // size per page
+		int start = (page - 1) * spl;
+		Map<String, Object> map = new HashMap<>();
+		map.put("start",start);
+		map.put("spl",spl);
+		map.put("keyword",keyword);
 		
-		return memberDao.selectMember(/* map */);
+		return memberDao.selectMember(map);
 	}
 	
 }

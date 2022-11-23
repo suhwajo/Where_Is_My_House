@@ -17,7 +17,8 @@
             type="button"
             id="list-btn"
             class="btn btn-primary"
-            @click="getHomes()">
+            @click="getHomes()"
+          >
             매매정보검색
           </button>
         </div>
@@ -32,12 +33,14 @@
                 <select
                   class="form-select bg-secondary text-light"
                   id="sido"
-                  v-model="selectedSido">
+                  v-model="selectedSido"
+                >
                   <option value="">시도선택</option>
                   <option
                     v-for="(sido, index) in sidos"
                     :key="index"
-                    :value="sido">
+                    :value="sido"
+                  >
                     {{ sido }}
                   </option>
                 </select>
@@ -56,12 +59,14 @@
                 <select
                   class="form-select bg-secondary text-light"
                   id="gugun"
-                  v-model="selectedGugun">
+                  v-model="selectedGugun"
+                >
                   <option value="">구군선택</option>
                   <option
                     v-for="(gugun, index) in guguns"
                     :key="index"
-                    :value="gugun">
+                    :value="gugun"
+                  >
                     {{ gugun }}
                   </option>
                 </select>
@@ -81,12 +86,14 @@
                 <select
                   class="form-select bg-secondary text-light"
                   id="dong"
-                  v-model="selectedDong">
+                  v-model="selectedDong"
+                >
                   <option value="">동선택</option>
                   <option
                     v-for="(dong, index) in dongs"
                     :key="index"
-                    :value="{ code: dong.dongCode, name: dong.dongName }">
+                    :value="{ code: dong.dongCode, name: dong.dongName }"
+                  >
                     {{ dong.dongName }}
                   </option>
                 </select>
@@ -129,12 +136,14 @@
               <select
                 class="form-select"
                 aria-label="Default select example"
-                v-model="selectedArea">
+                v-model="selectedArea"
+              >
                 <option value="" selected>면적 선택</option>
                 <option
                   v-for="(deal, index) in deals"
                   :key="index"
-                  :value="deal.area">
+                  :value="deal.area"
+                >
                   {{ deal.area }} ㎡
                 </option>
               </select>
@@ -147,7 +156,8 @@
                   v-for="(home, index) in homes"
                   :key="index"
                   @click="getDeals(home)"
-                  v-show="detail_no == -1 || detail_no == home.aptCode">
+                  v-show="detail_no == -1 || detail_no == home.aptCode"
+                >
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ home.apartmentName }}</h5>
                     <small
@@ -167,7 +177,8 @@
                     v-for="(elem, index1) in areaDeals"
                     :key="index1"
                     @click="click_deal(elem.no)"
-                    v-show="detail_no == -1 || detail_no == elem.no">
+                    v-show="detail_no == -1 || detail_no == elem.no"
+                  >
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">{{ elem.tradeType }}</h5>
                       <small
@@ -181,7 +192,8 @@
                       <div>층 : {{ elem.floor }} 층</div>
                       <button
                         class="btn btn-primary"
-                        v-show="detail_no == elem.no">
+                        v-show="detail_no == elem.no"
+                      >
                         이전으로
                       </button>
                     </div>
@@ -193,7 +205,8 @@
               <button
                 type="button"
                 class="btn btn-primary w-100"
-                @click="getHomes()">
+                @click="getHomes()"
+              >
                 돌아가기
               </button>
             </div>

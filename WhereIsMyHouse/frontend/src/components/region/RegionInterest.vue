@@ -15,7 +15,8 @@
               type="button"
               class="btn btn-dark w-100 bg-common-dark"
               data-bs-toggle="modal"
-              data-bs-target="#findModal">
+              data-bs-target="#findModal"
+            >
               관심 지역 추가
             </button>
           </div>
@@ -26,7 +27,8 @@
               :key="index"
               :code="interest.code"
               :address="interest.address"
-              :interests="interests" />
+              :interests="interests"
+            />
             <!-- <div id="aside-list"></div> -->
           </div>
         </aside>
@@ -35,7 +37,8 @@
           <div class="mx-5" id="map" style="height: 630px"></div>
           <div
             class="mt-4 text-center text-common-dark fs-3 fw-bold"
-            id="map-areaText"></div>
+            id="map-areaText"
+          ></div>
         </section>
       </div>
     </main>
@@ -52,7 +55,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="mb-3 mt-3">
@@ -60,12 +64,14 @@
                 class="form-select"
                 id="sido"
                 aria-label="Default select example"
-                v-model="selectedSido">
+                v-model="selectedSido"
+              >
                 <option value="0" selected>시도선택</option>
                 <option
                   v-for="(sido, index) in sidos"
                   :key="index"
-                  :value="sido">
+                  :value="sido"
+                >
                   {{ sido }}
                 </option>
               </select>
@@ -75,12 +81,14 @@
                 class="form-select"
                 id="gugun"
                 aria-label="Default select example"
-                v-model="selectedGugun">
+                v-model="selectedGugun"
+              >
                 <option value="" selected>구군선택</option>
                 <option
                   v-for="(gugun, index) in guguns"
                   :key="index"
-                  :value="gugun">
+                  :value="gugun"
+                >
                   {{ gugun }}
                 </option>
               </select>
@@ -90,12 +98,14 @@
                 class="form-select"
                 id="dong"
                 aria-label="Default select example"
-                v-model="selectedDong">
+                v-model="selectedDong"
+              >
                 <option value="" selected>동선택</option>
                 <option
                   v-for="(dong, index) in dongs"
                   :key="index"
-                  :value="{ code: dong.dongCode, name: dong.dongName }">
+                  :value="{ code: dong.dongCode, name: dong.dongName }"
+                >
                   {{ dong.dongName }}
                 </option>
               </select>
@@ -105,14 +115,16 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               취소
             </button>
             <button
               type="button"
               class="btn btn-primary"
               data-bs-dismiss="modal"
-              @click="addFocusArea">
+              @click="addFocusArea"
+            >
               추가
             </button>
           </div>
@@ -130,7 +142,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="mb-3 mt-3">
@@ -138,12 +151,14 @@
                 class="form-select"
                 id="big"
                 aria-label="Default select example"
-                v-model="selectedBigStore">
+                v-model="selectedBigStore"
+              >
                 <option value="" selected>대분류</option>
                 <option
                   v-for="(bigStore, index) in bigStores"
                   :key="index"
-                  :value="bigStore">
+                  :value="bigStore"
+                >
                   {{ bigStore }}
                 </option>
               </select>
@@ -153,12 +168,14 @@
                 class="form-select"
                 id="middle"
                 aria-label="Default select example"
-                v-model="selectedMiddleStore">
+                v-model="selectedMiddleStore"
+              >
                 <option value="" selected>중분류</option>
                 <option
                   v-for="(middleStore, index) in middleStores"
                   :key="index"
-                  :value="middleStore">
+                  :value="middleStore"
+                >
                   {{ middleStore }}
                 </option>
               </select>
@@ -168,12 +185,14 @@
                 class="form-select"
                 id="small"
                 aria-label="Default select example"
-                v-model="selectedSmallStore">
+                v-model="selectedSmallStore"
+              >
                 <option value="" selected>소분류</option>
                 <option
                   v-for="(smallStore, index) in smallStores"
                   :key="index"
-                  :value="smallStore">
+                  :value="smallStore"
+                >
                   {{ smallStore }}
                 </option>
               </select>
@@ -183,14 +202,16 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               취소
             </button>
             <button
               type="button"
               class="btn btn-primary"
               data-bs-dismiss="modal"
-              @click="search_stores">
+              @click="search_stores"
+            >
               검색
             </button>
           </div>
