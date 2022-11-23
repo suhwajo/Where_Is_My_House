@@ -237,9 +237,11 @@ public class MemberController {
     }
 
     @GetMapping("/list")
-    private ResponseEntity<?> list() throws SQLException {
-
-        List<MemberDto> sendMembers = memberService.getMembers();
+    private ResponseEntity<?> list(@RequestParam(value="page",required=false)Integer page, @RequestParam(value="keyword",required=false)String keyword) throws SQLException {
+		if(page==null) {
+    		page=1;
+    	}
+        List<MemberDto> sendMembers = memberService.getMembers(page, keyword);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("list", sendMembers);

@@ -107,7 +107,7 @@ const routes = [
   {
     path: "/news",
     name: "NewsList",
-    component: () => import("@/components/home/FindHomes.vue"),
+    component: () => import("@/components/news/NewsList.vue"),
   },
   {
     path: "/qna",

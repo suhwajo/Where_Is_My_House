@@ -52,19 +52,19 @@
 	where user_id=#{id}
 	</delete>
 	
-	<!-- <select id="selectMember" parameterType="Map" resultMap="member">
+	<select id="selectMember" parameterType="Map" resultMap="member">
 	select user_id, user_name, user_password, email, phone_number, admin_account
 	from members
 	<if test="keyword != null">
-		where name like concat('%',#{keyword},'%') or user_id like concat('%',#{keyword},'%')
+		where user_name like concat('%',#{keyword},'%') or user_id like concat('%',#{keyword},'%')
 	</if>
 	ORDER BY user_id
 	LIMIT ${start},${spl} 
-	</select> -->
-	<select id="selectMember" resultMap="member">
+	</select>
+	<!-- <select id="selectMember" resultMap="member">
 	select user_id, user_name, user_password, email, phone_number, admin_account
 	from members
 	ORDER BY user_id
-	</select>
+	</select> -->
 	
 </mapper>
