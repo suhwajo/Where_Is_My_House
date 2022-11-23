@@ -192,6 +192,26 @@
 
             <!-- Kakao Map start -->
             <div id="map" style="width: 100%; height: 600px"></div>
+            <div id="roadview" style="width: 100%; height: 600px"></div>
+
+            <div class="modal fade" id="verticalycentered" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Road View</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- <div id="roadview" style="width: 100%; height: 100%"></div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- Kakao Map end -->
           </div>
         </div>
@@ -205,6 +225,30 @@
             </h5>
 
             <div class="mb-3" v-if="deals.length > 0">
+              <!--로드뷰 버튼 -->
+              <div class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ homeInfo.apartmentName }}</h5>
+                  <small
+                    >건설년도:
+                    <span style="color: #4154f1">{{
+                      homeInfo.buildYear
+                    }}</span></small
+                  >
+                </div>
+                <p class="mb-1">
+                  {{ homeInfo.address }} |
+                  <button
+                    class="btn btn-primary"
+                    id="roadviewControl"
+                    @click="setRoadviewRoad()"
+                    data-bs-toggle="modal"
+                    data-bs-target="#verticalycentered"
+                  >
+                    RoadView
+                  </button>
+                </p>
+              </div>
               <select
                 class="form-select"
                 aria-label="Default select example"
@@ -321,6 +365,8 @@ export default {
     return {
       map: null,
       geocoder: null,
+      rv: null,
+      rvClient: null,
       selectedSido: "",
       selectedGugun: "",
       selectedDong: "",
@@ -344,17 +390,21 @@ export default {
       startMonth: "2",
       endYear: "2022",
       endMonth: "11",
+      homeInfo: null,
+      toggle_road: false,
+      overlayOn: false,
     };
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
-      kakao.maps.load(this.initMap());
+      kakao.maps.load(this.initMap);
     } else {
       const script = document.createElement("script");
       /* global kakao */
-      script.addEventListener("load", () => {
-        kakao.maps.load(this.initMap);
-      });
+      script.onload = () => kakao.maps.load(this.initMap);
+      // script.addEventListener("load", () => {
+      //   kakao.maps.load(this.initMap);
+      // });
       script.src =
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=59289473baf7e9e908c84c45d32fcda2&libraries=services";
       document.head.appendChild(script);
@@ -364,6 +414,7 @@ export default {
   },
   methods: {
     initMap() {
+      var rvContainer = document.getElementById("roadview");
       const container = document.getElementById("map");
 
       const options = {
@@ -374,6 +425,8 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+      this.rv = new kakao.maps.Roadview(rvContainer);
+      this.rvClient = new kakao.maps.RoadviewClient();
       this.geocoder = new kakao.maps.services.Geocoder();
     },
     move(address) {
@@ -431,6 +484,7 @@ export default {
       let code = this.selectedDong.code;
       this.selectedArea = "";
       this.areaDeals = [];
+      this.homeInfo = null;
 
       // 지역 정보가 선택되지 않았으면 경고창을 띄워줌
       if (!code || code == "") {
@@ -458,7 +512,6 @@ export default {
         this.detail_no = -1;
 
         const url = `http://localhost:9999/rest/home/getInfos?code=${code}`;
-        console.log(url);
 
         this.dealBack = false;
         axios
@@ -484,6 +537,9 @@ export default {
       this.geocoder.addressSearch(home.address, function (result, status) {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
+          //좌표 넣기
+          home.x = result[0].x;
+          home.y = result[0].y;
           let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
           // 결과값으로 받은 위치를 마커로 표시합니다
@@ -507,6 +563,9 @@ export default {
       //aptCode, aptName, dongCode, address
       this.move(home.address);
       this.aptName = home.apartmentName;
+      this.homeInfo = home;
+      console.log(this.homeInfo);
+
       if (
         Number(this.startYear) > Number(this.endYear) ||
         (Number(this.startYear) == Number(this.endYear) &&
@@ -547,6 +606,17 @@ export default {
         this.detail_no = -1;
       }
     },
+    // 지도 위의 로드뷰 버튼을 눌렀을 때 호출되는 함수입니다
+    setRoadviewRoad() {
+      console.log(this.homeInfo.x + " " + this.homeInfo.y);
+      var position = new kakao.maps.LatLng(this.homeInfo.y, this.homeInfo.x);
+
+      // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+      var this1 = this;
+      this.rvClient.getNearestPanoId(position, 80, function (panoId) {
+        this1.rv.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+      });
+    },
   },
   watch: {
     selectedSido: function (newVal) {
@@ -556,7 +626,6 @@ export default {
       if (newVal != "") this.getDong();
     },
     selectedArea: function (newVal) {
-      console.log(this.deals);
       if (newVal != "") {
         for (let i = 0; i < this.deals.length; i++) {
           if (newVal == this.deals[i].area) {
@@ -571,12 +640,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.button-group {
-  margin: 10px 0px;
-}
-
-button {
-  margin: 0 3px;
-}
-</style>
+<style scoped></style>
