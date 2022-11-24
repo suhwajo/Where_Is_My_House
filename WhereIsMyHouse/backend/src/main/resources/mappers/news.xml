@@ -5,17 +5,19 @@
 <mapper namespace="com.ssafy.news.model.mapper.NewsMapper">
 
 	<insert id="insert" parameterType="newsDto">
-	insert into news(news_title, news_link, news_date)
-	values (#{newsTitle},#{newsLink},#{newsDate})
+		insert into news(news_title, news_link, news_date)
+		values (#{newsTitle},#{newsLink},#{newsDate})
 	</insert>
-	
 
-	<select id="selectNews" parameterType="string" resultType="newsDto">
-	select distinct news_title, news_link, date_format(news_date,'%Y-%m-%d') as news_date
-	from news
-	where news_date like concat(#{dateHour},'%')
-	ORDER BY no
-	limit 0, 15
+
+	<select id="selectNews" parameterType="string"
+		resultType="newsDto">
+		select distinct news_title, news_link, date_format(news_date,'%Y-%m-%d') as
+		news_date
+		from news
+		where news_date like concat(#{dateHour},'%')
+		ORDER BY no
+		limit 0, 15
 	</select>
-	
+
 </mapper>
