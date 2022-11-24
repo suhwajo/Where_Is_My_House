@@ -93,14 +93,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-6 shadow py-5" id="container-todayNews">
-            <div class="text-center text-common-dark fw-bold fs-3 mb-5">
-              오늘의 뉴스
-            </div>
-            <div class="text-center fs-5 mb-4">
-              <a>제목제목제목</a>
-            </div>
-          </div> -->
         </div>
       </div>
     </main>
@@ -141,6 +133,14 @@ export default {
         .then((response) => response.data.news)
         .then((data) => {
           this.news = data.slice(0, 3);
+          for (var i = 0; i < this.news.length; i++) {
+            var text = this.news[i].newsTitle;
+            text = text.replace(
+              /<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/gi,
+              ""
+            );
+            this.news[i].newsTitle = text;
+          }
         });
     },
     goDetail(link) {
