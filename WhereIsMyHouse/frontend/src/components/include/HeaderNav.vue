@@ -4,7 +4,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
       <div class="d-flex align-items-center justify-content-between">
         <router-link to="/" class="logo d-flex align-items-center">
-          <img src="@/assets/logo.png" alt="" />
+          <img src="@/assets/logo_homessafy.png" alt="" />
           <span class="d-none d-lg-block">Where Is My Home</span>
         </router-link>
         <!-- <i class="bi bi-list toggle-sidebar-btn"></i> -->
