@@ -308,7 +308,6 @@ export default {
         const url = "http://localhost:9999/rest/user/delete";
         if (this.user.adminAccount) alert("관리자계정은 탈퇴가 불가합니다.");
         else {
-          console.log(this.user.id);
           axios
             .delete(url, {
               params: {
