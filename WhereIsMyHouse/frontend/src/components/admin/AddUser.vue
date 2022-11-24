@@ -141,37 +141,6 @@
                           Please enter your phone number!
                         </div>
                       </div>
-
-                      <!-- <div class="col-12">
-                        <label for="email" class="form-label">이메일 : </label>
-                        <div class="input-group">
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="emailid"
-                            name="emailid"
-                            placeholder="이메일아이디"
-                            required
-                          />
-                          <span class="input-group-text">@</span>
-                          <select
-                            class="form-select"
-                            id="emaildomain"
-                            name="emaildomain"
-                            aria-label="이메일 도메인 선택"
-                            required
-                          >
-                            <option value="">선택</option>
-                            <option value="ssafy.com">ssafy.com</option>
-                            <option value="google.com">google.com</option>
-                            <option value="naver.com">naver.com</option>
-                            <option value="kakao.com">kakao.com</option>
-                          </select>
-                        </div>
-                        <div class="invalid-feedback">
-                          Please enter your email!
-                        </div>
-                      </div> -->
                       <div class="col-12">
                         <button
                           class="btn btn-primary w-100"
@@ -195,6 +164,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "UserJoin",
@@ -207,6 +177,15 @@ export default {
       email: "",
       phone: "",
     };
+  },
+  created() {
+    if (!this.adminAccount) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
+    }
+  },
+  computed: {
+    ...mapGetters(["adminAccount"]),
   },
   methods: {
     join: function () {

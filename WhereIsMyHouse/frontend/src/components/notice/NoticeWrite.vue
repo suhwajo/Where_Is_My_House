@@ -71,6 +71,12 @@ export default {
       content: "",
     };
   },
+  created() {
+    if (!this.adminAccount) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
+    }
+  },
   methods: {
     notice_write: function () {
       if (!this.title) {
@@ -115,7 +121,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["memberId", "isLogin"]),
+    ...mapGetters(["memberId", "isLogin", "adminAccount"]),
   },
 };
 </script>

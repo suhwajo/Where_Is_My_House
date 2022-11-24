@@ -1,7 +1,7 @@
 <template>
   <main id="main" class="main">
     <div class="pagetitle">
-      <h1>Profile</h1>
+      <h1>User Profile</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -178,7 +178,7 @@
 
                     <div class="text-center">
                       <button @click="editConfirm" class="btn btn-primary">
-                        정보 수정
+                        회원 정보 수정
                       </button>
                     </div>
                   </form>
@@ -197,7 +197,7 @@
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check">
                           <label class="form-check-label" for="newProducts">
-                            정말로 탈퇴하시겠습니까?
+                            정말로 탈퇴시키겠습니까?
                           </label>
                           <button
                             class="btn btn-primary m-3"
@@ -234,9 +234,9 @@ export default {
     };
   },
   created() {
-    if (!this.isLogin) {
-      alert("로그인 후 접근이 가능합니다.");
-      this.$router.push({ name: "UserLogin" });
+    if (!this.adminAccount) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
     }
     let userId = this.$route.params.userId;
     if (userId == null) {
@@ -302,7 +302,8 @@ export default {
       alert(outConfirm);
       if (outConfirm) {
         const url = "http://localhost:9999/rest/user/delete";
-        if (this.user.adminAccount) alert("관리자계정은 탈퇴가 불가합니다.");
+        if (this.user.adminAccount)
+          alert("관리자계정은 회원 삭제가 불가합니다.");
         else {
           console.log(this.user.id);
           axios
@@ -323,14 +324,14 @@ export default {
               } else if (data.check) {
                 alert("회원을 삭제하였습니다.");
                 location.href = "/user/list";
-              } else alert("탈퇴에 실패했습니다. 다시 시도해주세요.");
+              } else alert("회원 삭제에 실패했습니다. 다시 시도해주세요.");
             });
         }
       }
     },
   },
   computed: {
-    ...mapGetters(["memberId", "isLogin"]),
+    ...mapGetters(["adminAccount"]),
   },
 };
 </script>

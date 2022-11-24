@@ -244,6 +244,9 @@ export default {
     let userId = this.$route.params.userId;
     if (userId == null) {
       userId = this.$session.get("userInfo").userId;
+    } else if (this.memberId != this.$session.get("userInfo").userId) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
     }
 
     if (userId) {

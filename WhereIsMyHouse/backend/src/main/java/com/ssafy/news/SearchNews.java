@@ -89,10 +89,12 @@ public class SearchNews {
 	}
 	private static String get(String apiUrl, Map<String, String> requestHeaders){
         HttpURLConnection con = connect(apiUrl);
+        System.out.println(apiUrl);
         try {
             con.setRequestMethod("GET");
             for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
                 con.setRequestProperty(header.getKey(), header.getValue());
+                System.out.println(header.getKey()+" "+ header.getValue());
             }
 
             int responseCode = con.getResponseCode();

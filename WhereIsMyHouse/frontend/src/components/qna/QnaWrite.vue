@@ -71,6 +71,12 @@ export default {
       content: "",
     };
   },
+  created() {
+    if (!this.isLogin) {
+      alert("로그인 후 이용해주세요.");
+      this.$router.push({ name: "UserLogin" });
+    }
+  },
   methods: {
     qna_write: function () {
       if (!this.title) {

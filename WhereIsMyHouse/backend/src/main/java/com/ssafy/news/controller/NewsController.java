@@ -31,12 +31,21 @@ public class NewsController{
 		List<NewsDto> news = null;
 		try {
 			String date = LocalDate.now().toString();
-			String time = Integer.toString(LocalTime.now().getHour());
+			StringBuilder timeSb = new StringBuilder();
+			timeSb.append(Integer.toString(LocalTime.now().getHour()));
+			String time=null;
+			System.out.println(timeSb.toString());
+			if(timeSb.toString().length()==1) {
+				time = "0"+timeSb.toString();
+				System.out.println(time);
+			} else {
+				time = timeSb.toString();
+			}
 			news = newsService.list(date+" "+time);
-			if(news == null || news.size()==0) {
+			if(news == null || news.size()==0 || news.size()!=15) {
 				List<NewsDto> crawling = SearchNews.crawlNews();
 				newsService.insertNews(crawling);
-				news = crawling;
+				news = newsService.list(date+" "+time);
 			}
 		} catch (SQLException e) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);

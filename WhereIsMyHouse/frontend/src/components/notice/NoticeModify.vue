@@ -71,8 +71,9 @@ export default {
     };
   },
   created() {
-    if (!this.isLogin) {
-      this.$router.push({ name: "QnaList" });
+    if (!this.adminAccount) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
     }
     const url =
       "http://localhost:9999/rest/notice/detail?no=" + this.$route.params.no;
@@ -132,7 +133,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["memberId", "isLogin"]),
+    ...mapGetters(["memberId", "isLogin", "adminAccount"]),
   },
 };
 </script>

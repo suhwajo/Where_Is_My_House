@@ -95,6 +95,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "UserList",
@@ -133,7 +134,14 @@ export default {
   },
   created() {
     if (this.$route.query.page != null) this.page = this.$route.query.page;
+    if (!this.adminAccount) {
+      alert("접근이 불가합니다.");
+      this.$router.push({ name: "HomeView" });
+    }
     this.getUserList();
+  },
+  computed: {
+    ...mapGetters(["memberId", "isLogin", "adminAccount"]),
   },
 };
 </script>
