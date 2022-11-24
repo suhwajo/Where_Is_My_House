@@ -62,11 +62,11 @@ const routes = [
         name: "UserList",
         component: () => import("@/components/admin/UserList.vue"),
       },
-      {
-        path: "detail",
-        name: "UserInfo",
-        component: () => import("@/components/admin/UserInfo.vue"),
-      },
+      // {
+      //   path: "detail",
+      //   name: "UserInfo",
+      //   component: () => import("@/components/admin/UserInfo.vue"),
+      // },
       {
         path: "mydetail",
         name: "UserMyInfo",
@@ -96,6 +96,11 @@ const routes = [
         path: "region",
         name: "UserRegion",
         component: () => import("@/components/region/RegionInterest.vue"),
+      },
+      {
+        path: "modify",
+        name: "ModifyUser",
+        component: () => import("@/components/admin/ModifyUser.vue"),
       },
     ],
   },

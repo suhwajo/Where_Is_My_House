@@ -262,7 +262,6 @@ export default {
           if (data) {
             this.user = data;
             this.$session.set("nowUser", data);
-            console.log(this.$session.getAll());
             this.userName = this.user.name;
           }
         });
@@ -337,8 +336,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.body {
-  background: #928490;
-}
-</style>
+<style scoped></style>

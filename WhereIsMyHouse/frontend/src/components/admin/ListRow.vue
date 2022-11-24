@@ -8,20 +8,13 @@
     <td>
       <router-link
         :to="{
-          name: 'UserInfo',
+          name: 'ModifyUser',
           params: { userId: id },
         }"
         class="btn btn-warning rounded-pill btn-block"
       >
         <b>수정</b>
       </router-link>
-      <!-- <button
-        type="button"
-        class="btn btn-warning rounded-pill btn-block"
-        onclick="location.href='${root}/user?act=m-modify&userId=${ member.userId }'"
-      >
-        수정
-      </button> -->
       &nbsp;
       <button
         type="button"

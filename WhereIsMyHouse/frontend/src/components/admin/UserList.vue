@@ -101,7 +101,7 @@ export default {
   name: "UserList",
 
   components: {
-    "list-row": () => import("@/components/user/ListRow.vue"),
+    "list-row": () => import("@/components/admin/ListRow.vue"),
   },
   data() {
     return {
