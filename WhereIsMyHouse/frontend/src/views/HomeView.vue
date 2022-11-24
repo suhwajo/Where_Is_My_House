@@ -11,16 +11,17 @@
             </h1>
           </div>
           <div class="text-common-light text-center display-5">
-            <h2>
+            <img src="@/assets/logo_homessafy.png" style="height: 200px" />
+            <!-- <h2>
               <span class="d-none d-lg-block">Suwha &amp; Huijin</span>
-            </h2>
+            </h2> -->
           </div>
         </div>
         <!-- 메인 아래 부분 -->
         <div class="row">
           <!-- 공지사항 부분 -->
           <div class="col-6">
-            <div class="card">
+            <div class="card" style="height: 300px">
               <div class="card-body">
                 <h5 class="card-title">
                   <b
@@ -60,7 +61,7 @@
           </div>
           <!-- 오늘의 뉴스 부분 -->
           <div class="col-6">
-            <div class="card">
+            <div class="card" style="height: 300px">
               <div class="card-body">
                 <h5 class="card-title">
                   <b
@@ -69,8 +70,6 @@
                     ></b
                   >
                 </h5>
-                <br />
-
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -83,7 +82,7 @@
                     <tr v-for="(newsone, index) in news" :key="index">
                       <td scope="row"></td>
                       <td>
-                        <a :href="newsone.link" target="_blank">{{
+                        <a @click="goDetail(newsone.newsLink)">{{
                           newsone.newsTitle
                         }}</a>
                       </td>
@@ -131,7 +130,7 @@ export default {
       let params = `page=1`;
 
       axios.get(url + "?" + params).then((response) => {
-        this.notices = response.data.list.slice(0, 3);
+        this.notices = response.data.list.slice(0, 4);
       });
     },
     getNewsList: function () {
@@ -141,8 +140,11 @@ export default {
         .get(url)
         .then((response) => response.data.news)
         .then((data) => {
-          this.articles = data.slice(0, 3);
+          this.news = data.slice(0, 3);
         });
+    },
+    goDetail(link) {
+      window.open(link);
     },
   },
 };
