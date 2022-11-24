@@ -318,7 +318,7 @@ export default {
             .then((data) => {
               if (
                 data.check &&
-                this.user.id == this.$session.get("userInfo").id
+                this.user.id == this.$session.get("userInfo").userId
               ) {
                 this.doLogout();
                 alert("탈퇴하였습니다.");
