@@ -7,26 +7,8 @@
 </template>
 
 <script>
-//import Vue from "vue";
 import HeaderNav from "@/components/include/HeaderNav.vue";
 import FooterNav from "@/components/include/FooterNav.vue";
-// import js1 from "@/assets/vendor/apexcharts/apexcharts.min.js";
-// import js2 from "@/assets/vendor/bootstrap/js/bootstrap.bundle.min.js";
-// import js3 from "@/assets/vendor/chart.js/chart.min.js";
-// import js4 from "@/assets/vendor/echarts/echarts.min.js";
-// import js5 from "@/assets/vendor/quill/quill.min.js";
-// import js6 from "@/assets/vendor/simple-datatables/simple-datatables.js";
-// import js7 from "@/assets/vendor/tinymce/tinymce.min.js";
-// import js8 from "@/assets/vendor/php-email-form/validate.js";
-
-// Vue.use(js1);
-// Vue.use(js2);
-// Vue.use(js3);
-// Vue.use(js4);
-// Vue.use(js5);
-// Vue.use(js6);
-// Vue.use(js7);
-// Vue.use(js8);
 
 export default {
   components: {
