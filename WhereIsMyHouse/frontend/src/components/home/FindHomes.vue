@@ -192,13 +192,18 @@
 
             <!-- Kakao Map start -->
             <div id="map" style="width: 100%; height: 600px"></div>
-            <div id="roadview" style="width: 100%; height: 600px"></div>
 
-            <div class="modal fade" id="verticalycentered" tabindex="-1">
-              <div class="modal-dialog modal-dialog-centered">
+            <div
+              class="modal fade bd-exampl-emodal-xl"
+              id="verticalycentered"
+              tabindex="-1"
+            >
+              <div class="modal-dialog modal-xl modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Road View</h5>
+                    <h5 class="modal-title" v-if="homeInfo">
+                      Road View | {{ homeInfo.apartmentName }}
+                    </h5>
                     <button
                       type="button"
                       class="btn-close"
@@ -207,7 +212,7 @@
                     ></button>
                   </div>
                   <div class="modal-body">
-                    <!-- <div id="roadview" style="width: 100%; height: 100%"></div> -->
+                    <div id="roadview" style="width: 100%; height: 600px"></div>
                   </div>
                 </div>
               </div>
@@ -237,7 +242,7 @@
                   >
                 </div>
                 <p class="mb-1">
-                  {{ homeInfo.address }} |
+                  {{ homeInfo.address }} &nbsp;|
                   <button
                     class="btn btn-primary"
                     id="roadviewControl"
